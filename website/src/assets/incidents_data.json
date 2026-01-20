@@ -1,0 +1,58 @@
+[
+  {
+    "id": "inc_001",
+    "title": "Fire at Chemical Factory, Dombivli",
+    "date": "2026-01-17",
+    "type": "Fire",
+    "severity": "High",
+    "location": {
+      "lat": 19.2183,
+      "lng": 73.0868
+    },
+    "city": "Mumbai",
+    "summary": "Major blaze reported at MIDC Phase 2. 4 units affected. Fire brigade on site.",
+    "url": "https://news.google.com"
+  },
+  {
+    "id": "inc_002",
+    "title": "Ransomware Attack on Regional Bank",
+    "date": "2026-01-16",
+    "type": "Cyber",
+    "severity": "High",
+    "location": {
+      "lat": 12.9716,
+      "lng": 77.5946
+    },
+    "city": "Bangalore",
+    "summary": "Services disrupted for 12 hours. Experts suspect LockBit variant.",
+    "url": "https://news.google.com"
+  },
+  {
+    "id": "inc_003",
+    "title": "Construction Site Accident",
+    "date": "2026-01-18",
+    "type": "Other",
+    "severity": "Medium",
+    "location": {
+      "lat": 28.7041,
+      "lng": 77.1025
+    },
+    "city": "Delhi",
+    "summary": "Scaffolding collapse in North Delhi. Safety audit ordered.",
+    "url": "https://news.google.com"
+  },
+  {
+    "id": "inc_004",
+    "title": "Port Workers Strike",
+    "date": "2026-01-15",
+    "type": "Protest",
+    "severity": "Medium",
+    "location": {
+      "lat": 13.0827,
+      "lng": 80.2707
+    },
+    "city": "Chennai",
+    "summary": "Supply chain disruption expected due to indefinite strike.",
+    "url": "https://news.google.com"
+  }
+]

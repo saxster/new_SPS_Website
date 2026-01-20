@@ -1,0 +1,266 @@
+{
+  "sectors": [
+    { "id": "corporate", "name": "Corporate Office / IT Park" },
+    { "id": "hospital", "name": "Hospital / Healthcare" },
+    { "id": "retail", "name": "Mall / Retail" },
+    { "id": "education", "name": "School / University" },
+    { "id": "industrial", "name": "Factory / Industrial" },
+    { "id": "bank", "name": "Bank / NBFC" },
+    { "id": "hotel", "name": "Hotel / Hospitality" },
+    { "id": "jewellery", "name": "Jewellery / Bullion" },
+    { "id": "logistics", "name": "Logistics / Warehouse" },
+    { "id": "petrol", "name": "Petrol Pump / Hazmat" }
+  ],
+  "states": [
+    { "id": "MH", "name": "Maharashtra" },
+    { "id": "DL", "name": "Delhi NCR" },
+    { "id": "KA", "name": "Karnataka" },
+    { "id": "TN", "name": "Tamil Nadu" },
+    { "id": "GJ", "name": "Gujarat" },
+    { "id": "UP", "name": "Uttar Pradesh" },
+    { "id": "WB", "name": "West Bengal" },
+    { "id": "TS", "name": "Telangana" },
+    { "id": "AP", "name": "Andhra Pradesh" },
+    { "id": "RJ", "name": "Rajasthan" },
+    { "id": "MP", "name": "Madhya Pradesh" },
+    { "id": "KL", "name": "Kerala" },
+    { "id": "PB", "name": "Punjab" },
+    { "id": "HR", "name": "Haryana" },
+    { "id": "JH", "name": "Jharkhand" }
+  ],
+  "rules": [
+    {
+      "id": "cctv_retention",
+      "category": "Surveillance",
+      "requirement": "CCTV Data Retention",
+      "rule_text": "Must retain footage for minimum {days} days.",
+      "logic": {
+        "default": 30,
+        "overrides": [
+          { "sector": "bank", "value": 90, "authority": "RBI Guidelines" },
+          { "sector": "jewellery", "value": 45, "authority": "BIS Hallmarking Guidelines" },
+          { "sector": "hotel", "value": 30, "authority": "Tourism Ministry Guidelines" },
+          { "sector": "petrol", "value": 30, "authority": "PESO Guidelines" },
+          { "state": "DL", "sector": "education", "value": 60, "authority": "Delhi Police Guidelines for Schools" },
+          { "state": "MH", "sector": "education", "value": 60, "authority": "Maharashtra School Safety Rules" },
+          { "state": "KA", "sector": "education", "value": 45, "authority": "Karnataka DDPI Circular" },
+          { "state": "TN", "sector": "education", "value": 30, "authority": "TN School Safety Guidelines" },
+          { "state": "UP", "sector": "education", "value": 60, "authority": "UP Basic Education Rules" },
+          { "state": "MH", "sector": "retail", "value": 30, "authority": "Maharashtra Public Safety Act" },
+          { "state": "DL", "sector": "retail", "value": 30, "authority": "Delhi Police Standing Order" },
+          { "state": "KA", "sector": "hospital", "value": 45, "authority": "KPME Act Guidelines" },
+          { "state": "MH", "sector": "hospital", "value": 30, "authority": "Bombay Nursing Homes Act" }
+        ]
+      }
+    },
+    {
+      "id": "fire_safety",
+      "category": "Fire Safety",
+      "requirement": "Fire Audit Frequency",
+      "rule_text": "Mandatory Fire Safety Audit every {frequency}.",
+      "logic": {
+        "default": "1 Year",
+        "overrides": [
+          { "sector": "hospital", "value": "6 Months", "authority": "NBC 2016 Part 4" },
+          { "sector": "hotel", "value": "6 Months", "authority": "NBC 2016 Part 4" },
+          { "sector": "industrial", "value": "6 Months", "authority": "Factories Act 1948" },
+          { "sector": "petrol", "value": "6 Months", "authority": "PESO Licensing Rules" },
+          { "state": "MH", "value": "6 Months", "authority": "Maharashtra Fire Prevention Act" },
+          { "state": "DL", "value": "1 Year", "authority": "Delhi Fire Service Act" },
+          { "state": "KA", "value": "1 Year", "authority": "Karnataka Fire Force Act" },
+          { "state": "GJ", "value": "1 Year", "authority": "Gujarat Fire Prevention Act" },
+          { "state": "UP", "sector": "industrial", "value": "6 Months", "authority": "UP Factories Rules" },
+          { "state": "WB", "sector": "industrial", "value": "6 Months", "authority": "WB Fire Services Act" }
+        ]
+      }
+    },
+    {
+      "id": "fire_noc",
+      "category": "Fire Safety",
+      "requirement": "Fire NOC Renewal",
+      "rule_text": "Fire NOC must be renewed every {frequency}.",
+      "logic": {
+        "default": "1 Year",
+        "overrides": [
+          { "state": "MH", "value": "1 Year", "authority": "Maharashtra Fire Prevention Act" },
+          { "state": "DL", "value": "3 Years", "authority": "Delhi Fire Service Act" },
+          { "state": "KA", "value": "5 Years", "authority": "Karnataka Fire Force Act" },
+          { "state": "TN", "value": "3 Years", "authority": "TN Fire Service Act" },
+          { "state": "GJ", "value": "5 Years", "authority": "Gujarat Fire Prevention Act" },
+          { "state": "UP", "value": "1 Year", "authority": "UP Fire Service Act" },
+          { "state": "WB", "value": "3 Years", "authority": "WB Fire Services Act" },
+          { "state": "TS", "value": "3 Years", "authority": "Telangana Fire Services Act" },
+          { "state": "AP", "value": "3 Years", "authority": "AP Fire Service Rules" },
+          { "state": "RJ", "value": "5 Years", "authority": "Rajasthan Fire Service Rules" }
+        ]
+      }
+    },
+    {
+      "id": "posh",
+      "category": "Workplace Safety",
+      "requirement": "PoSH Compliance",
+      "rule_text": "Must have an Internal Complaints Committee (ICC) if >{employees} employees.",
+      "logic": {
+        "default": 10,
+        "authority": "PoSH Act 2013"
+      }
+    },
+    {
+      "id": "data_privacy",
+      "category": "Data Privacy",
+      "requirement": "Biometric Data Handling",
+      "rule_text": "Explicit consent required for biometric attendance. Data must be stored in India with access controls.",
+      "logic": {
+        "default": true,
+        "authority": "DPDP Act 2023"
+      }
+    },
+    {
+      "id": "cctv_signage",
+      "category": "Data Privacy",
+      "requirement": "CCTV Notice Display",
+      "rule_text": "Premises must display visible notice about CCTV surveillance at entry points.",
+      "logic": {
+        "default": true,
+        "authority": "DPDP Act 2023"
+      }
+    },
+    {
+      "id": "psara",
+      "category": "Guarding",
+      "requirement": "Guard Training",
+      "rule_text": "100% of guards must be PSARA certified. Supervisor ratio 1:{ratio}.",
+      "logic": {
+        "default": 15,
+        "overrides": [
+          { "sector": "education", "value": 10, "authority": "MHA Guidelines for Schools" },
+          { "sector": "hospital", "value": 12, "authority": "Healthcare Security Standards" },
+          { "sector": "bank", "value": 10, "authority": "RBI Security Guidelines" },
+          { "sector": "jewellery", "value": 8, "authority": "BIS Security Guidelines" }
+        ],
+        "authority": "PSARA 2005"
+      }
+    },
+    {
+      "id": "psara_license",
+      "category": "Guarding",
+      "requirement": "PSARA License Validity",
+      "rule_text": "PSARA license valid for {years} years. Renewal required before expiry.",
+      "logic": {
+        "default": "5",
+        "overrides": [
+          { "state": "MH", "value": "5", "authority": "Maharashtra PSARA Rules" },
+          { "state": "DL", "value": "5", "authority": "Delhi PSARA Rules" },
+          { "state": "KA", "value": "5", "authority": "Karnataka PSARA Rules" },
+          { "state": "TN", "value": "5", "authority": "TN PSARA Rules" },
+          { "state": "GJ", "value": "5", "authority": "Gujarat PSARA Rules" },
+          { "state": "UP", "value": "5", "authority": "UP PSARA Rules" }
+        ],
+        "authority": "PSARA 2005"
+      }
+    },
+    {
+      "id": "labour_esi",
+      "category": "Labour Compliance",
+      "requirement": "ESI Registration",
+      "rule_text": "ESI mandatory for establishments with >{employees} employees where wages < ₹21,000/month.",
+      "logic": {
+        "default": 10,
+        "authority": "ESI Act 1948"
+      }
+    },
+    {
+      "id": "labour_pf",
+      "category": "Labour Compliance",
+      "requirement": "PF Registration",
+      "rule_text": "EPF mandatory for establishments with >{employees} employees. Contribution: 12% employer + 12% employee.",
+      "logic": {
+        "default": 20,
+        "overrides": [
+          { "sector": "industrial", "value": 10, "authority": "Factories covered under EPF Act" }
+        ],
+        "authority": "EPF Act 1952"
+      }
+    },
+    {
+      "id": "labour_minwage",
+      "category": "Labour Compliance",
+      "requirement": "Minimum Wage for Security Guards",
+      "rule_text": "Security guards must be paid at least ₹{wage}/month as per state notification.",
+      "logic": {
+        "default": "18,000",
+        "overrides": [
+          { "state": "MH", "value": "18,500", "authority": "Maharashtra Minimum Wages Notification 2024" },
+          { "state": "DL", "value": "21,215", "authority": "Delhi Minimum Wages Order 2024" },
+          { "state": "KA", "value": "17,500", "authority": "Karnataka Minimum Wages Notification" },
+          { "state": "TN", "value": "15,000", "authority": "TN Minimum Wages Notification" },
+          { "state": "GJ", "value": "14,500", "authority": "Gujarat Minimum Wages Notification" },
+          { "state": "UP", "value": "12,500", "authority": "UP Minimum Wages Notification" },
+          { "state": "WB", "value": "14,000", "authority": "WB Minimum Wages Notification" },
+          { "state": "TS", "value": "16,000", "authority": "Telangana Minimum Wages Notification" },
+          { "state": "AP", "value": "15,000", "authority": "AP Minimum Wages Notification" },
+          { "state": "RJ", "value": "13,500", "authority": "Rajasthan Minimum Wages Notification" },
+          { "state": "MP", "value": "12,000", "authority": "MP Minimum Wages Notification" },
+          { "state": "KL", "value": "18,000", "authority": "Kerala Minimum Wages Notification" },
+          { "state": "PB", "value": "15,000", "authority": "Punjab Minimum Wages Notification" },
+          { "state": "HR", "value": "18,000", "authority": "Haryana Minimum Wages Notification" },
+          { "state": "JH", "value": "12,000", "authority": "Jharkhand Minimum Wages Notification" }
+        ],
+        "authority": "Code on Wages 2019"
+      }
+    },
+    {
+      "id": "insurance_wc",
+      "category": "Insurance",
+      "requirement": "Workmen's Compensation",
+      "rule_text": "All employees must be covered under Workmen's Compensation policy.",
+      "logic": {
+        "default": true,
+        "authority": "Workmen's Compensation Act 1923"
+      }
+    },
+    {
+      "id": "insurance_public",
+      "category": "Insurance",
+      "requirement": "Public Liability Insurance",
+      "rule_text": "Public liability insurance mandatory for handling hazardous substances.",
+      "logic": {
+        "default": false,
+        "overrides": [
+          { "sector": "petrol", "value": true, "authority": "Public Liability Insurance Act 1991" },
+          { "sector": "industrial", "value": true, "authority": "Public Liability Insurance Act 1991" }
+        ],
+        "authority": "Public Liability Insurance Act 1991"
+      }
+    },
+    {
+      "id": "vault_standards",
+      "category": "Physical Security",
+      "requirement": "Vault/Strong Room Standards",
+      "rule_text": "Vault must meet {standard} specifications with documented access control.",
+      "logic": {
+        "default": "BIS IS 9001",
+        "overrides": [
+          { "sector": "bank", "value": "RBI Treasury Norms", "authority": "RBI Master Circular on Housekeeping" },
+          { "sector": "jewellery", "value": "BIS IS 9001 Grade I", "authority": "BIS Hallmarking Guidelines" }
+        ],
+        "authority": "Industry Standards"
+      }
+    },
+    {
+      "id": "access_control",
+      "category": "Physical Security",
+      "requirement": "Access Control System",
+      "rule_text": "Electronic access control mandatory for {areas}.",
+      "logic": {
+        "default": "server rooms, cash areas",
+        "overrides": [
+          { "sector": "bank", "value": "all internal areas, vault, server room", "authority": "RBI Cyber Security Framework" },
+          { "sector": "hospital", "value": "pharmacy, ICU, server room, records room", "authority": "NABH Standards" },
+          { "sector": "corporate", "value": "server room, data center, executive floor", "authority": "ISO 27001" }
+        ],
+        "authority": "Industry Best Practices"
+      }
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+---
+
+<Layout title="Tactical Tools | SPS" description="Interactive security assessment utilities. Calculate your facility's vulnerability score and audit your perimeter readiness.">
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <h1 class="text-heading-1 text-primary-accent mb-6">TACTICAL TOOLS</h1>
+      <p class="text-xl text-neutral-400 font-mono mb-16">
+        // ACCESS LEVEL: PUBLIC<br/>
+        // UTILITY: SELF-ASSESSMENT
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- Tool 1: Risk Calculator -->
+        <a href="/tools/risk-calculator" class="brutalist-card group hover:border-critical transition-all">
+          <div class="flex items-start justify-between mb-8">
+            <span class="text-6xl">🧮</span>
+            <span class="status-badge status-badge--critical">BETA</span>
+          </div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-critical transition-colors">
+            Threat Calculus Engine
+          </h2>
+          <p class="text-neutral-400 mb-6 leading-relaxed">
+            A heuristic algorithm to calculate your facility's specific vulnerability score based on sector, location, and perimeter variables.
+          </p>
+          <div class="flex items-center gap-2 text-critical text-sm font-bold uppercase tracking-wider">
+            Initiate Sequence <span class="group-hover:translate-x-2 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 2: CCTV Storage Calculator -->
+        <a href="/tools/storage-calculator" class="brutalist-card group hover:border-primary-accent transition-all">
+          <div class="flex items-start justify-between mb-8">
+            <span class="text-6xl">💾</span>
+            <span class="status-badge status-badge--success">LIVE</span>
+          </div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-primary-accent transition-colors">
+            CCTV Storage Calculator
+          </h2>
+          <p class="text-neutral-400 mb-6 leading-relaxed">
+            Calculate hard drive requirements based on camera count, resolution, frame rate, and retention period. Get NVR and equipment recommendations.
+          </p>
+          <div class="flex items-center gap-2 text-primary-accent text-sm font-bold uppercase tracking-wider">
+            Calculate Now <span class="group-hover:translate-x-2 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 3: Compliance Calculator -->
+        <a href="/tools/compliance-calculator" class="brutalist-card group hover:border-compliance transition-all">
+          <div class="flex items-start justify-between mb-8">
+            <span class="text-6xl">📋</span>
+            <span class="status-badge status-badge--compliance">ACTIVE</span>
+          </div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-compliance transition-colors">
+            Compliance Calculator
+          </h2>
+          <p class="text-neutral-400 mb-6 leading-relaxed">
+            Generate mandatory compliance checklists based on your state and sector. CCTV retention, fire safety, PoSH, data privacy requirements.
+          </p>
+          <div class="flex items-center gap-2 text-compliance text-sm font-bold uppercase tracking-wider">
+            Check Compliance <span class="group-hover:translate-x-2 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 4: CCTV Blindspot Estimator (Coming Soon) -->
+        <div class="brutalist-card opacity-50 cursor-not-allowed border-dashed">
+          <div class="flex items-start justify-between mb-8">
+            <span class="text-6xl text-neutral-700">👁️</span>
+            <span class="status-badge bg-neutral-800 text-neutral-500 border-neutral-700">DEV</span>
+          </div>
+          <h2 class="text-3xl font-bold text-neutral-600 mb-4">
+            CCTV Blindspot Estimator
+          </h2>
+          <p class="text-neutral-600 mb-6 leading-relaxed">
+            Upload your floorplan to identify camera coverage gaps using ray-casting logic.
+          </p>
+          <div class="flex items-center gap-2 text-neutral-600 text-sm font-bold uppercase tracking-wider">
+            Under Development
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</Layout>

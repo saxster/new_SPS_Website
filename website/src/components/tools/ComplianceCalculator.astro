@@ -1,0 +1,117 @@
+---
+import rulesData from '../../data/compliance_rules.json';
+---
+
+<div class="brutalist-card p-8 bg-neutral-900 border border-neutral-700">
+  <div class="mb-8">
+    <div class="inline-block px-2 py-1 bg-compliance/10 border border-compliance/30 text-compliance text-xs font-mono mb-2 uppercase tracking-widest">
+      Automated Auditor
+    </div>
+    <h3 class="text-2xl font-black text-white mb-2">COMPLIANCE CALCULATOR</h3>
+    <p class="text-neutral-400 text-sm">Select your facility parameters to generate a mandatory compliance checklist.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <!-- State Selector -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Jurisdiction (State)</label>
+      <select id="state-select" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-compliance focus:outline-none font-mono text-sm uppercase">
+        <option value="" disabled selected>-- SELECT STATE --</option>
+        {rulesData.states.map(s => <option value={s.id}>{s.name}</option>)}
+      </select>
+    </div>
+
+    <!-- Sector Selector -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Facility Sector</label>
+      <select id="sector-select" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-compliance focus:outline-none font-mono text-sm uppercase">
+        <option value="" disabled selected>-- SELECT SECTOR --</option>
+        {rulesData.sectors.map(s => <option value={s.id}>{s.name}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <button id="calculate-btn" class="w-full brutalist-button brutalist-button--primary mb-8 text-center justify-center">
+    GENERATE CHECKLIST
+  </button>
+
+  <!-- Results Container -->
+  <div id="results-area" class="hidden border-t-2 border-dashed border-neutral-800 pt-8">
+    <h4 class="text-lg font-bold text-white mb-6 flex items-center gap-3">
+      <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
+      GENERATED PROTOCOL
+    </h4>
+    <div id="checklist-container" class="space-y-4">
+      <!-- Items injected here -->
+    </div>
+    <div class="mt-8 p-4 bg-amber-900/10 border border-amber-500/20 text-amber-500 text-xs font-mono">
+      ⚠ DISCLAIMER: This tool provides general guidance based on Indian Central & State acts. Consult a legal expert for certification.
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ rules: rulesData.rules }}>
+  const stateSelect = document.getElementById('state-select');
+  const sectorSelect = document.getElementById('sector-select');
+  const btn = document.getElementById('calculate-btn');
+  const resultsArea = document.getElementById('results-area');
+  const checklistContainer = document.getElementById('checklist-container');
+
+  btn.addEventListener('click', () => {
+    const state = stateSelect.value;
+    const sector = sectorSelect.value;
+
+    if (!state || !sector) {
+      alert("Please select both State and Sector.");
+      return;
+    }
+
+    // Clear previous
+    checklistContainer.innerHTML = '';
+    
+    // Generate Items
+    rules.forEach(rule => {
+      let value = rule.logic.default;
+      let authority = rule.logic.authority || "General Standard";
+
+      // Check overrides
+      if (rule.logic.overrides) {
+        // 1. Specific Match (State AND Sector) - implicit in logic, usually most specific wins
+        // Simple logic: Look for match with both, then match with state, then match with sector
+        const exactMatch = rule.logic.overrides.find(o => o.state === state && o.sector === sector);
+        const stateMatch = rule.logic.overrides.find(o => o.state === state && !o.sector);
+        const sectorMatch = rule.logic.overrides.find(o => !o.state && o.sector === sector);
+
+        const match = exactMatch || stateMatch || sectorMatch;
+        if (match) {
+          value = match.value;
+          authority = match.authority || authority;
+        }
+      }
+
+      let text = rule.rule_text
+        .replace('{days}', value)
+        .replace('{frequency}', value)
+        .replace('{employees}', value)
+        .replace('{ratio}', value);
+
+      const itemHtml = `
+        <div class="flex items-start gap-4 p-4 bg-neutral-950 border border-neutral-800 hover:border-compliance transition-colors group">
+          <div class="mt-1">
+             <div class="w-5 h-5 border border-neutral-600 rounded-sm flex items-center justify-center text-compliance opacity-0 group-hover:opacity-100 transition-opacity">✓</div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+               <span class="text-xs font-bold text-compliance uppercase">${rule.category}</span>
+               <span class="text-[10px] text-neutral-500 border border-neutral-800 px-1 rounded">${authority}</span>
+            </div>
+            <p class="text-sm text-neutral-200 leading-relaxed font-medium">${text}</p>
+          </div>
+        </div>
+      `;
+      checklistContainer.innerHTML += itemHtml;
+    });
+
+    resultsArea.classList.remove('hidden');
+  });
+</script>

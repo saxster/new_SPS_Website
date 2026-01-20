@@ -1,0 +1,155 @@
+---
+// website/src/components/Navbar.astro
+---
+
+<nav class="navbar">
+  <div class="container">
+    <a href="/" class="logo">
+      <span class="logo-mark">SPS</span>
+      <span class="logo-text">SECURITY</span>
+    </a>
+    
+    <div class="nav-links">
+      <div class="dropdown">
+        <button class="dropbtn">MEGATRENDS ▾</button>
+        <div class="dropdown-content">
+          <a href="/blog/tag/intelligent-automation">🤖 Intelligent Automation</a>
+          <a href="/blog/tag/cyber-physical">🌐 Cyber-Physical</a>
+          <a href="/blog/tag/perimeter">🚧 Perimeter Defense</a>
+          <a href="/blog/tag/identity">🆔 Identity & Access</a>
+          <a href="/blog/tag/risk">⚖️ Strategic Risk</a>
+        </div>
+      </div>
+      <a href="/services">SERVICES</a>
+      <a href="/directory" class="new-link">DIRECTORY <span class="badge">NEW</span></a>
+      <a href="/about">ABOUT</a>
+      <a href="/contact" class="cta-button">GET BRIEFED</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-mark {
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    font-weight: 900;
+    font-size: 1.2rem;
+  }
+
+  .logo-text {
+    color: #000;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-links a, .dropbtn {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+  }
+
+  .nav-links a:hover, .dropbtn:hover {
+    color: #000;
+  }
+
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    top: 150%; /* Spacing */
+    padding: 0.5rem 0;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f9f9f9;
+    color: #000;
+  }
+
+  .cta-button {
+    background: #000;
+    color: #fff !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 4px;
+  }
+
+  .cta-button:hover {
+    background: #333;
+  }
+
+  .new-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+  }
+
+  .badge {
+      background: #ff3300;
+      color: #fff;
+      font-size: 0.6rem;
+      padding: 1px 4px;
+      border-radius: 2px;
+  }
+</style>

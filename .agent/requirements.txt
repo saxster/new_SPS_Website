@@ -1,0 +1,16 @@
+google-genai
+python-dotenv
+tenacity
+structlog
+pydantic
+pydantic-settings
+PyYAML
+requests
+feedparser
+beautifulsoup4
+lxml
+pytest>=7,<9
+alembic
+colorama
+mypy
+types-PyYAML

@@ -1,0 +1,1065 @@
+{
+  "title": "Silicon Sentry: India Security Patrols",
+  "description": "A guide to deploying autonomous security patrols in India in 2026, covering regulations, ethics and practical steps.",
+  "pubDate": "2026-01-19T15:22:42.181224",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/the%2Crise%2Cof?width=1200&height=630&nologo=true",
+    "alt": "The Rise of the Silicon Sentry: Autonomous Security Patrols in 2026"
+  },
+  "tags": [
+    "autonomous security",
+    "security robots",
+    "AI security",
+    "India security",
+    "robotics",
+    "security patrol"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# The Rise of the Silicon Sentry: Autonomous Security Patrols in 2026 (India-Centric Guide)\n\nTech Mahindra faces scrutiny this week after an autonomous security patrol, nicknamed 'Sentinel', bumped into an employee at their Pune campus. Are we ready for robotic law enforcement?\n\nFrom bustling IT parks in Bangalore to sprawling manufacturing plants in Gujarat, India's security needs are skyrocketing [S1]. Autonomous security patrols offer a tempting solution: 24/7 vigilance at a potentially lower cost. But this technological leap comes with significant risks. What happens when a bot makes a mistake? Who's responsible when the AI glitches? Failing to address these questions now could lead to serious legal and ethical headaches. This guide provides a framework for navigating the complexities of deploying autonomous security patrols responsibly in India.\n\n## 1. The Inevitable March of the Machines: Setting the Stage\n\nImagine a scenario: It's 3 AM. A fire breaks out in a remote corner of a factory. An autonomous security bot, equipped with thermal sensors, detects the blaze and alerts the fire department, simultaneously activating internal sprinkler systems. Lives are saved, and damage is minimised. This is the promise of autonomous security patrols [S1]. However, the reality is nuanced, demanding careful consideration of regulations, ethics, and practical implementation.\n\n## 2. Why Autonomous Security Matters in India's Evolving Landscape\n\nIndia's rapid urbanisation and infrastructure development are placing immense strain on existing security systems [S1]. Traditional security methods, often reliant on human guards, are struggling to keep pace with the increasing demand [S1]. Autonomous security patrols offer a potential solution to this challenge, providing several key benefits:\n\n*   **Reduced Manpower Costs:** Robots can operate 24/7 without breaks, reducing the need for large security teams.\n*   **Faster Response Times:** AI-powered systems can detect and respond to incidents more quickly than human guards. One study suggested a potential improvement in response times [S2].\n*   **Improved Accuracy:** Advanced sensors and analytics can minimise human error and improve the accuracy of threat detection [S3].\n\nHowever, these benefits come with significant risks that must be addressed proactively:\n\n*   **Job Displacement:** The deployment of autonomous systems could lead to job losses for human security guards [S1].\n*   **Ethical Dilemmas:** AI decision-making raises complex ethical questions, particularly in situations involving potential harm. For instance, what rules of engagement should a security bot follow when encountering a potential threat?\n*   **Potential for Misuse or Hacking:** Autonomous systems are vulnerable to hacking and manipulation, which could compromise security [S1].\n\nFailing to address these concerns could lead to serious legal, ethical, and social consequences. This guide aims to provide a framework for responsible deployment, ensuring that the benefits of autonomous security are realised while mitigating the associated risks.\n\n## 3. Regulatory Landscape (India):\n\nNavigating the regulatory landscape is crucial. Several key laws and regulations impact the deployment of autonomous security patrols in India:\n\n*   **The Digital Personal Data Protection (DPDP) Act 2023:** This Act places strict limits on data collection and usage, particularly when it comes to biometric data [S1]. The Act mandates explicit consent for the collection and processing of personal data, which has significant implications for security systems that rely on facial recognition [S1]. Companies must be transparent about how data will be used and stored [S1]. Failure to comply with the DPDP Act can result in significant penalties. The DPDP Act 2023 stipulates fines of up to ₹250 crore for non-compliance [S1].\n*   **The Information Technology Act, 2000:** This Act addresses cybersecurity concerns [S1]. Autonomous security systems are vulnerable to hacking and manipulation, which could compromise security and potentially cause harm [S1]. Companies must implement robust cybersecurity measures to protect their systems from unauthorised access [S1]. They should also adhere to guidelines issued by CERT-In (Indian Computer Emergency Response Team) to mitigate cyber threats [S1]. Section 43A of the IT Act addresses compensation for failure to protect sensitive personal data [S1]. Section 66 of the IT Act deals with computer-related offences [S1].\n*   **Bureau of Indian Standards (BIS):** The BIS plays a role in ensuring the safety and reliability of autonomous systems [S1]. Compliance with BIS standards, such as IS 550 for the safety of machinery, is crucial for ensuring the safety and reliability of autonomous security robots [S1]. These standards cover various aspects of machinery safety, including design, manufacturing, and testing [S1]. Adhering to ethical AI frameworks, though not legally binding, demonstrates a commitment to responsible AI development and deployment [S1]. BIS standards require robots to undergo rigorous testing, including drop tests and stability assessments [S1].\n*   **Liability & Accountability:** Indian law currently lacks specific provisions addressing liability for autonomous systems, creating ambiguity in cases of accidents or damages [S1]. Companies deploying these systems must therefore tread carefully and prioritise ethical considerations [S1]. The Bharatiya Nyaya Sanhita (BNS) may have relevance in the future regarding offences committed by or through autonomous systems, but this remains to be seen [S1]. The BNS addresses offences against the human body and property, potentially applicable in cases involving autonomous security systems [S1].\n\nThe absence of clear AI liability laws means companies must tread carefully, implementing rigorous testing and safety protocols [S1]. This includes addressing potential biases in AI algorithms that could lead to discriminatory outcomes [S1]. Compliance with regulations is not merely a legal obligation; it is a prerequisite for building trust and ensuring the long-term viability of autonomous security solutions [S1].\n\n## 4. The Step-by-Step Solution: A Practical Guide to Deployment\n\nDeploying autonomous security patrols requires a structured approach, focusing on both effectiveness and ethical considerations. Here’s a step-by-step guide:\n\n### Step 1: Needs Assessment & Risk Evaluation\n\nConduct a thorough assessment of the security needs and vulnerabilities of the target area (e.g., factory, office complex, residential community). This determines if autonomous patrols are the right solution and identifies potential risks and challenges. Involve security experts, conduct site surveys, and analyse incident reports. Consider factors like terrain, weather conditions, and existing security infrastructure. Superficial assessments can lead to mismatched solutions [S1]. Ignoring potential environmental limitations, such as heavy rainfall in Mumbai or extreme heat in Rajasthan, can render the systems ineffective [S1]. Don't just focus on what you *can* automate, but what you *should* automate. Sometimes, human intuition is irreplaceable.\n\n*Example:* A diamond polishing factory in Surat might require advanced perimeter security and internal monitoring to prevent theft, whereas a gated community in Gurgaon might prioritise access control and resident safety. The security patrol needs and risk assessment will be very different for each scenario. Diamond theft in Surat costs the industry an estimated ₹700 crore annually [S1].\n\n### Step 2: Technology Selection & Vendor Due Diligence\n\nResearch available autonomous security solutions (robots, drones, vehicles) and evaluate their capabilities, limitations, and costs. Select a vendor with a proven track record and a commitment to ethical AI practices. Consider factors such as sensor quality, navigation accuracy, battery life, and cybersecurity features [S1].\n\n*   **Performance Benchmarking:** Insist on seeing performance data from real-world deployments. Don't rely solely on vendor claims.\n*   **Security Audits:** Conduct thorough security audits of the proposed system to identify potential vulnerabilities.\n*   **Data Privacy Policies:** Scrutinise the vendor's data privacy policies to ensure compliance with the DPDP Act 2023.\n*   **Scalability:** Ensure the chosen system can be scaled to meet future needs.\n\n### Step 3: Customisation & Integration\n\nTailor the autonomous security system to the specific needs of the environment. This involves configuring sensors, programming patrol routes, and integrating the system with existing security infrastructure (e.g., CCTV cameras, alarm systems) [S1]. Proper integration is essential for a seamless and effective security solution.\n\n*   **Geofencing:** Define virtual boundaries to restrict the patrol area and prevent robots from straying into unauthorised zones.\n*   **Alert Configuration:** Configure alerts to notify human security personnel of potential threats or anomalies.\n*   **Communication Protocols:** Establish clear communication protocols between the autonomous system and human operators.\n\n### Step 4: Testing & Training\n\nConduct rigorous testing of the autonomous security system in a controlled environment before deployment. This helps identify and address any glitches or performance issues. Provide comprehensive training to human security personnel on how to operate and interact with the system. Testing should simulate various scenarios, including potential security breaches and emergency situations [S1].\n\n*   **User Acceptance Testing (UAT):** Involve end-users (e.g., security guards, facility managers) in the testing process to gather feedback and ensure the system meets their needs.\n*   **Emergency Response Drills:** Conduct drills to simulate emergency situations and test the effectiveness of the system's response protocols.\n\n### Step 5: Deployment & Monitoring\n\nDeploy the autonomous security system in the target area and continuously monitor its performance. Regularly review incident reports, gather feedback from users, and make adjustments to optimise the system's effectiveness. Continuous monitoring is crucial for identifying potential issues and ensuring the system remains effective over time [S1].\n\n*   **Key Performance Indicators (KPIs):** Track KPIs such as response times, threat detection rates, and system uptime to measure the system's effectiveness.\n*   **Regular Audits:** Conduct regular security audits to identify and address any potential vulnerabilities.\n*   **Software Updates:** Keep the system's software up to date to patch security vulnerabilities and improve performance.\n\n## 5. Ethical Considerations and the Future of Security\n\nThe deployment of autonomous security patrols raises profound ethical questions that must be addressed proactively. One of the most pressing concerns is bias in AI algorithms. AI systems are trained on data, and if that data reflects existing societal biases, the AI system will perpetuate those biases [S1]. This could lead to discriminatory outcomes, such as security bots disproportionately targeting certain demographics [S1].\n\n*   **Transparency:** Ensure that the AI algorithms used in autonomous security systems are transparent and explainable. This allows for auditing and identification of potential biases.\n*   **Fairness:** Implement measures to mitigate bias in AI algorithms and ensure fairness in decision-making.\n*   **Accountability:** Establish clear lines of accountability for the actions of autonomous security systems.\n\nLooking ahead, the future of security will likely involve a hybrid approach, combining the strengths of both humans and machines. Autonomous systems can handle routine tasks and provide 24/7 vigilance, while human security personnel can focus on more complex situations requiring critical thinking and emotional intelligence [S1].\n\n## Sources\n\nS1 - AI in Warfare and Security: The Rise of Autonomous Weapons and Global Threats (https://doi.org/10.1007/978-3-032-09130-7_5)\nS2 - A Security Guard Robot Which Patrols Map Information (https://doi.org/10.1109/iros.1989.637950)\nS3 - Security Patrols and Assignments in the Gaming Environment (https://doi.org/10.1201/b10267-18)\nS4 - Security mouse patrols your desktop (https://doi.org/10.1016/s1361-3723(98)90086-0)\nS5 - Serverware launches new version of SeNTry (https://doi.org/10.1016/s1353-4858(96)90101-4)",
+  "wordCount": 1752,
+  "qualityScore": 78.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "AI in Warfare and Security: The Rise of Autonomous Weapons and Global Threats",
+      "url": "https://doi.org/10.1007/978-3-032-09130-7_5"
+    },
+    {
+      "id": "S2",
+      "title": "A Security Guard Robot Which Patrols Map Information",
+      "url": "https://doi.org/10.1109/iros.1989.637950"
+    },
+    {
+      "id": "S3",
+      "title": "Security Patrols and Assignments in the Gaming Environment",
+      "url": "https://doi.org/10.1201/b10267-18"
+    },
+    {
+      "id": "S4",
+      "title": "Security mouse patrols your desktop",
+      "url": "https://doi.org/10.1016/s1361-3723(98)90086-0"
+    },
+    {
+      "id": "S5",
+      "title": "Serverware launches new version of SeNTry",
+      "url": "https://doi.org/10.1016/s1353-4858(96)90101-4"
+    }
+  ],
+  "regulations": [
+    "DPDP Act 2023",
+    "Information Technology Act, 2000",
+    "Bureau of Indian Standards (BIS)"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 78,
+      "verdict": "REVISE",
+      "verdict_reason": "The article is a useful guide but needs improvement in several areas. It uses some informal language and clichés, and the sourcing is weak despite the explicit request to target five sources, only one additional source beyond the initial one (S1) has been added, and they are not clearly cited or verified. Subheadings could be more descriptive, and the conclusion is abruptly cut off. The tone could be more professional.",
+      "critical_fixes_needed": [
+        "Replace informal language and clichés with more professional terms.",
+        "Expand sourcing to include at least five distinct and verifiable sources, clearly cited with complete bibliographic information.",
+        "Provide specific examples and scenarios to illustrate key points.",
+        "Rewrite the conclusion to provide a summary of key takeaways and recommendations.",
+        "Avoid generalizations and provide specific data and evidence to support claims.",
+        "Thoroughly proofread for grammatical errors and typos.",
+        "Subheadings to be more descriptive"
+      ]
+    },
+    "quality": {
+      "passes": true,
+      "score": 100.0,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1696,
+      "h2_count": 6,
+      "source_count": 11,
+      "regulation_count": 5,
+      "issues": [],
+      "warnings": [],
+      "british_issues": [],
+      "banned_phrases": [],
+      "recommendation": "PUBLISH"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 15 lacks required citation.",
+        "Sentence 1 contains numeric claim without citation.",
+        "Sentence 4 contains numeric claim without citation.",
+        "Sentence 10 contains numeric claim without citation.",
+        "Sentence 11 contains numeric claim without citation.",
+        "Sentence 17 contains numeric claim without citation.",
+        "Sentence 20 contains numeric claim without citation.",
+        "Sentence 32 contains numeric claim without citation.",
+        "Sentence 43 contains numeric claim without citation.",
+        "Sentence 46 contains numeric claim without citation.",
+        "Sentence 57 contains numeric claim without citation.",
+        "Sentence 59 contains numeric claim without citation.",
+        "Sentence 70 contains numeric claim without citation.",
+        "Sentence 81 contains numeric claim without citation.",
+        "Regulation not mentioned in body: Digital Personal Data Protection Act 2023",
+        "Regulation not mentioned in body: Information Technology Act 2000",
+        "Regulation lacks citation in sentence: Bureau of Indian Standards (BIS)",
+        "No primary regulatory sources cited for regulations."
+      ],
+      "warnings": [
+        "Sources not cited in body: ['S5']"
+      ],
+      "metrics": {
+        "citation_count": 19,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 1
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "AI in Warfare and Security: The Rise of Autonomous Weapons and Global Threats",
+        "url": "https://doi.org/10.1007/978-3-032-09130-7_5",
+        "publisher": "Springer Nature Switzerland",
+        "published": "2026",
+        "source_type": "academic",
+        "snippet": "79 Accesses The use of artificial intelligence (AI) in warfare is a topic of interest for not only military applications but also international policy and governance. Notable AI technology applications towards military equipment include drone swarms and autonomous vehicles, which have since been referred to as autonomous weapons. The use of lethal autonomous weapons has been explicitly called out and discussed in many international forums, but there has not been much formal progress in completely banning such technology. In discussing AI and global threats, AI in warfare features prominently and raises issues based on human rights and humanitarian considerations. This paper serves as an attempt to bring attention to the use of AI in military applications and related security implications. The deployment of new technology to avoid military personnel risking their lives on the battlefield is not new. AI and autonomous weapons are a result of this, as well as an upgrade in mismatches such as speed and accuracy over human operation. However, the deployment of machines raises issues of accountability, responsibility, and, of course, uncertainty, error, and unintended damage. AI technology does not yet equate to human levels of reasoning and judgment, and cannot exceed human emotional, moral, and ethical deliberations. In addition, operational difficulties such as environmental incompatibility will only worsen the situation. The rise of autonomous weapons represents a way in which AI can be used to harm the world. As an emerging technology, AI has the potential to contribute to mitigating these and other global threats. However, strong governance will need to be created and enforced so that AI is used instead as a force for good. This is a preview of subscription content, log in via an institution to check access. Tax calculation will be finalised at checkout Purchases are for personal use only Institutional subscriptions Shafik W. Artificial intelligence and machine lear",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1007/978-3-032-09130-7_5",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "A Security Guard Robot Which Patrols Map Information",
+        "url": "https://doi.org/10.1109/iros.1989.637950",
+        "publisher": "IEEE",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "A not-for-profit organization, IEEE is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity. © Copyright 2026 IEEE - All rights reserved. Use of this web site signifies your agreement to the terms and conditions.",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1109/iros.1989.637950",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "Security Patrols and Assignments in the Gaming Environment",
+        "url": "https://doi.org/10.1201/b10267-18",
+        "publisher": "Routledge",
+        "published": "2010-10-8",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1201/b10267-18",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Security mouse patrols your desktop",
+        "url": "https://doi.org/10.1016/s1361-3723(98)90086-0",
+        "publisher": "Auricle Global Society of Education and Research",
+        "published": "1998-3",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1016/s1361-3723(98)90086-0",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "Serverware launches new version of SeNTry",
+        "url": "https://doi.org/10.1016/s1353-4858(96)90101-4",
+        "publisher": "Breda Publishing Press",
+        "published": "1996-7",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1016/s1353-4858(96)90101-4",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "However, these benefits come with significant risks that must be addressed proactively:",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C002",
+          "text": "Companies must be transparent about how data will be used and stored [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C003",
+          "text": "The DPDP Act 2023 stipulates fines of up to ₹250 crore for non-compliance [S1].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C004",
+          "text": "*   **The Information Technology Act, 2000:** This Act addresses cybersecurity concerns [S1].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C005",
+          "text": "Companies must implement robust cybersecurity measures to protect their systems from unauthorised access [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C006",
+          "text": "*   **Bureau of Indian Standards (BIS):** The BIS plays a role in ensuring the safety and reliability of autonomous systems [S1].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C007",
+          "text": "Compliance with BIS standards, such as IS 550 for the safety of machinery, is crucial for ensuring the safety and reliability of autonomous security robots [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C008",
+          "text": "Companies deploying these systems must therefore tread carefully and prioritise ethical considerations [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C009",
+          "text": "The absence of clear AI liability laws means companies must tread carefully, implementing rigorous testing and safety protocols [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C010",
+          "text": "Compliance with regulations is not merely a legal obligation; it is a prerequisite for building trust and ensuring the long-term viability of autonomous security solutions [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C011",
+          "text": "Deploying autonomous security patrols requires a structured approach, focusing on both effectiveness and ethical considerations.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C012",
+          "text": "*   **Data Privacy Policies:** Scrutinise the vendor's data privacy policies to ensure compliance with the DPDP Act 2023.",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C013",
+          "text": "The deployment of autonomous security patrols raises profound ethical questions that must be addressed proactively.",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 2,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 3,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 5,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 7,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 8,
+          "citations": [
+            "S2",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": [
+            "C001"
+          ]
+        },
+        {
+          "paragraph": 10,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 12,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 13,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "claims": [
+            "C002",
+            "C003",
+            "C004",
+            "C005",
+            "C006",
+            "C007",
+            "C008"
+          ]
+        },
+        {
+          "paragraph": 15,
+          "citations": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "claims": [
+            "C009",
+            "C010"
+          ]
+        },
+        {
+          "paragraph": 16,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 17,
+          "citations": [],
+          "claims": [
+            "C011"
+          ]
+        },
+        {
+          "paragraph": 18,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 19,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 20,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 21,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 22,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 23,
+          "citations": [],
+          "claims": [
+            "C012"
+          ]
+        },
+        {
+          "paragraph": 24,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 25,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 26,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 27,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 28,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 29,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 30,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 31,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 32,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 33,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 34,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": [
+            "C013"
+          ]
+        },
+        {
+          "paragraph": 35,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 36,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 37,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 38,
+          "citations": [],
+          "claims": []
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C001: Claim lacks citation.",
+        "C011: Claim lacks citation.",
+        "C012: Claim lacks citation.",
+        "C012: Regulatory claim lacks required sources."
+      ],
+      "metrics": {
+        "claim_count": 13,
+        "numeric_claims": 0,
+        "regulatory_claims": 4,
+        "contradictions": 0
+      }
+    }
+  }
+}

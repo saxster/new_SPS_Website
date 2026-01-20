@@ -1,0 +1,515 @@
+{
+  "title": "Cyber-Physical Security Guide",
+  "description": "A practical guide for Indian organisations to navigate the convergence of cyber and physical security in critical infrastructure.",
+  "pubDate": "2026-01-19T16:15:07.454742",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/the%2Cgreat%2Cconvergence%3A?width=1200&height=630&nologo=true",
+    "alt": "The Great Convergence: When Cyber Met Physical (2026 Strategy)"
+  },
+  "tags": [
+    "cybersecurity",
+    "physical security",
+    "cyber-physical systems",
+    "critical infrastructure",
+    "India",
+    "risk management"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# The Great Convergence: When Cyber Met Physical (2026 Strategy) - A Guide for Indian Organizations\n\nImagine this: it's a sweltering day in Mumbai. Suddenly, traffic lights across the city go haywire. Commuters are stranded, ambulances are delayed, and chaos ensues. The culprit? Not a monsoon deluge, but a sophisticated cyberattack targeting the city's intelligent traffic management system. This is the stark reality of the cyber-physical world.\n\n## Why This Matters\n\nIn India, the lines between cyber and physical systems are blurring at an accelerating pace. This convergence, while driving efficiency and innovation, dramatically expands the attack surface for malicious actors [S1, S2]. Cyber-physical systems (CPS) – those integrating computing, communication, and physical devices – are now integral to critical infrastructure, from power grids to manufacturing plants and smart cities [S1]. A successful attack can have devastating real-world consequences, causing economic disruption, physical damage, reputational harm, and even threats to national security [S1]. Consider the vulnerability of India's burgeoning smart city initiatives, interconnected manufacturing hubs, and expanding digital healthcare systems. These systems, designed for efficiency and convenience, simultaneously introduce new avenues for exploitation.\n\nGlobally, there have been 427 publicly reported cyber-physical and cyber-operational attacks on critical infrastructure between 1992 and 2021 [S1]. While state actors initiate many of these attacks, non-state actors also pose a significant threat [S1]. Espionage is often a key motivation for state-sponsored cyber-physical attacks [S1]. Sectors particularly vulnerable in the Indian context include energy, manufacturing, transportation, healthcare, and telecommunications. The consequences of a coordinated attack on, say, India's power grid, would be catastrophic. Addressing this growing threat landscape demands a proactive and comprehensive approach. The increasing reliance on interconnected systems necessitates a paradigm shift in how organisations perceive and manage risk. A reactive approach is no longer sufficient; a proactive, threat-informed strategy is essential for protecting critical infrastructure and ensuring national security.\n\n## Regulatory Landscape (India)\n\nIndian organisations must navigate a complex web of regulations concerning cybersecurity and data protection. The Digital Personal Data Protection (DPDP) Act 2023 is paramount. While its primary focus is on personal data, its implications extend to CPS data security, particularly where CPS collect and process personally identifiable information. Organisations must implement appropriate security safeguards to prevent data breaches and ensure compliance with the Act's provisions regarding data processing and storage. Organisations need to understand the obligations around data minimisation, purpose limitation, and storage limitation as defined in the DPDP Act, and how these apply to data collected and processed by CPS devices. They must also provide clear and accessible privacy notices to individuals about how their data is being used. The DPDP Act 2023 stipulates significant penalties for non-compliance, making it crucial for organisations to prioritise data protection in their CPS deployments. The Act establishes a Data Protection Board of India to oversee compliance and enforce penalties [DPDP Act 2023 - *Further specifics required*].\n\nThe Bharatiya Nyaya Sanhita (BNS), replacing the Indian Penal Code, includes provisions related to cybercrime and offences against national security. Cyberattacks targeting critical infrastructure, which fall under the umbrella of CPS, could trigger provisions within the BNS related to acts endangering national security or disrupting essential services. Specific sections within the BNS address offences such as disrupting essential services, damaging public property, and waging war against the state [Bharatiya Nyaya Sanhita - *Further specifics required*]. If a cyber-physical attack results in any of these outcomes, the perpetrators could face severe penalties under the BNS. Organisations should familiarise themselves with these provisions to understand the potential legal ramifications of a security breach. Compliance with relevant Indian Standards (IS), such as IS 550:2014 (Information Security Management Systems – Requirements), is crucial for establishing a robust security framework for CPS. IS 550 provides a standardised approach to information security management, which organisations can adapt to address the specific risks associated with their CPS environments. Organisations should undergo certification audits to demonstrate compliance. Sector-specific regulations also apply. For example, the power sector is subject to regulations concerning grid security and cyber security issued by the Central Electricity Authority (CEA). Similarly, the Telecom Regulatory Authority of India (TRAI) issues directives concerning the security of telecommunications networks. CERT-In (Indian Computer Emergency Response Team) plays a vital role in issuing alerts, advisories, and guidelines related to cyber security threats. Organisations operating CPS should closely monitor CERT-In's communications and implement recommended security measures. Failure to comply with these regulations can result in significant penalties and legal repercussions. It's also important to consider guidelines from the Ministry of Home Affairs (MHA) regarding critical infrastructure protection. Organisations must prioritise cybersecurity alongside physical security solutions to ensure compliance and mitigate risks [S2]. Furthermore, adhering to international standards like ISO 27001 can demonstrate a commitment to security best practices. A comprehensive understanding of the regulatory landscape and proactive compliance efforts are essential for mitigating legal and financial risks associated with cyber-physical security breaches.\n\n## The Step-by-Step Solution\n\nSecuring cyber-physical systems requires a multi-layered approach. Here's a step-by-step guide for Indian organisations:\n\n**Step 1: Risk Assessment & Threat Modeling (150 words)**\n\nConduct a comprehensive risk assessment specifically tailored to your CPS environment. Identify critical assets, vulnerabilities (both cyber and physical), and potential threats [S1]. Consider threats from both state and non-state actors [S1]. Understand how a cyberattack could translate into a physical consequence. What happens if a SCADA system is compromised? What if a PLC malfunctions? Use frameworks like the NIST Cybersecurity Framework, adapting it to the specific characteristics of CPS. Employ threat intelligence feeds to stay informed about emerging threats targeting CPS. Conduct penetration testing of both IT and OT networks, simulating real-world attack scenarios. The risk assessment needs regular updating because the threat landscape is dynamic. The assessment should involve both internal stakeholders (IT, OT, security, and risk management teams) and external experts with experience in CPS security. Consider using a standardised risk assessment methodology, such as the FAIR (Factor Analysis of Information Risk) model, to quantify and prioritise risks. Document all findings and recommendations in a formal risk assessment report. Underestimating the complexity of CPS environments, overlooking physical security vulnerabilities, and failing to update risk assessments regularly are common pitfalls. Engage with industry experts experienced in CPS security for guidance. Conduct tabletop exercises to simulate potential attacks and assess your organisation's response capabilities. These exercises should involve cross-functional teams and simulate a range of attack scenarios.\n\n**Step 2: Network Segmentation & Isolation**\n\nSegment your network to isolate critical CPS components from the general IT network and external connections. This limits the impact of a successful cyberattack by preventing lateral movement within the network. Implement strong access controls and firewalls to restrict unauthorised access. Use VLANs, firewalls, and intrusion detection/prevention systems (IDS/IPS). Consider zero-trust network access (ZTNA) principles, verifying every user and device before granting access to network resources. Implement a demilitarized zone (DMZ) to further isolate public-facing CPS components. Use unidirectional security gateways to prevent data from flowing from less secure networks to more secure networks. Regularly review and update network segmentation rules to adapt to changing threats. Enforce the principle of least privilege, granting users only the minimum necessary access to CPS components. Implement network monitoring tools to detect anomalous activity. Ensure proper logging and auditing of network traffic. Insufficient segmentation, weak access controls, and relying solely on perimeter security are common mistakes. Use micro-segmentation to further isolate critical CPS components. Regularly review and update network segmentation rules to adapt to changing threats.\n\n## Sources\n\nS1 - When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition (https://doi.org/10.1007/978-3-031-04586-8_7)\nS2 - The great security convergence: joining physical devices and cyber security (https://doi.org/10.12968/s1353-4858(22)70043-8)\nS3 - What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman) (https://doi.org/10.31389/lsepress.wcf)\nS4 - Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems (https://doi.org/10.1016/j.robot.2025.105293)\nS5 - The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence (https://doi.org/10.62891/def56b28)",
+  "wordCount": 1373,
+  "qualityScore": 65.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition",
+      "url": "https://doi.org/10.1007/978-3-031-04586-8_7"
+    },
+    {
+      "id": "S2",
+      "title": "The great security convergence: joining physical devices and cyber security",
+      "url": "https://doi.org/10.12968/s1353-4858(22)70043-8"
+    },
+    {
+      "id": "S3",
+      "title": "What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman)",
+      "url": "https://doi.org/10.31389/lsepress.wcf"
+    },
+    {
+      "id": "S4",
+      "title": "Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems",
+      "url": "https://doi.org/10.1016/j.robot.2025.105293"
+    },
+    {
+      "id": "S5",
+      "title": "The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence",
+      "url": "https://doi.org/10.62891/def56b28"
+    }
+  ],
+  "regulations": [
+    "DPDP Act 2023",
+    "Bharatiya Nyaya Sanhita",
+    "IS 550",
+    "CERT-In directives"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 65,
+      "verdict": "REVISE",
+      "verdict_reason": "The guide needs significant improvements in referencing specific legal clauses and expanding on the regulatory landscape. The source list contains extraneous entries. The \"Step-by-Step Solution\" section requires more depth and actionable details. While the writing is generally clear, it benefits from minor stylistic edits.",
+      "critical_fixes_needed": [
+        "Provide specific sections and details from the DPDP Act 2023 and Bharatiya Nyaya Sanhita (BNS) instead of general mentions. Deepen the discussion on sector-specific regulations (e.g., CEA for power, TRAI for telecom).",
+        "Remove irrelevant sources (S3, S4, S5) and ensure all cited sources are directly relevant and accurately support the claims made in the guide.",
+        "Expand the \"Step-by-Step Solution\" section with more detailed and actionable advice. For example, include specific types of network segmentation, access control mechanisms, and monitoring tools.",
+        "The writing is sometimes verbose. Trim unnecessary words and phrases to improve clarity and conciseness.",
+        "Add at least 3 more steps to the section named 'Step-by-Step solution'"
+      ]
+    },
+    "quality": {
+      "passes": true,
+      "score": 98.0,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1581,
+      "h2_count": 5,
+      "source_count": 11,
+      "regulation_count": 5,
+      "issues": [],
+      "warnings": [
+        "American spellings detected: 'program' should be 'programme'"
+      ],
+      "british_issues": [
+        "'program' should be 'programme'"
+      ],
+      "banned_phrases": [],
+      "recommendation": "PUBLISH"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 2 lacks required citation.",
+        "Paragraph 7 lacks required citation.",
+        "Paragraph 14 lacks required citation.",
+        "Paragraph 16 lacks required citation.",
+        "Sentence 1 contains numeric claim without citation.",
+        "Sentence 8 contains numeric claim without citation.",
+        "Sentence 22 contains numeric claim without citation.",
+        "Sentence 27 contains numeric claim without citation.",
+        "Sentence 28 contains numeric claim without citation.",
+        "Sentence 34 contains numeric claim without citation.",
+        "Sentence 35 contains numeric claim without citation.",
+        "Sentence 45 contains numeric claim without citation.",
+        "Sentence 48 contains numeric claim without citation.",
+        "Sentence 65 contains numeric claim without citation.",
+        "Sentence 79 contains numeric claim without citation.",
+        "Sentence 80 contains numeric claim without citation.",
+        "Regulation lacks citation in sentence: DPDP Act 2023",
+        "Regulation lacks citation in sentence: Bharatiya Nyaya Sanhita",
+        "Regulation lacks citation in sentence: IS 550",
+        "Regulation not mentioned in body: CERT-In directives",
+        "No primary regulatory sources cited for regulations."
+      ],
+      "warnings": [
+        "Sources not cited in body: ['S3', 'S4', 'S5']"
+      ],
+      "metrics": {
+        "citation_count": 8,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 3
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition",
+        "url": "https://doi.org/10.1007/978-3-031-04586-8_7",
+        "publisher": "Springer International Publishing",
+        "published": "2022",
+        "source_type": "academic",
+        "snippet": "556 Accesses 1 Citation 1 Altmetric Cyber-physical systems (CPSs) refer to systems that connect computers, communication channels, and physical devices. They lie at the heart of today’s critical infrastructure. CPSs are currently one of the most targeted systems of adversarial actors operating in the cyber domain. Cyber-physical and cyber-operational attacks on critical infrastructures via attacks on CPSs have the potential to damage physical infrastructure assets and have widespread consequences for national security as well as the society. We analyzed 427 publicly reported cyber-physical and cyber-operational attacks conducted against critical infrastructures globally between January 1, 1992, and July 9, 2021. We find that of the attacks that can be attributed to an actor type, state actors (including state-affiliated and state-supported actors) were found to be the predominant actors that conduct cyber-physical attacks while state and non-state actors occupied approximately same ratio of attacks for cyber-operational attacks. We also find espionage to be the most statistically significant motivation for the state actors to conduct cyber-physical and/or cyber-operational attacks. Additionally, we find rivalry between the attacker and the target to be the most statistically significant international security relevant variable. Finally, we provide an assessment of the implications of cyber-physical and cyber-operational attacks on critical infrastructure in the contexts of current and future irregular warfare and great power competition. This is a preview of subscription content, log in via an institution to check access. Tax calculation will be finalised at checkout Purchases are for personal use only Institutional subscriptions We define ICS as the aggregation of various operational technology systems, devices, and process (e.g. HMIs, PLCs, RTUs, SCADA, DCUs, etc.); therefore, malware that targets operational technology is reported as ICS malware in the SMICI data",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1007/978-3-031-04586-8_7",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "The great security convergence: joining physical devices and cyber security",
+        "url": "https://doi.org/10.12968/s1353-4858(22)70043-8",
+        "publisher": "Breda Publishing Press",
+        "published": "2022-6",
+        "source_type": "academic",
+        "snippet": "With the convergence of the physical and digital worlds comes a heightened risk of security threats. Cyber security can no longer be placed on the back burner as organisations continue to incorporate physical security solutions; the likelihood and severity of an information breach rise dramatically as additional devices are contributed to one ubiquitous network.",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.12968/s1353-4858(22)70043-8",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman)",
+        "url": "https://doi.org/10.31389/lsepress.wcf",
+        "publisher": "LSE Press",
+        "published": "2026",
+        "source_type": "academic",
+        "snippet": "Alexander (‘Sandy’) Pepper is Emeritus Professor of Management Practice at the London School of Economics and Political Science, where he taught from 2008 to 2023. Prior to this he had a long career at PricewaterhouseCoopers, where he held various senior management positions, including as global leader of PwC’s Human Resource Services practice from 2002 to 2006. He is an external member of the Board of Governors at the University of Portsmouth. Sandy’s research and teaching interests include organisations and management theory, with a particular focus on the theory of the firm, corporate governance, and business ethics. He is the author of many academic articles and books, including The Economic Psychology of Incentives and Agency Theory & Executive Pay , published by Palgrave Macmillan, and I f You’re So Ethical Why Are You So Highly Paid? , which was published by LSE Press in 2022. In 2025 LSE Press launched an open access a book and case study collection entitled N avigating the 21st Century Business World: Case Studies in Management , which Sandy co-edited with Dr Dorottya Sallai. Sandy is one of the UK’s recognised experts on executive pay, and his most recent article on this subject, “CEO pay in the United Kingdom, 1968–2022” is available on the Business History journal website and LSE Research Online on an open access basis at https://eprints.lse.ac.uk/126504/ . DOI : https://doi.org/10.31389/lsepress.wcf ISBNs : Paperback : 978-1-911712-71-8 ¦ PDF : 978-1-911712-72-5 ¦ EPUB : 978-1-911712-73-2 ¦ Mobi : 978-1-911712-74-9 Provisional publication: June 2026 Is the job of a company director simply to make as much money as possible as quickly as possible for shareholders? Do businesses have obligations to employees, other stakeholders, and society as a whole? And, most pressingly of all, do they have any responsibility for the environment, for social inequality, and to sustain fair competition in a world dominated by mega-corporations? In this book, Professor Ale",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.31389/lsepress.wcf",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems",
+        "url": "https://doi.org/10.1016/j.robot.2025.105293",
+        "publisher": "Elsevier BV",
+        "published": "2026-3",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1016/j.robot.2025.105293",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence",
+        "url": "https://doi.org/10.62891/def56b28",
+        "publisher": "DeSci Labs AG",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.62891/def56b28",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "Indian organisations must navigate a complex web of regulations concerning cybersecurity and data protection.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C002",
+          "text": "Organisations must implement appropriate security safeguards to prevent data breaches and ensure compliance with the Act's provisions regarding data processing and storage.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C003",
+          "text": "They must also provide clear and accessible privacy notices to individuals about how their data is being used.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C004",
+          "text": "The DPDP Act 2023 stipulates significant penalties for non-compliance, making it crucial for organisations to prioritise data protection in their CPS deployments.",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C005",
+          "text": "The Act establishes a Data Protection Board of India to oversee compliance and enforce penalties [DPDP Act 2023 - *Further specifics required*].",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C006",
+          "text": "The Bharatiya Nyaya Sanhita (BNS), replacing the Indian Penal Code, includes provisions related to cybercrime and offences against national security.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C007",
+          "text": "Specific sections within the BNS address offences such as disrupting essential services, damaging public property, and waging war against the state [Bharatiya Nyaya Sanhita - *Further specifics required*].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C008",
+          "text": "Compliance with relevant Indian Standards (IS), such as IS 550:2014 (Information Security Management Systems – Requirements), is crucial for establishing a robust security framework for CPS.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C009",
+          "text": "IS 550 provides a standardised approach to information security management, which organisations can adapt to address the specific risks associated with their CPS environments.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C010",
+          "text": "Organisations should undergo certification audits to demonstrate compliance.",
+          "claim_type": "policy",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C011",
+          "text": "Organisations must prioritise cybersecurity alongside physical security solutions to ensure compliance and mitigate risks [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C012",
+          "text": "A comprehensive understanding of the regulatory landscape and proactive compliance efforts are essential for mitigating legal and financial risks associated with cyber-physical security breaches.",
+          "claim_type": "policy",
+          "citations": [
+            "S2"
+          ],
+          "sources": [
+            "S2"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C013",
+          "text": "Securing cyber-physical systems requires a multi-layered approach.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 2,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 3,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 5,
+          "citations": [
+            "S1",
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 7,
+          "citations": [],
+          "claims": [
+            "C001",
+            "C002",
+            "C003",
+            "C004",
+            "C005"
+          ]
+        },
+        {
+          "paragraph": 8,
+          "citations": [
+            "S2"
+          ],
+          "claims": [
+            "C006",
+            "C007",
+            "C008",
+            "C009",
+            "C010",
+            "C011",
+            "C012"
+          ]
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 10,
+          "citations": [],
+          "claims": [
+            "C013"
+          ]
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 12,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 13,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 15,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 16,
+          "citations": [],
+          "claims": []
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C001: Claim lacks citation.",
+        "C002: Claim lacks citation.",
+        "C003: Claim lacks citation.",
+        "C004: Claim lacks citation.",
+        "C004: Regulatory claim lacks required sources.",
+        "C005: Claim lacks citation.",
+        "C005: Regulatory claim lacks required sources.",
+        "C013: Claim lacks citation."
+      ],
+      "metrics": {
+        "claim_count": 13,
+        "numeric_claims": 0,
+        "regulatory_claims": 6,
+        "contradictions": 0
+      }
+    }
+  }
+}

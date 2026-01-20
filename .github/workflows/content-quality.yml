@@ -1,0 +1,44 @@
+name: Content Quality Audit
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'website/src/content/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'website/src/content/**'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Ensure we have the necessary libs for the audit script if they aren't in requirements.txt
+        pip install pyyaml markdown2 frontmatter
+
+    - name: Run Content Audit
+      env:
+        # Mock API key for CI if needed, or use a secret if the script calls LLMs
+        # For a basic linter, we might not need a live key, but if the script fails without it:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }} 
+      run: |
+        # Run the audit script located in .agent/skills/audit_seo.py
+        # Adjust path as necessary relative to repo root
+        if [ -f .agent/skills/audit_seo.py ]; then
+           python .agent/skills/audit_seo.py website/src/pages
+        else
+           echo "Audit script not found in expected path, skipping for now."
+        fi

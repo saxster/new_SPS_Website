@@ -1,0 +1,171 @@
+# Core Configuration
+database:
+  path: ".agent/content_brain.db"
+  backup_path: ".agent/content_brain_backup.db"
+
+# LLM Configuration
+llm:
+  model: "gemini-2.0-flash-exp"
+  temperature: 0.7
+  max_retries: 3
+  timeout: 60
+
+# News Mining Configuration
+news_miner:
+  sources:
+    - "https://news.google.com/rss/search?q=physical+security+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=cyber+security+breach+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=fire+incident+commercial+building+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=crime+homicide+robbery+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=terrorism+insurgency+bombing+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=disaster+accident+fatality+india+when:1d&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://feeds.feedburner.com/TheHackersNews"
+  keywords:
+    - "crime"
+    - "war"
+    - "terrorism"
+    - "accident"
+    - "deaths"
+    - "homicide"
+    - "assault"
+    - "robbery"
+    - "conflict"
+    - "battle"
+    - "insurgency"
+    - "bombing"
+    - "disaster"
+    - "fatality"
+    - "casualty"
+    - "breach"
+    - "attack"
+    - "fire"
+    - "protest"
+    - "security"
+    - "surveillance"
+    - "police"
+    - "CCTV"
+    - "access control"
+  incident_db_path: "website/src/assets/incidents_data.json"
+  geocode_enabled: true
+  geocode_user_agent: "SPS-Newsroom/1.0 (contact: ops@spssecurity)"
+  geocode_rate_limit_seconds: 1.2
+
+# Research Retrieval Configuration
+research:
+  request_timeout: 15
+  max_sources: 12
+  crossref_mailto: ""
+  allowed_domains: []
+  domain_weights:
+    who.int: 30
+    worldbank.org: 25
+    un.org: 20
+    rbi.org.in: 30
+    mospi.gov.in: 25
+    niti.gov.in: 20
+    ncrb.gov.in: 30
+    bis.gov.in: 25
+  min_quality: 60
+  cache_path: ".agent/evidence_cache.json"
+  rss_feeds:
+    - "https://news.google.com/rss/search?q=physical+security+india&hl=en-IN&gl=IN&ceid=IN:en"
+    - "https://news.google.com/rss/search?q=cyber+security+india&hl=en-IN&gl=IN&ceid=IN:en"
+
+# Fact-check consensus gate
+fact_check:
+  consensus_min: 85
+
+# Citation validation rules
+citation:
+  min_per_paragraph: 1
+  min_words_per_paragraph: 40
+  recency_days: 365
+  recency_types: ["News"]
+  recency_by_type:
+    News: 180
+    Analysis: 365
+    Guide: 540
+  require_sources_section: true
+  require_numeric_citations: true
+  max_ngram_words: 12
+  regulation_primary_domains:
+    - "egazette.nic.in"
+    - "mca.gov.in"
+    - "rbi.org.in"
+    - "bis.gov.in"
+    - "ncrb.gov.in"
+    - "mospi.gov.in"
+  paraphrase_similarity_threshold: 0.88
+
+# Claim ledger rules
+claims:
+  require_citations: true
+  require_multi_source_numeric: true
+  min_sources_numeric: 2
+  min_domains_numeric: 2
+  min_sources_regulation: 1
+  max_claims: 120
+
+# Publish policy thresholds
+publish_policy:
+  min_quality: 75
+  min_citation_density: 0.6
+  min_sources: 3
+  block_on_claim_issues: true
+  block_on_contradictions: true
+  block_on_citation_issues: true
+
+# Update watcher
+updates:
+  report_path: "reports/update_watch.json"
+  queue_dir: "drafts/refresh_needed"
+  queue_on_flag: true
+  max_age_days: 365
+  max_age_days_by_type:
+    News: 90
+    Analysis: 365
+    Guide: 540
+
+# Topic proposal de-duplication
+topic_dedup:
+  similarity_threshold: 0.82
+
+# Newsroom metrics
+newsroom:
+  metrics_path: "reports/pipeline_metrics.json"
+  metrics_history: 200
+
+# Editorial Standards & Content Specs
+content_specs:
+  Guide:
+    min_words: 1500
+    min_sections: 5
+    min_sources: 5
+    min_regulations: 2
+  Analysis:
+    min_words: 2000
+    min_sections: 6
+    min_sources: 8
+    min_regulations: 2
+  News:
+    min_words: 600
+    min_sections: 4
+    min_sources: 3
+    min_regulations: 1
+  Review:
+    min_words: 1200
+    min_sections: 4
+    min_sources: 4
+    min_regulations: 1
+  General:
+    min_words: 1000
+    min_sections: 4
+    min_sources: 3
+    min_regulations: 1
+
+# Paths
+paths:
+  drafts_dir: "drafts"
+  rules_dir: ".agent/rules"
+  website_content_dir: "website/src/content/blog"
+  output_dir: "website/src/content/blog"

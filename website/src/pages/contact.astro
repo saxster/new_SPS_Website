@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SideDrawer from '../components/SideDrawer.astro';
+---
+
+<Layout title="Contact Command | SPS" description="Initiate a consultation with SPS. 24/7 Command Centre access for emergency protocols.">
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        
+        <!-- Contact Intel -->
+        <div>
+          <h1 class="text-heading-1 text-white mb-8">INITIATE<br/><span class="text-primary-accent">PROTOCOL</span></h1>
+          
+          <p class="text-xl text-neutral-300 mb-12 leading-relaxed">
+            Security is time-sensitive. Whether you require an immediate threat assessment or a long-term deployment strategy, our Command Centre is operational 24/7.
+          </p>
+
+          <div class="space-y-12">
+            <!-- HQ -->
+            <div class="brutalist-card p-8 border-l-4 border-l-primary-accent">
+              <h3 class="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-4">HEADQUARTERS</h3>
+              <p class="text-2xl font-bold text-white mb-2">Mumbai Command</p>
+              <address class="text-neutral-400 not-italic leading-relaxed">
+                12/B, Sukhi Enterprise Tower,<br>
+                Industrial Area, Andheri East,<br>
+                Mumbai - 400093, Maharashtra.
+              </address>
+            </div>
+
+            <!-- Emergency Lines -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 class="text-sm font-bold text-critical uppercase tracking-widest mb-2">Emergency (24/7)</h3>
+                <p class="text-2xl font-mono text-white">+91 98200 XXXXX</p>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-compliance uppercase tracking-widest mb-2">Corporate Inquiries</h3>
+                <p class="text-2xl font-mono text-white">consult@sps.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultation Form -->
+        <div class="bg-neutral-900 border border-neutral-800 p-10 relative">
+          <div class="absolute top-0 right-0 p-4">
+            <span class="text-xs font-mono text-neutral-600">SECURE_TRANSMISSION // TLS 1.3</span>
+          </div>
+          
+          <h2 class="text-2xl font-bold text-white mb-8">Request Consultation</h2>
+          
+          <!-- TODO: Replace with actual Formspree form ID or custom API endpoint -->
+          <form action="https://formspree.io/f/xwpkqbjp" method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label for="name" class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Officer Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" class="w-full bg-black border border-neutral-700 text-white p-3 focus:border-primary-accent focus:outline-none transition-colors" placeholder="Full Name" required />
+              </div>
+              <div class="space-y-2">
+                <label for="org" class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Organisation</label>
+                <input type="text" id="org" name="organization" autocomplete="organization" class="w-full bg-black border border-neutral-700 text-white p-3 focus:border-primary-accent focus:outline-none transition-colors" placeholder="Company Name" />
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label for="email" class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Secure Comms (Email)</label>
+              <input type="email" id="email" name="email" autocomplete="email" class="w-full bg-black border border-neutral-700 text-white p-3 focus:border-primary-accent focus:outline-none transition-colors" placeholder="name@company.com" required />
+            </div>
+
+            <div class="space-y-2">
+              <label for="sector" class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Sector</label>
+              <select id="sector" name="sector" class="w-full bg-black border border-neutral-700 text-white p-3 focus:border-primary-accent focus:outline-none transition-colors appearance-none rounded-none">
+                <option value="" disabled selected>Select Operational Vertical</option>
+                <option value="jewellery">Jewellery & High Value</option>
+                <option value="education">Education</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="finance">SME Finance</option>
+                <option value="industrial">Industrial/Factory</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="space-y-2">
+              <label for="brief" class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Mission Brief</label>
+              <textarea id="brief" name="message" rows="4" class="w-full bg-black border border-neutral-700 text-white p-3 focus:border-primary-accent focus:outline-none transition-colors" placeholder="Describe your security requirements..." required></textarea>
+            </div>
+
+            <button type="submit" class="brutalist-button brutalist-button--primary w-full justify-center">
+              TRANSMIT REQUEST
+            </button>
+            
+            <p class="text-xs text-neutral-600 text-center mt-4">
+              By transmitting, you agree to our <a href="/privacy" class="text-neutral-500 hover:text-primary-accent underline">Privacy Doctrine</a>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,175 @@
+{
+  "categories": [
+    {
+      "id": "incident",
+      "name": "Incident Reporting",
+      "description": "Document security incidents, accidents, and emergencies"
+    },
+    {
+      "id": "surveillance",
+      "name": "Surveillance & CCTV",
+      "description": "CCTV logs, evidence handling, and chain of custody"
+    },
+    {
+      "id": "access",
+      "name": "Access Control",
+      "description": "Visitor logs, contractor management, and access records"
+    },
+    {
+      "id": "legal",
+      "name": "Legal & Compliance",
+      "description": "Certificates, compliance checklists, and legal forms"
+    },
+    {
+      "id": "operations",
+      "name": "Guard Operations",
+      "description": "Patrol logs, shift handover, and duty registers"
+    }
+  ],
+  "templates": [
+    {
+      "id": "incident-report",
+      "name": "Incident Report Form",
+      "description": "Comprehensive incident documentation form for security incidents including theft, assault, fire, medical emergencies. Includes witness details, timeline, and evidence checklist.",
+      "category": "incident",
+      "format": "PDF",
+      "pages": 2,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/incident-report-form.pdf",
+      "previewFields": ["Date/Time", "Location", "Incident Type", "Description", "Witnesses", "Evidence List", "Immediate Actions", "Follow-up Required"]
+    },
+    {
+      "id": "cctv-access-log",
+      "name": "CCTV Access Register",
+      "description": "Log for tracking who accesses CCTV recordings. Required for chain of custody and audit compliance. Includes purpose of access, files accessed, and supervisor approval.",
+      "category": "surveillance",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/cctv-access-register.pdf",
+      "previewFields": ["Date", "Time In/Out", "Accessor Name", "Designation", "Purpose", "Files Accessed", "Supervisor Signature"]
+    },
+    {
+      "id": "section-65b-certificate",
+      "name": "Section 65B / BSA 63 Certificate",
+      "description": "Certificate template for authenticating electronic evidence (CCTV footage) for court admissibility. Updated for Bharatiya Sakshya Adhiniyam 2023.",
+      "category": "legal",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/section-65b-certificate.pdf",
+      "previewFields": ["Electronic Record Details", "Device Description", "Operation Statement", "Extraction Details", "Declaration", "Signatory Details"]
+    },
+    {
+      "id": "chain-of-custody",
+      "name": "Chain of Custody Log",
+      "description": "Evidence handling log for CCTV footage and physical evidence. Tracks every handover from extraction to court submission.",
+      "category": "surveillance",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/chain-of-custody-log.pdf",
+      "previewFields": ["Case Reference", "Evidence Description", "Hash Value", "Handover Date/Time", "From/To Details", "Purpose", "Signature"]
+    },
+    {
+      "id": "visitor-register",
+      "name": "Visitor Management Log",
+      "description": "Daily visitor register with photo/ID capture fields. Includes host details, purpose of visit, and badge return tracking.",
+      "category": "access",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["corporate", "hospital", "education", "industrial"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/visitor-register.pdf",
+      "previewFields": ["Date", "Name", "Company/From", "Host Name", "Purpose", "ID Number", "Badge#", "Time In/Out", "Signature"]
+    },
+    {
+      "id": "contractor-access",
+      "name": "Contractor Access Form",
+      "description": "Pre-authorisation form for contractor/vendor access. Includes safety briefing acknowledgment, tool/equipment list, and work area specification.",
+      "category": "access",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["corporate", "industrial", "hospital"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/contractor-access-form.pdf",
+      "previewFields": ["Contractor Company", "Worker Names", "ID/Aadhaar", "Work Description", "Area Access", "Tools Carried", "Safety Briefing", "Escort Required"]
+    },
+    {
+      "id": "patrol-log",
+      "name": "Guard Patrol Log",
+      "description": "Hourly patrol documentation with checkpoint verification. Includes observation notes, anomaly reporting, and patrol route tracking.",
+      "category": "operations",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/guard-patrol-log.pdf",
+      "previewFields": ["Date", "Shift", "Guard Name", "Time", "Checkpoint", "Status", "Observations", "Signature"]
+    },
+    {
+      "id": "shift-handover",
+      "name": "Shift Handover Report",
+      "description": "End-of-shift documentation for guard handover. Covers pending issues, equipment status, and key events during shift.",
+      "category": "operations",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/shift-handover-report.pdf",
+      "previewFields": ["Date", "Outgoing Guard", "Incoming Guard", "Shift Hours", "Key Events", "Pending Issues", "Equipment Status", "Handover Time", "Signatures"]
+    },
+    {
+      "id": "key-register",
+      "name": "Key Issue Register",
+      "description": "Log for tracking key issuance and return. Covers all keys, access cards, and secure area passes.",
+      "category": "access",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/key-register.pdf",
+      "previewFields": ["Date", "Key ID/Description", "Issued To", "Department", "Purpose", "Issue Time", "Return Time", "Guard Signature"]
+    },
+    {
+      "id": "security-audit-checklist",
+      "name": "Security Audit Checklist",
+      "description": "Comprehensive 50-point audit checklist covering physical security, CCTV, access control, fire safety, and documentation compliance.",
+      "category": "legal",
+      "format": "PDF",
+      "pages": 3,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/security-audit-checklist.pdf",
+      "previewFields": ["Perimeter Security", "Access Control", "CCTV Systems", "Fire Safety", "Documentation", "Guard Deployment", "Emergency Preparedness"]
+    },
+    {
+      "id": "emergency-contact-card",
+      "name": "Emergency Contact Card",
+      "description": "Wallet-sized emergency contact card for guards. Includes police, fire, medical, and company emergency contacts.",
+      "category": "operations",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["all"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/emergency-contact-card.pdf",
+      "previewFields": ["Police Control Room", "Fire Station", "Ambulance", "Company Emergency", "Control Room", "Supervisor Mobile"]
+    },
+    {
+      "id": "vehicle-entry-log",
+      "name": "Vehicle Entry/Exit Log",
+      "description": "Log for tracking vehicle movement in and out of premises. Includes driver details, purpose, and material movement.",
+      "category": "access",
+      "format": "PDF",
+      "pages": 1,
+      "sectors": ["corporate", "industrial", "logistics"],
+      "lastUpdated": "2026-01-15",
+      "downloadUrl": "/templates/vehicle-entry-log.pdf",
+      "previewFields": ["Date", "Vehicle Number", "Type", "Driver Name", "Driver ID", "Purpose", "Material Details", "Time In/Out", "Seal Number"]
+    }
+  ]
+}

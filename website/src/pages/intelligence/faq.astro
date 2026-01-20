@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import { getCollection } from 'astro:content';
+
+const rawQna = (await getCollection('qna'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Pre-render content and extract plain text for FAQ schema
+const qna = await Promise.all(rawQna.map(async (item) => {
+  const { Content, remarkPluginFrontmatter } = await item.render();
+  return { ...item, Content };
+}));
+
+// Group by Sector for better UX
+const groupedQna = qna.reduce((acc, item) => {
+  const sector = item.data.sector || 'General';
+  if (!acc[sector]) acc[sector] = [];
+  acc[sector].push(item);
+  return acc;
+}, {} as Record<string, typeof qna>);
+
+// Generate FAQ items for schema (use first 10 for schema)
+const faqItems = rawQna.slice(0, 10).map(item => ({
+  question: item.data.question,
+  answer: item.data.shortAnswer || `Expert answer from ${item.data.answeredBy}. See full response on our Intelligence Bank.`
+}));
+
+const title = "Intelligence Bank | SPS";
+const description = "Command Centre Knowledge Base. Expert answers to critical security compliance questions.";
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Intelligence', url: '/intelligence' },
+  { name: 'FAQ', url: '/intelligence/faq' }
+];
+---
+
+<Layout title={title} description={description} type="FAQPage" faqItems={faqItems} breadcrumbs={breadcrumbs}>
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      
+      <!-- Header -->
+      <div class="border-b border-neutral-800 pb-12 mb-16">
+        <span class="text-success font-bold tracking-widest text-sm block mb-4">COMMAND CENTRE // KNOWLEDGE BASE</span>
+        <h1 class="text-heading-1 text-white mb-6">INTELLIGENCE BANK</h1>
+        <p class="text-xl text-neutral-400 font-mono max-w-3xl">
+          Operational answers. Regulatory clarity. <br/>
+          Direct from the SPS Standards Committee.
+        </p>
+      </div>
+
+      <!-- QnA Grid -->
+      <div class="space-y-20">
+        {Object.entries(groupedQna).map(([sector, items]) => (
+          <div class="scroll-mt-32" id={sector.toLowerCase().replace(/\s+/g, '-')}>
+            <h2 class="text-4xl font-black text-white mb-8 flex items-center gap-4">
+              <span class="w-4 h-4 bg-primary-accent block"></span>
+              {sector}
+            </h2>
+            
+            <div class="grid grid-cols-1 gap-6">
+              {items.map((item) => (
+                <details class="group bg-neutral-900 border border-neutral-800 open:border-neutral-700 transition-all duration-300">
+                  <summary class="flex justify-between items-start cursor-pointer p-6 list-none">
+                    <div class="pr-8">
+                       <h3 class="text-xl font-bold text-neutral-200 group-open:text-primary-accent transition-colors">
+                         {item.data.question}
+                       </h3>
+                       <div class="text-xs font-mono text-neutral-500 mt-2">
+                         ASKED BY: {item.data.role} • {item.data.date.toLocaleDateString('en-GB')}
+                       </div>
+                    </div>
+                    <span class="text-primary-accent text-2xl font-bold group-open:rotate-45 transition-transform duration-300">+</span>
+                  </summary>
+                  
+                  <div class="px-6 pb-8 pt-2">
+                    <div class="prose prose-invert max-w-none prose-p:text-neutral-400 prose-a:text-primary-accent border-t border-neutral-800 pt-6">
+                      <item.Content />
+                    </div>
+                    <div class="mt-6 flex items-center gap-2 text-xs font-mono text-success bg-neutral-950 inline-block px-3 py-1 border border-neutral-800">
+                       VERIFIED BY: {item.data.answeredBy}
+                    </div>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+</Layout>

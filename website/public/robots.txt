@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sps-security.com/sitemap-index.xml
+
+# Block Admin/Private Routes
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /private

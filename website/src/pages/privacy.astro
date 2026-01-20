@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SideDrawer from '../components/SideDrawer.astro';
+
+const lastUpdated = "17 January 2026";
+---
+
+<Layout title="Privacy Doctrine | SPS" description="Our commitment to data sovereignty and compliance with the Digital Personal Data Protection (DPDP) Act, 2023.">
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <h1 class="text-heading-1 text-primary-accent mb-6">DATA SOVEREIGNTY DOCTRINE</h1>
+      <p class="text-xl text-neutral-400 font-mono mb-12">
+        LAST UPDATED: {lastUpdated} | REF: SPS-DPDP-2026-V1
+      </p>
+
+      <div class="prose prose-invert prose-lg max-w-4xl">
+        <p class="lead text-2xl text-white font-light mb-12">
+          We secure your data with the same rigour as we secure your perimeter. In compliance with the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>, this document outlines our role as a Data Fiduciary.
+        </p>
+
+        <h2 class="text-compliance mt-12 mb-6">1. The Principle of Minimal Collection</h2>
+        <p>
+          We adhere to Section 6 of the DPDP Act. We collect only the personal data that is strictly necessary for the specified purpose of security auditing, personnel deployment, or threat intelligence.
+        </p>
+        <p>
+          <strong>Data Points We Collect:</strong>
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-neutral-300">
+          <li><strong>Identity Data:</strong> Name, Government ID (Aadhaar/PAN for verification via authorized APIs only).</li>
+          <li><strong>Contact Data:</strong> Corporate email, phone number, operational address.</li>
+          <li><strong>Biometric Data:</strong> (For access control clients only) Fingerprint templates/Facial vectors. Note: We store encrypted hashes, not raw images.</li>
+          <li><strong>Surveillance Data:</strong> CCTV footage from managed sites (Retained for 30-90 days as per contract).</li>
+        </ul>
+
+        <h2 class="text-compliance mt-12 mb-6">2. Purpose & Usage</h2>
+        <p>
+          Your data is processed solely for:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-neutral-300">
+          <li><strong>Operational Security:</strong> Deploying personnel and verifying credentials.</li>
+          <li><strong>Compliance Reporting:</strong> Generating audit reports for PSARA and ISO requirements.</li>
+          <li><strong>Emergency Response:</strong> Contacting designated stakeholders during a Code Red/Violet incident.</li>
+        </ul>
+        <p>
+          We <strong>never</strong> sell, trade, or monetise your data. We are a security firm, not an advertising broker.
+        </p>
+
+        <h2 class="text-compliance mt-12 mb-6">3. Data Sovereignty & Storage</h2>
+        <p>
+          In strict adherence to the data localization norms:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-neutral-300">
+          <li><strong>Primary Storage:</strong> All sensitive data is hosted on Tier-4 data centres physically located within the Republic of India (Mumbai/Hyderabad zones).</li>
+          <li><strong>Encryption:</strong> Data at rest is encrypted using AES-256 standards. Data in transit is secured via TLS 1.3.</li>
+        </ul>
+
+        <h2 class="text-compliance mt-12 mb-6">4. Your Rights (Section 11, DPDP Act)</h2>
+        <p>
+          As a Data Principal, you possess the following non-negotiable rights:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-neutral-300">
+          <li><strong>Right to Access:</strong> You may request a summary of all personal data we hold about you.</li>
+          <li><strong>Right to Correction:</strong> You may demand correction of inaccurate or misleading data.</li>
+          <li><strong>Right to Erasure:</strong> You may request the deletion of your data once the purpose (e.g., service contract) is fulfilled, subject to retention laws (PSARA mandates 3-year retention for certain logs).</li>
+          <li><strong>Right to Grievance Redressal:</strong> You may contact our Data Protection Officer (DPO) directly.</li>
+        </ul>
+
+        <h2 class="text-compliance mt-12 mb-6">5. Contact the Data Protection Officer</h2>
+        <p>
+          For any privacy concerns or to exercise your rights:
+        </p>
+        <div class="bg-neutral-900 border border-neutral-700 p-6 mt-4">
+          <p class="font-bold text-white mb-2">Col. (Retd.) V.K. Singh</p>
+          <p class="text-sm text-neutral-400 mb-1">Data Protection Officer</p>
+          <p class="text-sm text-primary-accent font-mono">dpo@sps-security.com</p>
+          <p class="text-sm text-neutral-400 mt-4">
+            SPS Headquarters<br/>
+            12/B, Industrial Area, Andheri East<br/>
+            Mumbai - 400093
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

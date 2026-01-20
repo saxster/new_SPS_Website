@@ -1,0 +1,92 @@
+import { useState } from 'preact/hooks';
+
+export default function AskExpertWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState('input'); // input, processing, result
+  const [query, setQuery] = useState('');
+  const [response, setResponse] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStep('processing');
+    
+    // Simulate API call to Agent
+    setTimeout(() => {
+      setResponse(`SPS INTELLIGENCE DESK:
+      
+Regarding "${query}":
+
+OFFICIAL STANCE:
+This falls under the purview of standard perimeter protocols.
+
+STRATEGIC ADVICE:
+Ensure 3-layer redundancy. Relying on a single point of failure is unacceptable in high-threat environments.`);
+      setStep('result');
+    }, 2000);
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+      
+      {/* Chat Window */}
+      {isOpen && (
+        <div className="mb-4 w-80 bg-black border border-amber-500/50 shadow-2xl animate-fade-in-up">
+          <div className="bg-amber-500/10 p-3 border-b border-amber-500/30 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+              <span className="text-xs font-bold text-amber-500 tracking-widest uppercase">Intel Desk Online</span>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="text-amber-500 hover:text-white">×</button>
+          </div>
+          
+          <div className="p-4 min-h-[200px] max-h-[400px] overflow-y-auto font-mono text-sm">
+            {step === 'input' && (
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <p className="text-neutral-400 text-xs uppercase mb-2">Secure Line Open. State your query.</p>
+                <textarea 
+                  value={query}
+                  onInput={(e) => setQuery(e.target.value)}
+                  className="w-full bg-neutral-900 border border-neutral-700 p-2 text-white focus:border-amber-500 outline-none h-24"
+                  placeholder="e.g. Protocol for chemical spill containment?"
+                  required
+                />
+                <button type="submit" className="w-full bg-amber-500/20 border border-amber-500/50 text-amber-500 py-2 hover:bg-amber-500 hover:text-black transition-all uppercase text-xs font-bold">
+                  Transmit Query
+                </button>
+              </form>
+            )}
+
+            {step === 'processing' && (
+              <div className="text-center py-8 text-amber-500">
+                <div className="animate-spin text-2xl mb-2">✛</div>
+                <p className="animate-pulse text-xs">ENCRYPTING TRANSMISSION...</p>
+                <p className="text-[10px] text-neutral-500 mt-2">Connecting to Knowledge Graph...</p>
+              </div>
+            )}
+
+            {step === 'result' && (
+              <div className="space-y-4">
+                <div className="bg-neutral-900 p-3 border-l-2 border-amber-500">
+                   <p className="text-neutral-300 whitespace-pre-wrap leading-relaxed">{response}</p>
+                </div>
+                <button onClick={() => { setStep('input'); setQuery(''); }} className="text-xs text-neutral-500 hover:text-amber-500 underline">
+                  New Transmission
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Toggle Button */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="group flex items-center gap-3 bg-amber-500 text-black px-4 py-3 font-bold uppercase tracking-wider shadow-lg hover:bg-white transition-all clip-path-slant"
+        style={{ clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 20%)' }}
+      >
+        <span className="text-xl">❖</span>
+        <span className="text-sm">Ask Expert</span>
+      </button>
+    </div>
+  );
+}

@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ComplianceCalculator from '../../components/tools/ComplianceCalculator.astro';
+
+const title = "Compliance Calculator | SPS";
+const description = "Automated audit tool for Indian physical security regulations (PSARA, NBC, DPDP, State Acts).";
+---
+
+<Layout title={title} description={description}>
+  <div class="pt-32 pb-24 min-h-screen bg-neutral-950">
+    <div class="brutalist-container max-w-4xl mx-auto px-6">
+      <div class="mb-12 text-center">
+        <h1 class="text-heading-1 mb-4">REGULATORY <span class="text-compliance">COMPLIANCE</span></h1>
+        <p class="text-body text-xl text-neutral-400 max-w-2xl mx-auto">
+          India's regulatory landscape is fragmented. Use our calculator to determine baseline requirements for your facility type.
+        </p>
+      </div>
+      
+      <ComplianceCalculator />
+      
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div class="p-6 border border-neutral-800">
+          <div class="text-4xl mb-4">📜</div>
+          <h3 class="font-bold text-white mb-2">PSARA 2005</h3>
+          <p class="text-sm text-neutral-500">Private Security Agencies Regulation Act compliance checks.</p>
+        </div>
+        <div class="p-6 border border-neutral-800">
+          <div class="text-4xl mb-4">🔥</div>
+          <h3 class="font-bold text-white mb-2">NBC 2016</h3>
+          <p class="text-sm text-neutral-500">National Building Code (Part 4) Fire & Life Safety norms.</p>
+        </div>
+        <div class="p-6 border border-neutral-800">
+          <div class="text-4xl mb-4">🔒</div>
+          <h3 class="font-bold text-white mb-2">DPDP 2023</h3>
+          <p class="text-sm text-neutral-500">Digital Personal Data Protection Act privacy mandates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

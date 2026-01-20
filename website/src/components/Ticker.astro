@@ -1,0 +1,173 @@
+---
+// Server-side: Show connecting message until client-side hydrates with real data
+const initialMessage = ["CONNECTING TO LIVE INTEL FEEDS..."];
+---
+
+<div id="ticker-container" class="bg-black border-b border-neutral-800 h-10 flex items-center overflow-hidden relative z-50 group cursor-default">
+  <div class="px-4 h-full flex items-center bg-primary-accent text-black text-xs font-black tracking-widest uppercase shrink-0 z-10">
+    LIVE INTEL
+  </div>
+
+  <div id="ticker-track" class="whitespace-nowrap flex items-center animate-ticker hover:paused">
+    <!-- Initial Server Render - Shows connecting message -->
+    {initialMessage.map((alert) => (
+      <div class="inline-flex items-center mx-8">
+        <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3 animate-pulse"></span>
+        <span class="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+          {alert}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-ticker {
+    animation: ticker 60s linear infinite;
+  }
+  .hover\:paused:hover {
+    animation-play-state: paused;
+  }
+</style>
+
+<script>
+  // Client-side: Fetch ONLY real intelligence data - NO dummy/placeholder content
+  async function initTicker() {
+    const track = document.getElementById('ticker-track');
+    if (!track) return;
+
+    const alerts: string[] = [];
+
+    // 1. Fetch from Intel Proxy API (same as dashboard)
+    try {
+      // GDACS disasters
+      const gdacsRes = await fetch('/api/intel-proxy?source=gdacs');
+      if (gdacsRes.ok) {
+        const gdacsData = await gdacsRes.json();
+        gdacsData.features?.slice(0, 3).forEach((f: any) => {
+          const eventName = f.properties?.eventname || f.properties?.alertlevel || 'Alert';
+          const country = f.properties?.country || 'Global';
+          alerts.push(`DISASTER: ${eventName} - ${country}`);
+        });
+      }
+    } catch (e) { console.warn('GDACS feed error:', e); }
+
+    try {
+      // USGS earthquakes
+      const usgsRes = await fetch('/api/intel-proxy?source=usgs');
+      if (usgsRes.ok) {
+        const usgsData = await usgsRes.json();
+        usgsData.features?.slice(0, 3).forEach((f: any) => {
+          const mag = f.properties?.mag;
+          const place = f.properties?.place || 'Unknown Location';
+          if (mag) {
+            alerts.push(`EARTHQUAKE: M${Number(mag).toFixed(1)} ${place}`);
+          }
+        });
+      }
+    } catch (e) { console.warn('USGS feed error:', e); }
+
+    try {
+      // SWPC space weather
+      const swpcRes = await fetch('/api/intel-proxy?source=swpc');
+      if (swpcRes.ok) {
+        const swpcData = await swpcRes.json();
+        if (Array.isArray(swpcData)) {
+          swpcData.slice(0, 2).forEach((alert: any) => {
+            const message = alert.message || '';
+            const lines = message.split('\n');
+            const alertLine = lines.find((l: string) =>
+              l.startsWith('ALERT') || l.startsWith('WARNING') || l.startsWith('WATCH')
+            );
+            if (alertLine) {
+              alerts.push(`SPACE WEATHER: ${alertLine.substring(0, 80)}`);
+            }
+          });
+        }
+      }
+    } catch (e) { console.warn('SWPC feed error:', e); }
+
+    // 2. Fetch The Hacker News RSS for cyber security headlines
+    try {
+      const rssRes = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://feeds.feedburner.com/TheHackersNews');
+      if (rssRes.ok) {
+        const rssData = await rssRes.json();
+        if (rssData.status === 'ok' && rssData.items) {
+          rssData.items.slice(0, 5).forEach((item: any) => {
+            alerts.push(`CYBER: ${item.title}`);
+          });
+        }
+      }
+    } catch (e) { console.warn('RSS feed error:', e); }
+
+    // 4. Fetch Sector News if preference exists
+    const preferredSector = localStorage.getItem('sps_sector_preference');
+    if (preferredSector) {
+        try {
+            const newsRes = await fetch(`/api/news-wire?sector=${preferredSector}`);
+            if (newsRes.ok) {
+                const newsData = await newsRes.json();
+                newsData.articles?.slice(0, 5).forEach((a: any) => {
+                    alerts.unshift(`WATCH [${preferredSector.toUpperCase()}]: ${a.title}`);
+                });
+            }
+        } catch (e) { console.warn('Sector news feed error:', e); }
+    }
+
+    // 5. Render alerts
+    if (alerts.length > 0) {
+      // Duplicate for seamless CSS loop
+      const displayList = [...alerts, ...alerts];
+
+      track.innerHTML = displayList.map(alert => {
+        // Determine color based on alert type
+        let colorClass = 'bg-critical';
+        if (alert.startsWith('WATCH')) colorClass = 'bg-primary-accent';
+        else if (alert.startsWith('CYBER:')) colorClass = 'bg-orange-500';
+        else if (alert.startsWith('EARTHQUAKE:')) colorClass = 'bg-yellow-500';
+        else if (alert.startsWith('SPACE WEATHER:')) colorClass = 'bg-purple-500';
+        else if (alert.startsWith('DISASTER:')) colorClass = 'bg-red-500';
+
+        return `
+          <div class="inline-flex items-center mx-8">
+            <span class="w-2 h-2 ${colorClass} rounded-full mr-3 animate-pulse"></span>
+            <span class="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+              ${alert}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      // Adjust animation speed based on content length
+      const totalLength = alerts.reduce((sum, a) => sum + a.length, 0);
+      const duration = Math.max(30, totalLength * 0.3);
+      track.style.animationDuration = `${duration}s`;
+    } else {
+      // No data available - show status message (NOT fake data)
+      track.innerHTML = `
+        <div class="inline-flex items-center mx-8">
+          <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3 animate-pulse"></span>
+          <span class="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+            INTEL FEEDS: AWAITING DATA...
+          </span>
+        </div>
+        <div class="inline-flex items-center mx-8">
+          <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3 animate-pulse"></span>
+          <span class="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+            INTEL FEEDS: AWAITING DATA...
+          </span>
+        </div>
+      `;
+    }
+  }
+
+  // Initialize on load
+  initTicker();
+
+  // Refresh every 5 minutes
+  setInterval(initTicker, 5 * 60 * 1000);
+</script>

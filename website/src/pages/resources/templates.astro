@@ -1,0 +1,193 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import templatesData from '../../data/templates.json';
+---
+
+<Layout
+  title="Security Templates & Forms | SPS"
+  description="Download free security templates: incident reports, CCTV logs, visitor registers, patrol logs, Section 65B certificates, and compliance checklists for Indian facilities."
+>
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <div class="mb-12">
+        <div class="inline-block px-2 py-1 bg-primary-accent/10 border border-primary-accent/30 text-primary-accent text-xs font-mono mb-4 uppercase tracking-widest">
+          Resource Library
+        </div>
+        <h1 class="text-heading-1 text-primary-accent mb-4">SECURITY TEMPLATES</h1>
+        <p class="text-xl text-neutral-400 font-mono mb-4">
+          // ACCESS LEVEL: PUBLIC<br/>
+          // FORMAT: PDF DOWNLOADS
+        </p>
+        <p class="text-neutral-400 max-w-3xl">
+          Professionally designed templates for security operations, incident documentation, and compliance.
+          All templates are free to download and use. Updated for Indian legal requirements including BNS/BNSS/BSA.
+        </p>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="flex flex-wrap gap-3 mb-12">
+        <button
+          class="category-btn px-4 py-2 text-sm font-mono uppercase tracking-wider border border-neutral-700 bg-neutral-900 text-white hover:border-primary-accent transition-colors"
+          data-category="all"
+        >
+          All Templates
+        </button>
+        {templatesData.categories.map(cat => (
+          <button
+            class="category-btn px-4 py-2 text-sm font-mono uppercase tracking-wider border border-neutral-700 bg-neutral-900 text-neutral-400 hover:border-primary-accent hover:text-white transition-colors"
+            data-category={cat.id}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+
+      <!-- Templates Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="templates-grid">
+        {templatesData.templates.map(template => (
+          <div
+            class="template-card brutalist-card bg-neutral-900 border border-neutral-800 hover:border-primary-accent transition-all group"
+            data-category={template.category}
+          >
+            <div class="flex items-start justify-between mb-4">
+              <span class="text-3xl">
+                {template.category === 'incident' && '📝'}
+                {template.category === 'surveillance' && '📹'}
+                {template.category === 'access' && '🚪'}
+                {template.category === 'legal' && '⚖️'}
+                {template.category === 'operations' && '🛡️'}
+              </span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono text-neutral-500 uppercase">{template.format}</span>
+                <span class="text-xs font-mono text-neutral-500">|</span>
+                <span class="text-xs font-mono text-neutral-500">{template.pages} page{template.pages > 1 ? 's' : ''}</span>
+              </div>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-primary-accent transition-colors">
+              {template.name}
+            </h3>
+
+            <p class="text-sm text-neutral-400 mb-4 line-clamp-3">
+              {template.description}
+            </p>
+
+            <!-- Preview Fields -->
+            <div class="mb-4">
+              <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Includes</div>
+              <div class="flex flex-wrap gap-1">
+                {template.previewFields.slice(0, 5).map(field => (
+                  <span class="text-xs px-2 py-1 bg-neutral-950 border border-neutral-800 text-neutral-400">
+                    {field}
+                  </span>
+                ))}
+                {template.previewFields.length > 5 && (
+                  <span class="text-xs px-2 py-1 text-neutral-500">
+                    +{template.previewFields.length - 5} more
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-neutral-800">
+              <span class="text-xs text-neutral-500">
+                Updated: {new Date(template.lastUpdated).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+              </span>
+              <a
+                href={template.downloadUrl}
+                class="inline-flex items-center gap-2 px-4 py-2 bg-primary-accent/10 border border-primary-accent/30 text-primary-accent text-sm font-bold uppercase tracking-wider hover:bg-primary-accent hover:text-black transition-all"
+                download
+              >
+                <span>Download</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Usage Note -->
+      <div class="mt-12 p-6 bg-neutral-900 border border-neutral-800">
+        <h3 class="text-lg font-bold text-white mb-4">How to Use These Templates</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-neutral-400">
+          <div>
+            <div class="text-primary-accent font-bold mb-2">1. Download</div>
+            <p>Click the download button to save the PDF to your device. All templates are print-ready on A4 paper.</p>
+          </div>
+          <div>
+            <div class="text-primary-accent font-bold mb-2">2. Customize</div>
+            <p>Add your company logo and contact details. You can edit PDFs using Adobe Acrobat or free tools like PDFescape.</p>
+          </div>
+          <div>
+            <div class="text-primary-accent font-bold mb-2">3. Implement</div>
+            <p>Train your team on proper form completion. Store completed forms securely as per your retention policy.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request Template -->
+      <div class="mt-8 p-6 bg-compliance/10 border border-compliance/30">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-lg font-bold text-white mb-1">Need a Custom Template?</h4>
+            <p class="text-sm text-neutral-400">Contact us for sector-specific or customised templates for your organisation.</p>
+          </div>
+          <a
+            href="/contact"
+            class="px-6 py-3 bg-compliance text-black font-bold uppercase tracking-wider hover:bg-compliance/80 transition-colors"
+          >
+            Request Template
+          </a>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="mt-8 p-4 bg-amber-900/10 border border-amber-500/20 text-amber-500 text-xs font-mono">
+        These templates are provided for general guidance. Verify compliance with your local laws and industry-specific regulations.
+        Legal templates (Section 65B certificates) should be reviewed by your legal counsel before use in proceedings.
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  const templateCards = document.querySelectorAll('.template-card');
+
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.dataset.category;
+
+      // Update button states
+      categoryBtns.forEach(b => {
+        b.classList.remove('border-primary-accent', 'text-white');
+        b.classList.add('border-neutral-700', 'text-neutral-400');
+      });
+      btn.classList.remove('border-neutral-700', 'text-neutral-400');
+      btn.classList.add('border-primary-accent', 'text-white');
+
+      // Filter cards
+      templateCards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import StorageCalculator from '../../components/tools/StorageCalculator.astro';
+---
+
+<Layout
+  title="CCTV Storage Calculator | SPS"
+  description="Calculate CCTV storage requirements based on camera count, resolution, frame rate, and retention period. Get NVR and hard drive recommendations for your surveillance system."
+>
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <div class="mb-12">
+        <a href="/tools" class="text-neutral-500 hover:text-primary-accent text-sm font-mono uppercase tracking-wider mb-4 inline-block">
+          ← Back to Tools
+        </a>
+        <h1 class="text-heading-1 text-primary-accent mb-4">CCTV STORAGE CALCULATOR</h1>
+        <p class="text-xl text-neutral-400 font-mono mb-8">
+          // UTILITY: SURVEILLANCE PLANNING<br/>
+          // VERSION: 2.0
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Calculator -->
+        <div class="lg:col-span-2">
+          <StorageCalculator />
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="space-y-8">
+          <!-- Quick Reference -->
+          <div class="brutalist-card bg-neutral-900 border border-neutral-800">
+            <h3 class="text-lg font-bold text-white mb-4">QUICK REFERENCE</h3>
+
+            <div class="space-y-4 text-sm">
+              <div>
+                <div class="text-xs font-bold text-compliance uppercase mb-2">Resolution Guide</div>
+                <ul class="text-neutral-400 space-y-1">
+                  <li><strong>1080p (2MP)</strong> — Entry lobbies, corridors</li>
+                  <li><strong>4MP</strong> — General coverage areas</li>
+                  <li><strong>4K (8MP)</strong> — Cash counters, license plates</li>
+                  <li><strong>12MP</strong> — Wide area, forensic detail</li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="text-xs font-bold text-primary-accent uppercase mb-2">Frame Rate Guide</div>
+                <ul class="text-neutral-400 space-y-1">
+                  <li><strong>10-15 FPS</strong> — Static scenes (parking lots)</li>
+                  <li><strong>20-25 FPS</strong> — Normal activity</li>
+                  <li><strong>30 FPS</strong> — Fast movement, gaming areas</li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="text-xs font-bold text-success uppercase mb-2">Codec Comparison</div>
+                <ul class="text-neutral-400 space-y-1">
+                  <li><strong>H.264</strong> — Universal compatibility</li>
+                  <li><strong>H.265</strong> — 50% less storage, modern</li>
+                  <li><strong>H.265+</strong> — Smart compression, 80% savings in low-motion</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Retention Requirements -->
+          <div class="brutalist-card bg-neutral-900 border border-neutral-800">
+            <h3 class="text-lg font-bold text-white mb-4">RETENTION MANDATES</h3>
+
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">Banks / NBFCs</span>
+                <span class="text-compliance font-bold">90 days</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">Schools (CBSE)</span>
+                <span class="text-compliance font-bold">60 days</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">Hospitals</span>
+                <span class="text-compliance font-bold">30 days</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">Hotels</span>
+                <span class="text-compliance font-bold">30 days</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">Jewellers (BIS)</span>
+                <span class="text-compliance font-bold">45 days</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-neutral-950 border border-neutral-800">
+                <span class="text-neutral-400">General Commercial</span>
+                <span class="text-compliance font-bold">30 days</span>
+              </div>
+            </div>
+
+            <a href="/tools/compliance-calculator" class="block mt-4 text-xs text-primary-accent hover:text-white uppercase tracking-wider">
+              Check State-Specific Requirements →
+            </a>
+          </div>
+
+          <!-- Formula Reference -->
+          <div class="brutalist-card bg-neutral-900 border border-neutral-800">
+            <h3 class="text-lg font-bold text-white mb-4">CALCULATION FORMULA</h3>
+
+            <div class="text-xs font-mono text-neutral-400 p-4 bg-neutral-950 border border-neutral-800">
+              <div class="text-compliance mb-2">// Storage per camera per day</div>
+              <div>Bitrate (Mbps) × 3600 × Hours</div>
+              <div>÷ 8 ÷ 1024 = GB/day</div>
+              <div class="mt-4 text-compliance">// Approximate bitrate</div>
+              <div>Resolution (MP) × FPS × 0.08</div>
+              <div>× Codec Factor = Mbps</div>
+            </div>
+
+            <p class="text-xs text-neutral-500 mt-4">
+              Actual bitrate varies with scene complexity. Static scenes use 30-40% less. High-motion scenes may use 20-30% more.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

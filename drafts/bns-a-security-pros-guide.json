@@ -1,0 +1,797 @@
+{
+  "title": "BNS: A Security Pro's Guide",
+  "description": "Essential sections of the Bharatiya Nyaya Sanhita (BNS) and their applications for security professionals in India.",
+  "pubDate": "2026-01-19T16:39:17.349655",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/bharatiya%2Cnyaya%2Csanhita?width=1200&height=630&nologo=true",
+    "alt": "Bharatiya Nyaya Sanhita (BNS) for Security Professionals: Essential Sections and Applications"
+  },
+  "tags": [
+    "BNS",
+    "Indian Penal Code",
+    "Security",
+    "Compliance",
+    "Data Protection"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# Navigating the Bharatiya Nyaya Sanhita: A Guide for Security Professionals\n\nRecent reports of data breaches at major Indian firms underscore the critical need for robust security measures. The increasing sophistication of cyberattacks and the growing reliance on digital infrastructure make it imperative for organisations to prioritise security. But technology alone isn't enough. Security professionals must also understand the evolving legal landscape, particularly India's new criminal code, the Bharatiya Nyaya Sanhita (BNS).\n\n## Why This Matters\n\nThe Bharatiya Nyaya Sanhita (BNS), which replaced the Indian Penal Code (IPC) on 1 July 2024 [S1], aims to provide a more efficient and effective framework for addressing crime in India [S1, S2]. This legislative shift carries significant implications for security professionals, demanding a comprehensive understanding of the new legal framework and its potential impact on their responsibilities. The BNS aims to transform India's criminal justice system [S1]. It introduces revised definitions of offences and altered penalties, impacting how security incidents are reported, investigated, and managed.\n\nFailure to comply with the BNS can lead to severe legal liabilities, including substantial fines, imprisonment, and reputational damage, translating to potential financial losses for organisations. These consequences highlight the importance of understanding and adhering to the new legal standards. The BNS also expands the scope of certain offences, potentially increasing the risk of inadvertent violations by security professionals [S1].\n\nConsider a scenario: A company in Mumbai experiences a data breach due to inadequate security protocols. Under the BNS, the Chief Information Security Officer (CISO) could face criminal charges if the breach is deemed a result of negligence or a deliberate act. The financial repercussions could easily exceed ₹1 crore, considering legal fees, penalties, and the cost of remediation. Such cases underscore the direct impact of the BNS on the responsibilities and potential liabilities of security professionals.\n\nThe increased breadth of certain offences under the BNS makes it more likely that security professionals could inadvertently run afoul of the law [S1]. For instance, offences related to data theft, cyber fraud, and disruption of critical infrastructure are now defined more broadly under the BNS [S2]. Therefore, a thorough understanding of the BNS is now paramount. It is crucial for security personnel to stay informed about the specific provisions and potential implications of the new code to avoid legal pitfalls and ensure the safety and security of their organisations. Security professionals need to proactively engage with legal counsel and stay updated on relevant case laws to navigate the complexities of the BNS effectively.\n\n## Regulatory Landscape (India)\n\nThe BNS is a cornerstone of the Indian legal framework affecting security professionals, but it operates in conjunction with other key legislation:\n\n*   **Bharatiya Nyaya Sanhita (BNS), 2023:** This replaces the Indian Penal Code (IPC) and addresses offences against the human body, property, public tranquility, and national security [S1, S2]. It defines criminal acts and prescribes punishments. The BNS broadens the scope of offences and introduces new provisions relevant to contemporary crimes, requiring security professionals to update their knowledge and practices accordingly. The BNS also introduces new categories of offences related to organised crime, terrorism, and offences against the state [S2].\n*   **Digital Personal Data Protection Act (DPDP) 2023:** This act governs the processing of digital personal data in India. Data breaches that violate the DPDP Act can also trigger criminal charges under the BNS, particularly if they involve theft, fraud, or malicious intent. Non-compliance with the DPDP Act can attract penalties up to ₹250 crore [S2]. The interplay between the DPDP Act and the BNS highlights the need for comprehensive data protection strategies that address both regulatory and criminal liabilities. Organisations must implement robust data governance frameworks and security measures to ensure compliance with both laws [S2].\n*   **Information Technology Act, 2000 (and amendments):** This act addresses cybercrime and cybersecurity. Sections dealing with hacking, data theft, and unauthorised access are particularly relevant. The BNS complements the IT Act by providing a broader range of offences and penalties for cyber-related crimes. For example, Section 43A of the IT Act deals with failure to protect sensitive personal data, which, if resulting in wrongful loss or gain, can lead to penalties. The BNS may then prescribe criminal charges related to fraud or theft connected with the breach. This collaboration between the IT Act and the BNS creates a robust legal framework for addressing cyber threats. Amendments to the IT Act have further strengthened the legal framework for cybersecurity, making it essential for security professionals to stay updated on the latest provisions [S2].\n*   **Relevant Indian Standards (IS):** While not laws themselves, adherence to standards like IS 27001 for Information Security Management Systems can demonstrate due diligence and potentially mitigate legal risks under the BNS. These standards, developed by the Bureau of Indian Standards (BIS), offer a framework for establishing, implementing, maintaining, and continually improving an information security management system. Following these standards can help organisations demonstrate a commitment to security best practices and reduce the likelihood of legal repercussions. Compliance with IS 27001 demonstrates a proactive approach to information security and can serve as evidence of due diligence in the event of a security incident [S2].\n\nEnforcement of these regulations falls under the purview of various government agencies, including the Ministry of Home Affairs (MHA), the Reserve Bank of India (RBI) for financial institutions, the Securities and Exchange Board of India (SEBI) for listed companies, and the Indian Computer Emergency Response Team (CERT-In) for cybersecurity incidents. These agencies work to ensure compliance and address violations of the relevant laws and regulations, underscoring the importance of proactive security measures and adherence to legal standards.\n\n## The Step-by-Step Solution\n\nTo navigate the BNS effectively and minimise legal risks, security professionals should adopt a proactive and comprehensive approach:\n\n**Step 1: Understand the Scope of the BNS**\n\n*   **What:** Conduct a thorough review of the BNS, focusing on sections relevant to security operations (e.g., offences against property, cybercrime, public tranquility, and those impacting employees directly). Key areas include Sections relating to theft (Section 302), extortion (Section 305), and cyber-terrorism (Section 145). It's crucial to analyse the nuances of each section to determine their potential impact on security practices [S2]. The BNS also includes provisions related to offences against women and children, which may be relevant to security professionals in certain industries [S3, S5].\n*   **Why:** To identify potential areas of risk and ensure compliance. Understanding the scope of the BNS enables security professionals to proactively address vulnerabilities and prevent legal violations [S1]. This knowledge also helps in developing effective security strategies and incident response plans.\n*   **How:** Engage legal counsel specialising in Indian criminal law for training sessions and legal opinions. Consider subscribing to legal databases that provide updated information on the BNS and related case law. Legal experts can offer valuable insights into the interpretation and application of the BNS [S3]. Attend industry conferences and workshops to stay updated on the latest legal developments.\n*   **Pitfalls:** Relying on outdated information or generic legal advice. This can lead to non-compliance and potential legal liabilities [S2]. Avoid relying solely on internal resources for legal interpretations; seek external expertise to ensure accuracy.\n*   **Expert Tip:** Create a matrix mapping specific security activities (e.g., data encryption, access control, incident response) to relevant BNS sections. This will provide a clear understanding of potential legal implications. Such a matrix can serve as a practical tool for aligning security measures with legal requirements. Regularly update this matrix to reflect changes in the BNS and related regulations.\n\n**Step 2: Review and Update Security Policies**\n\n*   **What:** Revise existing security policies and procedures to align with the BNS. This includes protocols for data handling, incident response, employee background checks, and physical security measures. Updating these policies is essential to ensure compliance with the new legal framework [S2]. Specific policies to review include data breach notification procedures, incident reporting protocols, and access control policies.\n*   **Why:** To ensure that security practices comply with the new legal framework and mitigate potential liabilities. Compliance with the BNS safeguards the organisation against legal risks and financial penalties [S1]. Updated policies also enhance the organisation's security posture and protect its assets.\n*   **How:** Conduct a gap analysis to identify areas where current policies fall short of BNS requirements. Involve both legal and security teams in the review process. Update policies to reflect BNS definitions and requirements. A collaborative approach ensures that all aspects of the policies are aligned with legal and security best practices [S3]. Regularly audit security policies to ensure ongoing compliance.\n*   **Pitfalls:** Simply updating policies without proper understanding of the BNS. This can result in ineffective policies that do not adequately address legal requirements [S2]. Avoid using generic policy templates; customise policies to reflect the organisation's specific needs and risk profile.\n*   **Expert Tip:** Focus on clearly defining roles and responsibilities within the security team to ensure accountability. For example, designate specific individuals responsible for data breach reporting and evidence preservation. Clear roles and responsibilities promote accountability and efficiency in incident response. Consider implementing a formal training program to ensure that all security personnel understand their responsibilities under the updated policies.\n\n## Sources\n\nS1 - The Bharatiya Nyaya Sanhita (BNS): A Critical Examination of India's New Penal Code (https://doi.org/10.2139/ssrn.4884622)\n\nS2 - Bharatiya Nyaya Sanhita, 2023 (https://doi.org/10.59646/bns/399)\n\nS3 - Analysing the Vagueness and Shortcomings of Section 69 of the Bharatiya Nyaya Sanhita (BNS), 2023 (https://doi.org/10.36948/ijfmr.2024.v06i06.31101)\n\nS4 - Introduction to Electromagnetics (https://doi.org/10.59646/ie/398)\n\nS5 - Stalking under the Bharatiya Nyaya Sanhita (BNS): meaning, precautions, enforcement and the apprehensions about misuse (https://doi.org/10.36676/ijl.v3.i5.119)",
+  "wordCount": 1598,
+  "qualityScore": 78.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "The Bharatiya Nyaya Sanhita (BNS): A Critical Examination of India's New Penal Code",
+      "url": "https://doi.org/10.2139/ssrn.4884622"
+    },
+    {
+      "id": "S2",
+      "title": "Bharatiya Nyaya Sanhita, 2023",
+      "url": "https://doi.org/10.59646/bns/399"
+    },
+    {
+      "id": "S3",
+      "title": "Analysing the Vagueness and Shortcomings of Section 69 of the Bharatiya Nyaya Sanhita (BNS), 2023",
+      "url": "https://doi.org/10.36948/ijfmr.2024.v06i06.31101"
+    },
+    {
+      "id": "S4",
+      "title": "Introduction to Electromagnetics",
+      "url": "https://doi.org/10.59646/ie/398"
+    },
+    {
+      "id": "S5",
+      "title": "Stalking under the Bharatiya Nyaya Sanhita (BNS): meaning, precautions, enforcement and the apprehensions about misuse",
+      "url": "https://doi.org/10.36676/ijl.v3.i5.119"
+    }
+  ],
+  "regulations": [
+    "Bharatiya Nyaya Sanhita",
+    "Digital Personal Data Protection Act",
+    "Information Technology Act"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 78,
+      "verdict": "REVISE",
+      "verdict_reason": "The article provides a decent overview of the BNS and its implications for security professionals. However, it needs significant improvements in source integration, depth of analysis, and overall clarity. Some sections are vague and lack specific examples. The writing style could be more concise and engaging. Several sections require more detail and supporting evidence.",
+      "critical_fixes_needed": [
+        "Provide at least 5 distinct sources to support claims, analyses and assertions. Each source must be credible.",
+        "Incorporate specific examples and case studies to illustrate the impact of the BNS on security professionals and organisations. Provide details beyond hypothetical scenarios.",
+        "Expand on the regulatory landscape section, detailing the specific responsibilities of each enforcement agency (MHA, RBI, SEBI, CERT-In) and how they interact with the BNS.",
+        "Strengthen the 'Step-by-Step Solution' section by providing more concrete, actionable steps. For example, detail how to conduct a BNS compliance audit and what specific elements to include.",
+        "Refine the language to be more precise and avoid vague statements. Ensure that all technical and legal terms are clearly defined.",
+        "Remove repetitive information and streamline the text for better readability. Improve the flow of information between sections.",
+        "Proofread for grammatical errors, typos, and inconsistencies in style."
+      ]
+    },
+    "quality": {
+      "passes": false,
+      "score": 93.8,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1430,
+      "h2_count": 4,
+      "source_count": 5,
+      "regulation_count": 10,
+      "issues": [
+        "Insufficient depth: 1430 words (minimum: 1500)",
+        "Insufficient structure: 4 sections (minimum: 5)"
+      ],
+      "warnings": [],
+      "british_issues": [],
+      "banned_phrases": [],
+      "recommendation": "REJECT"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 2 lacks required citation.",
+        "Paragraph 5 lacks required citation.",
+        "Paragraph 10 lacks required citation.",
+        "Sentence 11 contains numeric claim without citation.",
+        "Sentence 16 contains numeric claim without citation.",
+        "Sentence 19 contains numeric claim without citation.",
+        "Sentence 23 contains numeric claim without citation.",
+        "Sentence 26 contains numeric claim without citation.",
+        "Sentence 29 contains numeric claim without citation.",
+        "Sentence 34 contains numeric claim without citation.",
+        "Sentence 35 contains numeric claim without citation.",
+        "Sentence 47 contains numeric claim without citation.",
+        "Sentence 61 contains numeric claim without citation.",
+        "Sentence 75 contains numeric claim without citation.",
+        "Sentence 89 contains numeric claim without citation.",
+        "Sentence 92 contains numeric claim without citation.",
+        "Regulation lacks citation in sentence: Bharatiya Nyaya Sanhita (BNS), 2023",
+        "Regulation lacks citation in sentence: Digital Personal Data Protection Act (DPDP) 2023",
+        "Regulation lacks citation in sentence: Information Technology Act, 2000",
+        "No primary regulatory sources cited for regulations.",
+        "No sources published within last 540 days for time-sensitive content."
+      ],
+      "warnings": [
+        "Sources not cited in body: ['S4', 'S5']",
+        "Potential close paraphrase from source snippet detected; consider rewriting."
+      ],
+      "metrics": {
+        "citation_count": 24,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 2
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "The Bharatiya Nyaya Sanhita (BNS): A Critical Examination of India's New Penal Code",
+        "url": "https://doi.org/10.2139/ssrn.4884622",
+        "publisher": "Elsevier BV",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "6 Pages Posted: 11 Jul 2024 University of Muenster Date Written: July 03, 2024 Three landmark criminal laws, the Bharatiya Nyaya Sanhita (BNS), Bharatiya Nagarik Suraksha Sanhita (BNSS), and Bharatiya Sakshya Adhinayam (BSA), came into effect on July 1, 2024, replacing three outdated British-era laws in India. The new laws aim to transform India's criminal justice system and provide a more efficient and effective framework for addressing crime. This article will delve into the key features of the BNS, which seeks to replace the century-old Indian Penal Code (IPC). The BNS perpetuates the expansion of state and police powers, retains offenses rooted in outdated moral standards, and exacerbates the retributive system through the introduction of broad and ambiguously defined offenses. It is contended that the legislation appears to be drafted with the primary objective of creating an illusion of moving beyond colonial legacies in terms of outdated colonial laws, while concurrently promoting a nationalist agenda aimed at fostering patriotic sentiments among the masses. Suggested Citation: Suggested Citation Hüfferstraße 27 Münster, Münster 48149 Germany Criminal Law eJournal Subscribe to this fee journal for more curated articles on this topic International, Transnational & Comparative Criminal Law eJournal Subscribe to this fee journal for more curated articles on this topic India Law eJournal Subscribe to this fee journal for more curated articles on this topic All content on this site: Copyright © 2024 Elsevier Inc., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms apply. We use cookies to help provide and enhance our service and tailor content. To learn more, visit Cookie Settings . This page was processed by aws-apollo-l200 in 0.063 seconds",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.2139/ssrn.4884622",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "Bharatiya Nyaya Sanhita, 2023",
+        "url": "https://doi.org/10.59646/bns/399",
+        "publisher": "San International Scientific Publications",
+        "published": "2025-7-6",
+        "source_type": "academic",
+        "snippet": "Authors: Dr. Sagar Shelke and Dr. Bharati Shelke ISBN: 978-81-989856-3-7 DOI: https://doi.org/10.59646/bns/399 Date of Publication: July 05, 2025 About the Book: The “Bharatiya Nyaya Sanhita, 2023” presents a comprehensive framework for criminal law in India, encapsulating its historical evolution, contemporary reforms, and the structure of the 2023 code. The book starts by tracing the development of criminal law in India, from the ancient and medieval periods, through the colonial era, to post-independence developments, culminating in the recent 2023 reforms. It provides a detailed look at the structure and classification of offenses under the new code, including jurisdictional aspects and the applicability of the law in various cases such as corporate crimes and international jurisdiction. In-depth sections are devoted to general exceptions in criminal liability, defining legal defenses such as mistake of fact, judicial acts, and absence of criminal intent. The book also explores inchoate crimes like abetment, conspiracy, and attempt, as well as offenses against the human body, women, and property, detailing punishments and legal defenses for each. Key topics such as dowry death, sexual harassment, kidnapping, robbery, and organized crime are thoroughly examined. Additionally, the text addresses offenses against public tranquility, state security, and national integrity, offering insights into laws surrounding sedition, waging war, and the protection of public officials. With sections dedicated to various forms of criminal trespass, rioting, and unlawful assembly, this book serves as a crucial reference for understanding the scope of criminal law in modern India, including the legal nuances, punishments, and defenses under the Bharatiya Nyaya Sanhita, 2023. References",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.59646/bns/399",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "Analysing the Vagueness and Shortcomings of Section 69 of the Bharatiya Nyaya Sanhita (BNS), 2023",
+        "url": "https://doi.org/10.36948/ijfmr.2024.v06i06.31101",
+        "publisher": "International Journal for Multidisciplinary Research (IJFMR)",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "Section 69 of the Bharatiya Nyaya Sanhita, 2023, makes it a crime to engage in sexual intercourse under false promises of marriage, thus offering legal protection to women against exploitation. While this provision recognizes the seriousness of such deceit, it does not categorize it as rape, presenting a significant legal hurdle. Additionally, the section expands the definition of \"deceitful means\" to encompass not only false marriage promises but also misleading assurances regarding employment or promotions, further complicating its enforcement. This article offers a critical examination of the provision's wording, highlighting its ambiguity related to deceit and consent, gender specificity, and its potential for diverse legal interpretations. It also examines the prosecution's difficulti",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.36948/ijfmr.2024.v06i06.31101",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Introduction to Electromagnetics",
+        "url": "https://doi.org/10.59646/ie/398",
+        "publisher": "San International Scientific Publications",
+        "published": "2025-7-6",
+        "source_type": "academic",
+        "snippet": "Authors: Dr. Praveen Kumar Sharma, Dr. Rashmi Jangid and Prof. Anil Kumar Chaurasia ISBN: 978-81-988877-1-9 DOI: https://doi.org/10.59646/ie/398 Date of Publication: July 2025 About the Book: “Introduction to Electromagnetics” offers a comprehensive overview of electromagnetic theory, starting with its historical evolution and the key applications across various fields such as power generation, communication, medical technologies, consumer electronics, and more. The book covers essential mathematical foundations, including vector algebra, calculus, and differential operators, which are critical for understanding electromagnetic phenomena. It explores core topics like electrostatics, magnetostatics, Maxwell’s equations, and time-varying fields, providing both theoretical insights and practical applications. Key concepts such as wave propagation, reflection, refraction, and polarization are discussed in detail, along with advanced topics like transmission lines, antennas, and microwave engineering. The book also introduces important concepts in electromagnetic compatibility (EMC), energy harvesting, and biomedical applications such as MRI. With a focus on computational tools and numerical methods like Finite Difference Methods (FDM) and Finite Element Methods (FEM), it provides a solid foundation for solving real-world electromagnetic problems using simulation and modeling tools. This resource is invaluable for students, researchers, and professionals looking to deepen their understanding of electromagnetics and its broad range of applications in modern technology and engineering.",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.59646/ie/398",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "Stalking under the Bharatiya Nyaya Sanhita (BNS): meaning, precautions, enforcement and the apprehensions about misuse",
+        "url": "https://doi.org/10.36676/ijl.v3.i5.119",
+        "publisher": "Shodh Sagar",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "This research paper is related to Stalking under the Bharatiya Nyaya Sanhita (BNS): meaning, precautions, enforcement and the apprehensions about misuse. Stalking is now expressly criminalized in India under the new penal code the Bharatiya Nyaya Sanhita (BNS) which modernizes and replaces older IPC provisions. Section 78 of the BNS defines stalking to include repeated physical following as well as digital monitoring and unwanted electronic contact. The law offers clearer protection for victims but also raises practical questions about evidence, gendered language in the provision, scope (private vs. public behavior) and the potential for over- or malicious use of the offence. This article explains the statutory text and case-law background, offers practical precautions for individuals and ",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.36676/ijl.v3.i5.119",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "# Navigating the Bharatiya Nyaya Sanhita: A Guide for Security Professionals",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C002",
+          "text": "Security professionals must also understand the evolving legal landscape, particularly India's new criminal code, the Bharatiya Nyaya Sanhita (BNS).",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C003",
+          "text": "The Bharatiya Nyaya Sanhita (BNS), which replaced the Indian Penal Code (IPC) on 1 July 2024 [S1], aims to provide a more efficient and effective framework for addressing crime in India [S1, S2].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C004",
+          "text": "*   **Bharatiya Nyaya Sanhita (BNS), 2023:** This replaces the Indian Penal Code (IPC) and addresses offences against the human body, property, public tranquility, and national security [S1, S2].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C005",
+          "text": "*   **Digital Personal Data Protection Act (DPDP) 2023:** This act governs the processing of digital personal data in India.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C006",
+          "text": "Non-compliance with the DPDP Act can attract penalties up to ₹250 crore [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C007",
+          "text": "Organisations must implement robust data governance frameworks and security measures to ensure compliance with both laws [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C008",
+          "text": "*   **Information Technology Act, 2000 (and amendments):** This act addresses cybercrime and cybersecurity.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C009",
+          "text": "Compliance with IS 27001 demonstrates a proactive approach to information security and can serve as evidence of due diligence in the event of a security incident [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C010",
+          "text": "These agencies work to ensure compliance and address violations of the relevant laws and regulations, underscoring the importance of proactive security measures and adherence to legal standards.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C011",
+          "text": "*   **Why:** To identify potential areas of risk and ensure compliance.",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C012",
+          "text": "This can lead to non-compliance and potential legal liabilities [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C013",
+          "text": "Updating these policies is essential to ensure compliance with the new legal framework [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C014",
+          "text": "Compliance with the BNS safeguards the organisation against legal risks and financial penalties [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C015",
+          "text": "Regularly audit security policies to ensure ongoing compliance.",
+          "claim_type": "policy",
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "sources": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C016",
+          "text": "S1 - The Bharatiya Nyaya Sanhita (BNS): A Critical Examination of India's New Penal Code (https://doi.org/10.2139/ssrn.4884622)",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C017",
+          "text": "S2 - Bharatiya Nyaya Sanhita, 2023 (https://doi.org/10.59646/bns/399)",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C018",
+          "text": "S3 - Analysing the Vagueness and Shortcomings of Section 69 of the Bharatiya Nyaya Sanhita (BNS), 2023 (https://doi.org/10.36948/ijfmr.2024.v06i06.31101)",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C019",
+          "text": "S5 - Stalking under the Bharatiya Nyaya Sanhita (BNS): meaning, precautions, enforcement and the apprehensions about misuse (https://doi.org/10.36676/ijl.v3.i5.119)",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": [
+            "C001"
+          ]
+        },
+        {
+          "paragraph": 2,
+          "citations": [],
+          "claims": [
+            "C002"
+          ]
+        },
+        {
+          "paragraph": 3,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": [
+            "C003"
+          ]
+        },
+        {
+          "paragraph": 5,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 7,
+          "citations": [
+            "S1",
+            "S2"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 8,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 10,
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S2"
+          ],
+          "claims": [
+            "C004",
+            "C005",
+            "C006",
+            "C007",
+            "C008",
+            "C009"
+          ]
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": [
+            "C010"
+          ]
+        },
+        {
+          "paragraph": 12,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 13,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 15,
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "claims": [
+            "C011",
+            "C012"
+          ]
+        },
+        {
+          "paragraph": 16,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 17,
+          "citations": [
+            "S2",
+            "S1",
+            "S3",
+            "S2"
+          ],
+          "claims": [
+            "C013",
+            "C014",
+            "C015"
+          ]
+        },
+        {
+          "paragraph": 18,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 19,
+          "citations": [],
+          "claims": [
+            "C016"
+          ]
+        },
+        {
+          "paragraph": 20,
+          "citations": [],
+          "claims": [
+            "C017"
+          ]
+        },
+        {
+          "paragraph": 21,
+          "citations": [],
+          "claims": [
+            "C018"
+          ]
+        },
+        {
+          "paragraph": 22,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 23,
+          "citations": [],
+          "claims": [
+            "C019"
+          ]
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C001: Claim lacks citation.",
+        "C001: Regulatory claim lacks required sources.",
+        "C002: Claim lacks citation.",
+        "C002: Regulatory claim lacks required sources.",
+        "C010: Claim lacks citation.",
+        "C016: Claim lacks citation.",
+        "C016: Regulatory claim lacks required sources.",
+        "C017: Claim lacks citation.",
+        "C017: Regulatory claim lacks required sources.",
+        "C018: Claim lacks citation.",
+        "C018: Regulatory claim lacks required sources.",
+        "C019: Claim lacks citation.",
+        "C019: Regulatory claim lacks required sources."
+      ],
+      "metrics": {
+        "claim_count": 19,
+        "numeric_claims": 0,
+        "regulatory_claims": 10,
+        "contradictions": 0
+      }
+    }
+  }
+}

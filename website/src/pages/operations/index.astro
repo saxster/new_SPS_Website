@@ -1,0 +1,85 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import { getCollection } from 'astro:content';
+
+const operations = (await getCollection('casestudies'))
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+const title = "Operations Log | SPS";
+const description = "Declassified operational files. Real-world application of the SPS Doctrine.";
+---
+
+<Layout title={title} description={description}>
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      
+      <!-- Header -->
+      <div class="border-b border-neutral-800 pb-12 mb-20">
+        <span class="text-primary-accent font-bold tracking-widest text-sm block mb-4">DECLASSIFIED FILES // CASE STUDIES</span>
+        <h1 class="text-heading-1 text-white mb-6">OPERATIONS LOG</h1>
+        <p class="text-xl text-neutral-400 font-mono max-w-2xl">
+          Theory is optional. Performance is mandatory. <br/>
+          Select operational records from the archive.
+        </p>
+      </div>
+
+      <!-- Operations Grid -->
+      <div class="grid grid-cols-1 gap-12">
+        {operations.map((op, index) => (
+          <article class="group relative border border-neutral-800 bg-neutral-900 hover:border-primary-accent transition-colors duration-300">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+              
+              <!-- Meta Column -->
+              <div class="lg:col-span-3 p-8 border-r border-neutral-800 bg-neutral-950">
+                <div class="font-mono text-sm text-neutral-500 mb-2">OP_ID: #{String(index + 1).padStart(3, '0')}</div>
+                <div class="text-2xl font-bold text-white mb-1">{op.data.location}</div>
+                <div class="text-sm text-primary-accent font-mono mb-6">{op.data.date}</div>
+                
+                <div class="flex flex-wrap gap-2">
+                  {op.data.tags.map(tag => (
+                    <span class="text-xs border border-neutral-700 text-neutral-400 px-2 py-1 uppercase">{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Content Column -->
+              <div class="lg:col-span-9 p-8">
+                <h2 class="text-3xl font-black text-white mb-4 group-hover:text-primary-accent transition-colors">
+                  <a href={`/operations/${op.slug}`} class="focus:outline-none">
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    {op.data.title}
+                  </a>
+                </h2>
+                <p class="text-lg text-neutral-300 mb-8 leading-relaxed">
+                  {op.data.summary}
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                  <div>
+                    <strong class="block text-compliance uppercase tracking-widest mb-2">The Threat</strong>
+                    <p class="text-neutral-400">{op.data.challenge.slice(0, 100)}...</p>
+                  </div>
+                   <div>
+                    <strong class="block text-success uppercase tracking-widest mb-2">The Solution</strong>
+                    <p class="text-neutral-400">{op.data.solution.slice(0, 100)}...</p>
+                  </div>
+                   <div>
+                    <strong class="block text-primary-accent uppercase tracking-widest mb-2">Outcome</strong>
+                    <ul class="list-disc list-inside text-neutral-400">
+                      {op.data.outcome.slice(0, 2).map(o => <li>{o}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,16 @@
+[
+  {
+    "run_at": "2026-01-20T15:00:25.894397Z",
+    "total": 1,
+    "published": 0,
+    "failed_schema": 0,
+    "failed_citation": 1,
+    "failed_fact_check": 0,
+    "retry_fact_check": 0,
+    "failed_quality": 0,
+    "failed_other": 0,
+    "quality_avg": 85.5,
+    "consensus_avg": 0.0,
+    "citation_density_avg": 0.0
+  }
+]

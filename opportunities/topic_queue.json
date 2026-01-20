@@ -1,0 +1,58 @@
+[
+  {
+    "topic": "Autonomous Security Patrols: The Rise of Security Robots in 2025",
+    "target_audience": "Security Integrators, Facility Managers, Law Enforcement Agencies, Security Technology Investors",
+    "estimated_search_volume": "400",
+    "intent": "Informational, Comparison, Solution-oriented",
+    "gap_score": 8,
+    "rationale": "Addresses the growing trend of using robots for security patrols, highlighting their capabilities, limitations, and potential ROI. Focuses on practical implementation and future adoption. Relatively unsaturated topic with significant growth potential."
+  },
+  {
+    "topic": "Biometric Authentication Beyond Facial Recognition: Trends for 2025-2026",
+    "target_audience": "Security Technology Managers, HR Departments, Access Control System Specifiers",
+    "estimated_search_volume": "300",
+    "intent": "Informational, Trend Analysis, Comparison",
+    "gap_score": 8,
+    "rationale": "Explores alternative biometric authentication methods beyond facial recognition, such as voice, gait, and vein recognition, and their applications in physical security. Caters to growing privacy concerns and offers a diversified approach. Relatively unexplored in the context of physical security."
+  },
+  {
+    "topic": "Cyber-Physical Security Convergence: Protecting Industrial Control Systems in India (2026)",
+    "target_audience": "CISOs, security architects, industrial engineers",
+    "estimated_search_volume": "250",
+    "intent": "Informational, solution-oriented",
+    "gap_score": 8,
+    "rationale": "Focuses on the integration of cybersecurity and physical security, a critical and evolving need for industrial facilities in India, particularly regarding ICS/OT environments."
+  },
+  {
+    "topic": "AI-Driven Behavioral Analysis for Anomaly Detection in Physical Security Systems",
+    "target_audience": "Security Engineers, Data Scientists in Security, Security Operations Center (SOC) personnel",
+    "estimated_search_volume": "250",
+    "intent": "Informational, Technical, Best Practices",
+    "gap_score": 7,
+    "rationale": "Delves into the technical aspects of using AI to analyze behavioral patterns and identify anomalies indicating potential threats. Caters to a technically skilled audience and offers practical guidance. A more niche topic with less existing content."
+  },
+  {
+    "topic": "Drone Detection and Mitigation Strategies for Industrial Sites in India: 2025 Regulations",
+    "target_audience": "Security directors, risk managers, compliance officers",
+    "estimated_search_volume": "150",
+    "intent": "Informational, compliance",
+    "gap_score": 7,
+    "rationale": "Addresses the emerging threat of drone intrusions and the need for effective counter-drone measures at industrial locations. Regulation focused."
+  },
+  {
+    "topic": "Predictive Security Analytics for Indian Industrial Infrastructure: Reducing Downtime and Risks in 2026",
+    "target_audience": "Operations managers, data scientists, security analysts",
+    "estimated_search_volume": "200",
+    "intent": "Informational, problem/solution",
+    "gap_score": 7,
+    "rationale": "Explores the use of data analytics to proactively identify and mitigate security risks, focusing on uptime and risk reduction in industrial environments. Data science angle not well covered."
+  },
+  {
+    "topic": "Biometric Access Control Trends for High-Security Industrial Zones in India (2025)",
+    "target_audience": "Security integrators, facility managers, HR personnel",
+    "estimated_search_volume": "350",
+    "intent": "Informational, comparison, purchasing",
+    "gap_score": 6,
+    "rationale": "Focuses on advanced biometric technologies and their applications in industrial security, catering to the need for enhanced access control in sensitive areas. Specific to trends and India."
+  }
+]

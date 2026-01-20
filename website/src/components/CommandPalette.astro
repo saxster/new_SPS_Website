@@ -1,0 +1,164 @@
+---
+// SPS Neural Search Interface
+---
+
+<!-- Trigger Button (Fixed Bottom Right) -->
+<button
+  id="cmd-trigger"
+  class="fixed bottom-8 right-8 z-[90] bg-primary-accent text-black p-4 shadow-lg hover:scale-110 transition-transform group border-2 border-transparent hover:border-black"
+  aria-label="Open search (Cmd+K)"
+  aria-expanded="false"
+  aria-controls="cmd-overlay"
+  aria-haspopup="dialog"
+>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+  <span class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-black text-primary-accent text-xs font-mono py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" aria-hidden="true">
+    CMD + K
+  </span>
+</button>
+
+<!-- Modal Overlay -->
+<div
+  id="cmd-overlay"
+  class="fixed inset-0 bg-black/90 z-[100] hidden backdrop-blur-sm flex items-start justify-center pt-24"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search intelligence database"
+  aria-hidden="true"
+>
+  <div class="w-full max-w-2xl bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex flex-col max-h-[70vh] relative" role="search">
+
+    <!-- Header / Input -->
+    <div class="border-b border-neutral-700 p-4 flex items-center gap-4">
+      <label for="cmd-input" class="text-primary-accent text-xl" aria-hidden="true">›</label>
+      <input
+        type="search"
+        id="cmd-input"
+        class="w-full bg-transparent text-white text-xl font-mono focus:outline-none placeholder-neutral-600 uppercase"
+        placeholder="SEARCH DATABASE..."
+        autocomplete="off"
+        aria-label="Search intelligence database"
+        aria-autocomplete="list"
+        aria-controls="cmd-results"
+      />
+      <span class="text-xs text-neutral-500 font-mono border border-neutral-700 px-2 py-1" aria-hidden="true">ESC</span>
+    </div>
+
+    <!-- Results List -->
+    <div
+      id="cmd-results"
+      class="overflow-y-auto p-2 space-y-1"
+      role="listbox"
+      aria-label="Search results"
+    >
+      <!-- Results injected here via JS -->
+      <div class="p-8 text-center text-neutral-500 font-mono text-sm" role="status" aria-live="polite">
+        INITIALIZING NEURAL LINK...
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-neutral-800 p-2 text-center">
+      <span class="text-[10px] text-neutral-600 font-mono uppercase tracking-widest">
+        SPS INTELLIGENCE INDEX V2.0
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let isOpen = false;
+  let searchIndex: any[] = [];
+  const overlay = document.getElementById('cmd-overlay');
+  const input = document.getElementById('cmd-input') as HTMLInputElement;
+  const results = document.getElementById('cmd-results');
+  const trigger = document.getElementById('cmd-trigger');
+
+  // 1. Fetch Data Once
+  async function loadIndex() {
+    try {
+      const res = await fetch('/api/search-index.json');
+      searchIndex = await res.json();
+      renderResults(''); // Render all/recent initially
+    } catch (e) {
+      console.error("Neural Link Failed", e);
+    }
+  }
+
+  // 2. Toggle Logic
+  function toggleCmd() {
+    isOpen = !isOpen;
+    if (isOpen) {
+      overlay?.classList.remove('hidden');
+      overlay?.setAttribute('aria-hidden', 'false');
+      trigger?.setAttribute('aria-expanded', 'true');
+      input?.focus();
+      document.body.style.overflow = 'hidden';
+      if (searchIndex.length === 0) loadIndex();
+    } else {
+      overlay?.classList.add('hidden');
+      overlay?.setAttribute('aria-hidden', 'true');
+      trigger?.setAttribute('aria-expanded', 'false');
+      input.value = '';
+      document.body.style.overflow = '';
+      trigger?.focus(); // Return focus to trigger
+    }
+  }
+
+  // 3. Render Logic
+  function renderResults(query: string) {
+    if (!results) return;
+    
+    const q = query.toLowerCase();
+    const filtered = searchIndex.filter(item => 
+      item.title.toLowerCase().includes(q) || 
+      item.description?.toLowerCase().includes(q)
+    ).slice(0, 8); // Max 8 results
+
+    if (filtered.length === 0) {
+      results.innerHTML = `<div class="p-8 text-center text-neutral-500 font-mono text-sm">NO RECORDS FOUND</div>`;
+      return;
+    }
+
+    results.innerHTML = filtered.map((item, idx) => `
+      <a href="${item.url}" class="block p-3 hover:bg-neutral-800 group border-l-2 border-transparent hover:border-primary-accent transition-all">
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-bold text-white group-hover:text-primary-accent transition-colors">${item.title}</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-neutral-800 text-neutral-400 group-hover:bg-primary-accent group-hover:text-black uppercase tracking-wider">
+            ${item.type}
+          </span>
+        </div>
+        <div class="text-xs text-neutral-500 line-clamp-1 font-mono">
+          ${item.description || '// NO DATA'}
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // 4. Event Listeners
+  trigger?.addEventListener('click', toggleCmd);
+  
+  // Close on overlay click
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) toggleCmd();
+  });
+
+  // Keydown (Global)
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      toggleCmd();
+    }
+    if (e.key === 'Escape' && isOpen) {
+      toggleCmd();
+    }
+  });
+
+  // Input Filter
+  input?.addEventListener('input', (e) => {
+    renderResults((e.target as HTMLInputElement).value);
+  });
+</script>

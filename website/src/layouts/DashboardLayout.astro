@@ -1,0 +1,188 @@
+---
+import '../styles/global.css';
+import '../styles/brutalist-titanium.css';
+import { SignedIn, UserButton } from '@clerk/astro/components';
+
+interface Props {
+  title?: string;
+  description?: string;
+  activeTab?: 'overview' | 'saved' | 'conversations' | 'preferences';
+  ogImage?: string;
+}
+
+const {
+  title = 'Dashboard | SPS Security Intelligence',
+  description = 'Your personalized threat intelligence dashboard.',
+  activeTab = 'overview',
+  ogImage = '/sps-og-default.png'
+} = Astro.props;
+
+const navItems = [
+  { id: 'overview', label: 'Overview', href: '/dashboard', icon: 'grid' },
+  { id: 'saved', label: 'Saved Intel', href: '/dashboard/saved', icon: 'bookmark' },
+  { id: 'conversations', label: 'Expert History', href: '/dashboard/conversations', icon: 'chat' },
+  { id: 'preferences', label: 'Preferences', href: '/dashboard/preferences', icon: 'settings' },
+];
+
+// Construct full URLs for SEO
+const siteUrl = 'https://sps-security.com';
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={currentUrl} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={currentUrl} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={fullOgImage} />
+  <meta property="og:site_name" content="SPS Security Intelligence" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={currentUrl} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={fullOgImage} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-black text-neutral-200 antialiased font-sans">
+  <!-- Skip to main content link for accessibility -->
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary-accent focus:text-black focus:px-4 focus:py-2 focus:font-bold focus:text-sm"
+  >
+    Skip to main content
+  </a>
+  <SignedIn>
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-neutral-900 border-r-4 border-neutral-800 flex flex-col fixed h-full">
+        <!-- Logo -->
+        <div class="p-6 border-b-2 border-neutral-800">
+          <a href="/" class="flex items-center gap-3">
+            <img src="/sps-logo.png" alt="SPS" class="w-10 h-10" />
+            <div>
+              <h1 class="text-lg font-black text-primary-accent">SPS</h1>
+              <p class="text-[10px] text-neutral-500 uppercase tracking-widest">Command Center</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 space-y-1" aria-label="Dashboard navigation">
+          {navItems.map(item => (
+            <a
+              href={item.href}
+              aria-current={activeTab === item.id ? 'page' : undefined}
+              class:list={[
+                "flex items-center gap-3 py-3 px-4 transition-all border-l-4",
+                activeTab === item.id
+                  ? "bg-primary-accent/10 border-primary-accent text-primary-accent"
+                  : "border-transparent hover:bg-neutral-800 hover:border-neutral-600 text-neutral-400 hover:text-neutral-200"
+              ]}
+            >
+              {item.icon === 'grid' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              )}
+              {item.icon === 'bookmark' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
+              )}
+              {item.icon === 'chat' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              )}
+              {item.icon === 'settings' && (
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              )}
+              <span class="font-medium text-sm">{item.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        <!-- User Section -->
+        <div class="p-4 border-t-2 border-neutral-800">
+          <div class="flex items-center gap-3">
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "w-9 h-9 border-2 border-neutral-700"
+                }
+              }}
+            />
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-neutral-400 font-mono truncate">OPERATIVE</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to Site -->
+        <div class="p-4 border-t border-neutral-800">
+          <a
+            href="/"
+            class="flex items-center gap-2 text-xs text-neutral-500 hover:text-primary-accent transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span class="uppercase tracking-wider">Back to Site</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main id="main-content" class="flex-1 ml-64" tabindex="-1">
+        <!-- Top Bar -->
+        <header class="bg-neutral-900/50 border-b-2 border-neutral-800 px-8 py-4 sticky top-0 z-10 backdrop-blur-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-xl font-black text-primary-accent uppercase tracking-wider">
+                {activeTab === 'overview' && 'Command Overview'}
+                {activeTab === 'saved' && 'Saved Intelligence'}
+                {activeTab === 'conversations' && 'Expert Communications'}
+                {activeTab === 'preferences' && 'System Preferences'}
+              </h1>
+              <p class="text-xs text-neutral-500 font-mono mt-1">
+                CLEARANCE LEVEL: AUTHORIZED
+              </p>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span class="text-xs text-neutral-400 font-mono">SYSTEM ONLINE</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="p-8">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </SignedIn>
+</body>
+</html>

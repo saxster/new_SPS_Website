@@ -1,0 +1,17 @@
+google-generativeai
+python-dotenv
+tenacity
+structlog
+pydantic
+PyYAML
+pytest
+alembic
+colorama
+feedparser
+requests
+beautifulsoup4
+lxml
+openai
+pytest-asyncio
+pytest-mock
+aiohttp

@@ -1,0 +1,25 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Run Tests
+        run: |
+          # Ensure python path includes root so imports work
+          export PYTHONPATH=$PYTHONPATH:.
+          pytest .agent/tests
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check .agent

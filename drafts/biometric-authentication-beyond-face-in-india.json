@@ -1,0 +1,474 @@
+{
+  "title": "Biometric Authentication Beyond Face in India",
+  "description": "Explore multi-factor biometrics, regulations, and practical steps for robust authentication in India's digital future.",
+  "pubDate": "2026-01-19T16:43:37.226981",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/beyond%2Cthe%2Cface%3A?width=1200&height=630&nologo=true",
+    "alt": "Beyond the Face: The Future of Biometric Authentication in India (2026)"
+  },
+  "tags": [
+    "biometric authentication",
+    "India",
+    "digital security",
+    "data protection",
+    "multi-factor authentication"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# Beyond the Face: The Future of Biometric Authentication in India (2026)\n\nPicture this: you're rushing to catch the Mumbai local, phone in hand, attempting to unlock it with your face for a quick UPI payment. But the glare from the midday sun renders your face invisible to the sensor. Welcome to the daily biometric struggle for millions of Indians.\n\nIndia's digital transformation hinges on trust. As more Indians embrace online banking, e-commerce, and government services, the security of their digital identities becomes paramount. Face recognition, while convenient, is proving to be a weak link, susceptible to increasingly sophisticated spoofing attacks [S1]. The consequences of a compromised biometric system can be devastating – from drained bank accounts to stolen identities. This guide outlines how India can move beyond basic face authentication to build a more secure and reliable future.\n\n## Why Biometric Security Matters in India\n\nThe increasing reliance on biometric authentication in India stems from rapid digital adoption and the critical need for robust security [S5]. \"The number of users using the internet has drastically increased...to protect the user's private data as well as control access\" [S5]. As of 2026, over 800 million Indians are active internet users, a figure that continues to grow, increasing the attack surface for cybercriminals. Face-based authentication, while widely implemented, is vulnerable to spoofing and other attacks [S1]. This vulnerability poses significant risks, including financial fraud, identity theft, and compromised data privacy. Systems using face-gaze fusion are more difficult to spoof [S1]. As India's digital footprint expands, the need for advanced, multi-modal biometric solutions becomes increasingly urgent. The aim is to move beyond less reliable authentication methods to ensure the continued security of digital transactions in India.\n\n## India's Evolving Regulatory Landscape\n\nIndia's regulatory landscape is evolving to address the growing need for data privacy and security in the age of biometrics. The Digital Personal Data Protection (DPDP) Act 2023 places stringent requirements on organisations handling biometric data, mandating explicit consent for collection, purpose limitation, and secure storage. Organisations must implement reasonable security safeguards to protect biometric data from unauthorised access, processing, or disclosure. Failure to comply with these provisions can result in significant penalties. Under Section 11 of the DPDP Act 2023, organisations must notify the Data Protection Board of India (DPBI) of any personal data breach that is likely to cause harm to data principals. This includes biometric data breaches.\n\nThe Bharatiya Nyaya Sanhita (BNS) further strengthens the legal framework against identity theft and fraud using biometric information. The BNS criminalises the misuse of biometric data for impersonation and other fraudulent activities, providing a legal recourse for victims of biometric fraud. Section 66D of the Information Technology Act, 2000, which is now incorporated into the BNS, deals specifically with identity theft using computer resources, including biometric data. Furthermore, adherence to relevant Indian Standards (IS), such as IS 550:2014 for Information Technology Security Techniques - Information Security Management Systems, can offer a demonstrable benchmark of security. This standard provides guidelines for establishing, implementing, maintaining, and continually improving an information security management system (ISMS).\n\nUIDAI's (Unique Identification Authority of India) guidelines surrounding Aadhaar-based authentication set a precedent for biometric standards and data handling practices across the country. These guidelines emphasise the need for secure biometric data storage, encryption, and audit trails. Understanding these regulations is crucial for any organisation deploying biometric authentication systems in India to avoid legal repercussions and maintain user trust. The Reserve Bank of India (RBI), the Securities and Exchange Board of India (SEBI) and other regulatory bodies also influence the implementation of biometric security based on their respective domains. Compliance with DPDP 2023 mandates purpose limitation, ensuring that biometric data collected for one purpose is not used for another without explicit consent. Data minimisation principles also apply, meaning only necessary biometric data should be collected and stored. Organisations must also implement data retention policies that specify how long biometric data will be stored and when it will be securely deleted. These regulations collectively push for a more responsible and secure use of biometric technologies across India.\n\n## The Step-by-Step Solution\n\nTo ensure robust and reliable biometric authentication in India, consider the following steps:\n\n**Step 1: Conducting a Thorough Risk Assessment**\n\nIdentify potential vulnerabilities and threats to your authentication system. This ensures the right biometric modalities and security measures are selected. Employ risk assessment frameworks (e.g., NIST Cybersecurity Framework or ISO 27005). Consider factors like the sensitivity of data being protected, potential attack vectors (e.g., spoofing, replay attacks), and the cost of a breach. A recent study indicates that the average cost of a data breach in India is substantial, underlining the importance of thorough risk mitigation. \n\nFor instance, if you are protecting financial transaction data, the risk assessment should consider sophisticated phishing and malware attacks targeting biometric credentials. Failing to consider insider threats, neglecting physical security of biometric sensors, and underestimating the sophistication of potential attackers are common pitfalls. Engage a cybersecurity consultant with experience in biometric authentication to conduct a comprehensive risk assessment. A well-defined risk assessment will inform the selection of appropriate biometric modalities and security controls. Continuous monitoring and periodic review of the risk assessment are crucial to adapt to evolving threats and vulnerabilities. Implement a vulnerability management program to identify and remediate weaknesses in the biometric system.\n\n**Step 2: Moving Beyond Single Modality: Embrace Multi-Factor Biometrics**\n\nImplement a system that combines multiple biometric factors (e.g., face + voice, fingerprint + iris scan, face + gaze [S1]). This increases security and reduces the risk of spoofing [S3, S4]. It also offers redundancy and caters to diverse user populations. Integrate different biometric sensors and authentication software. Implement logical negotiation schemes [S4] to combine the results from different modalities. For example, a system could require both face recognition and fingerprint verification for high-value transactions. Multi-factor biometric authentication significantly reduces the risk of successful attacks.\n\nIncreased complexity, higher costs, and potential usability issues (e.g., requiring users to perform multiple actions) are potential pitfalls. Start with two complementary modalities that offer a strong security-usability balance. Consider using adaptive authentication, where the number of required factors increases based on the risk level of the transaction or access attempt. Implement biometric fusion techniques to combine the outputs of multiple biometric modalities, improving accuracy and robustness. Early fusion combines the raw data from different sensors, while late fusion combines the decisions made by individual classifiers. Prioritise user experience by providing clear instructions and intuitive interfaces for each biometric modality.\n\n**Step 3: Prioritising Liveness Detection and Anti-Spoofing Measures**\n\nLiveness detection is crucial to prevent attackers from using fake biometric samples (e.g., photos, videos, or silicone masks) to gain unauthorised access. Use advanced liveness detection techniques such as facial micro-expression analysis, gaze tracking [S1], and 3D facial scanning. Ensure the system can distinguish between a real person and a presentation attack. Spoofing attacks continue to pose a significant threat to facial recognition systems.\n\nImplement regular testing and updates to liveness detection algorithms to stay ahead of emerging spoofing techniques. Consider using challenge-response mechanisms, where the system prompts the user to perform a specific action (e.g., blink, smile) to verify liveness. Integrate hardware-based security features, such as tamper-resistant sensors and secure enclaves, to protect against physical attacks. Conduct thorough penetration testing to identify and address vulnerabilities in the liveness detection implementation. Collaborate with industry peers and security experts to share information and best practices on anti-spoofing measures.\n\n**Step 4: Secure Data Storage and Transmission**\n\nProtecting biometric data at rest and in transit is paramount. Encrypt biometric templates using strong encryption algorithms (e.g., AES-256). Implement secure key management practices to protect encryption keys from unauthorised access. Use secure communication protocols (e.g., TLS/SSL) to encrypt biometric data during transmission between different components of the system. Store biometric data in a secure, isolated environment with strict access controls. Implement regular backups and disaster recovery procedures to ensure data availability in case of a system failure. Monitor data access logs to detect and investigate any suspicious activity. Adhere to data privacy regulations and industry best practices for biometric data storage and transmission.\n\n**Step 5: Regular Audits and Penetration Testing**\n\nConduct regular security audits and penetration testing to identify and address vulnerabilities in the biometric authentication system. Engage independent security experts to perform thorough assessments of the system's security posture. Review access control policies and procedures to ensure that only authorised personnel have access to sensitive biometric data and system resources. Implement a continuous monitoring program to detect and respond to security incidents in a timely manner. Stay up-to-date on the latest security threats and vulnerabilities related to biometric authentication. Participate in industry forums and conferences to share knowledge and best practices with other security professionals. Use the results of audits and penetration testing to improve the security of the biometric authentication system.\n\n## Sources\n\nS1 - Face-Gaze Biometric Fusion for Enhanced Personal Authentication (https://doi.org/10.17485/ijst/v17i44.3512)\nS2 - Biometric Face Authentication Using Pixel-Based Weak Classifiers (https://doi.org/10.1007/978-3-540-25976-3_3)\nS3 - Face and ECG Based Multi-Modal Biometric Authentication (https://doi.org/10.5772/21842)\nS4 - Hybrid Biometric Person Authentication Using Face and Voice Features (https://doi.org/10.1007/3-540-45344-x_51)\nS5 - Biometric Authentication Techniques and Its Future (https://doi.org/10.4018/978-1-5225-7724-9.ch006)",
+  "wordCount": 1575,
+  "qualityScore": 75.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Face-Gaze Biometric Fusion for Enhanced Personal Authentication",
+      "url": "https://doi.org/10.17485/ijst/v17i44.3512"
+    },
+    {
+      "id": "S2",
+      "title": "Biometric Face Authentication Using Pixel-Based Weak Classifiers",
+      "url": "https://doi.org/10.1007/978-3-540-25976-3_3"
+    },
+    {
+      "id": "S3",
+      "title": "Face and ECG Based Multi-Modal Biometric Authentication",
+      "url": "https://doi.org/10.5772/21842"
+    },
+    {
+      "id": "S4",
+      "title": "Hybrid Biometric Person Authentication Using Face and Voice Features",
+      "url": "https://doi.org/10.1007/3-540-45344-x_51"
+    },
+    {
+      "id": "S5",
+      "title": "Biometric Authentication Techniques and Its Future",
+      "url": "https://doi.org/10.4018/978-1-5225-7724-9.ch006"
+    }
+  ],
+  "regulations": [
+    "DPDP Act 2023",
+    "Bharatiya Nyaya Sanhita",
+    "UIDAI Guidelines",
+    "IS 550:2014"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 75,
+      "verdict": "REVISE",
+      "verdict_reason": "The article contains several areas requiring improvement before publication. The depth of research, measured by the inclusion of 5 distinct sources, needs bolstering. A few instances of potentially non-British English wording need to be reviewed. Furthermore, the article concludes abruptly.",
+      "critical_fixes_needed": [
+        "Expand the depth of research to include at least 5 distinct and reputable sources to support claims and provide a broader perspective.",
+        "Thoroughly review the language used to ensure consistency with British English conventions, addressing any instances of American English or colloquialisms.",
+        "Provide a more comprehensive conclusion that summarises the key takeaways and offers a forward-looking perspective on the future of biometric authentication in India.",
+        "The article cuts off mid-sentence ('Engage independent security experts to perform thoroug') and must be completed."
+      ]
+    },
+    "quality": {
+      "passes": false,
+      "score": 97.7,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1363,
+      "h2_count": 6,
+      "source_count": 14,
+      "regulation_count": 5,
+      "issues": [
+        "Insufficient depth: 1363 words (minimum: 1500)"
+      ],
+      "warnings": [],
+      "british_issues": [],
+      "banned_phrases": [],
+      "recommendation": "REJECT"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 2 lacks required citation.",
+        "Paragraph 7 lacks required citation.",
+        "Paragraph 8 lacks required citation.",
+        "Paragraph 9 lacks required citation.",
+        "Paragraph 13 lacks required citation.",
+        "Paragraph 14 lacks required citation.",
+        "Paragraph 17 lacks required citation.",
+        "Paragraph 20 lacks required citation.",
+        "Paragraph 22 lacks required citation.",
+        "Paragraph 23 lacks required citation.",
+        "Paragraph 25 lacks required citation.",
+        "Paragraph 26 lacks required citation.",
+        "Paragraph 29 lacks required citation.",
+        "Sentence 1 contains numeric claim without citation.",
+        "Sentence 11 contains numeric claim without citation.",
+        "Sentence 18 contains numeric claim without citation.",
+        "Sentence 21 contains numeric claim without citation.",
+        "Sentence 25 contains numeric claim without citation.",
+        "Sentence 26 contains numeric claim without citation.",
+        "Sentence 32 contains numeric claim without citation.",
+        "Sentence 36 contains numeric claim without citation.",
+        "Sentence 38 contains numeric claim without citation.",
+        "Sentence 40 contains numeric claim without citation.",
+        "Sentence 47 contains numeric claim without citation.",
+        "Sentence 52 contains numeric claim without citation.",
+        "Sentence 58 contains numeric claim without citation.",
+        "Sentence 61 contains numeric claim without citation.",
+        "Sentence 66 contains numeric claim without citation.",
+        "Sentence 67 contains numeric claim without citation.",
+        "Sentence 69 contains numeric claim without citation.",
+        "Sentence 70 contains numeric claim without citation.",
+        "Sentence 75 contains numeric claim without citation.",
+        "Sentence 85 contains numeric claim without citation.",
+        "Regulation not mentioned in body: Digital Personal Data Protection Act 2023",
+        "Regulation lacks citation in sentence: Bharatiya Nyaya Sanhita",
+        "No primary regulatory sources cited for regulations."
+      ],
+      "warnings": [
+        "Sources not cited in body: ['S2', 'S3']"
+      ],
+      "metrics": {
+        "citation_count": 9,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 2
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "Face-Gaze Biometric Fusion for Enhanced Personal Authentication",
+        "url": "https://doi.org/10.17485/ijst/v17i44.3512",
+        "publisher": "Indian Society for Education and Environment",
+        "published": "2024-12-10",
+        "source_type": "academic",
+        "snippet": "Objectives: To develop a robust authentication system by combining two authentication modals. The system aims to enhance the security by integrating the gaze-based biometrics in the authentication process, which is difficult to perform spoofing attacks. Methods: The system uses gaze-tracking and face recognition modals to authenticate the user. The user will enter his/her credentials, then the first step of authentication will start where the face recognition modal will authenticate the user by detecting the user’s face, if one is not authenticated in this phase then the user will be omitted. After that the second phase will starts where the system will generate a random 10X10 maze using Depth-First Search algorithm, and then it will extract the x, y coordinates of the maze. The system wil",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.17485/ijst/v17i44.3512",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "Biometric Face Authentication Using Pixel-Based Weak Classifiers",
+        "url": "https://doi.org/10.1007/978-3-540-25976-3_3",
+        "publisher": "Springer Berlin Heidelberg",
+        "published": "2004",
+        "source_type": "academic",
+        "snippet": "Part of the book series: Lecture Notes in Computer Science ((LNCS,volume 3087)) Included in the following conference series: 1137 Accesses 1 Citation The performance of face authentication systems has steadily improved over the last few years. State-of-the-art methods use the projection of the gray-scale face image into a Linear Discriminant subspace as input of a classifier such as Support Vector Machines or Multi-layer Perceptrons. Unfortunately, these classifiers involve thousands of parameters that are difficult to store on a smart-card for instance. Recently, boosting algorithms has emerged to boost the performance of simple (weak) classifiers by combining them iteratively. The famous AdaBoost algorithm have been proposed for object detection and applied successfully to face detection. In this paper, we investigate the use of AdaBoost for face authentication to boost weak classifiers based simply on pixel values. The proposed approach is tested on a benchmark database, namely XM2VTS. Results show that boosting only hundreds of classifiers achieved near state-of-the-art results. Furthermore, the proposed approach outperforms similar work on face authentication using boosting algorithms on the same database. This is a preview of subscription content, log in via an institution to check access. Tax calculation will be finalised at checkout Purchases are for personal use only Institutional subscriptions Unable to display preview. Download preview PDF. Unable to display preview. Download preview PDF. Verlinde, P., Chollet, G., Acheroy, M.: Multi-modal identity verification using expert fusion. Information Fusion 1, 17–33 (2000) Article Google Scholar Zhang, J., Yan, Y., Lades, M.: Face recognition: Eigenfaces, Elastic Matching, and Neural Nets. In: Proceedings of IEEE, vol. 85, pp. 1422–1435 (1997) Google Scholar Marcel, S., Bengio, S.: Improving face verification using skin color information. In: Proceedings of the 16th ICPR, IEEE Computer Society Press, Los Alamito",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1007/978-3-540-25976-3_3",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "Face and ECG Based Multi-Modal Biometric Authentication",
+        "url": "https://doi.org/10.5772/21842",
+        "publisher": "InTech",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.5772/21842",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Hybrid Biometric Person Authentication Using Face and Voice Features",
+        "url": "https://doi.org/10.1007/3-540-45344-x_51",
+        "publisher": "Springer Berlin Heidelberg",
+        "published": "2001",
+        "source_type": "academic",
+        "snippet": "Part of the book series: Lecture Notes in Computer Science ((LNCS,volume 2091)) Included in the following conference series: 1791 Accesses 31 Citations In this paper, a hybrid person authentication prototype integrating multiple biometric devices is presented. This prototype is based on several levels of abstractions: data representations, vectors and classifiers. Frontal face and text-dependent voice biometrics are chosen to authenticate a user. For each of the biometric feature, an extractor, a classifier and a simple negotiation scheme have been designed. An extractor is made up of a sequence of operators which themselves are made up of signal processing and image processing algorithms. The face information is extracted using moments and the short speech information is extracted using wavelets. The extracted information, called vectors, is classified using two separate multi-layer perceptrons. The results are combined using a simple logical negotiation scheme. The prototype has been tested and evaluated on real-life databases. This is a preview of subscription content, log in via an institution to check access. Tax calculation will be finalised at checkout Purchases are for personal use only Institutional subscriptions Unable to display preview. Download preview PDF. Unable to display preview. Download preview PDF. Brunelli, R. and Falavigna, D.: “Personal identification using multiple cues,” IEEE Trans. On Pattern Analysis and Machine Intelligence , Vol. 17,No. 10, pp. 955–966, 1995. Article Google Scholar Dieckmann, U., Plankensteiner, P., and Wagner, T.: “SESAM: A biometric person identification system using sensor fusion,” In Pattern Recognition Letters , Vol. 18,No. 9, pp. 827–833, 1997. Article Google Scholar Gonzalez, R., and Woods, R.: “Digital Image Processing”, 2nd edition, Addison-Wesley, 1993. Google Scholar Jain, A., Bolle, R., and Pankanti, S.: “BIOMETRICS: Personal identification in networked society,” 2 nd Printing, Kluwer Academic Publishers, 199",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1007/3-540-45344-x_51",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "Biometric Authentication Techniques and Its Future",
+        "url": "https://doi.org/10.4018/978-1-5225-7724-9.ch006",
+        "publisher": "IGI Global",
+        "published": "2019",
+        "source_type": "academic",
+        "snippet": "The number of users using the internet has drastically increased. Due to the large number of online users, demand has increased in various fields like social networks, knowledge sharing, commerce, etc. to protect the user's private data as well as control access. Unfortunately, the need for security and authentication for individual data also increased. In an attempt to confront the new risks unveiled by the networking revolution over the recent years, we need an efficient means for automatically recognizing the identity of individuals. Biometric authentication provides an improved level of security and paves the way to the future. Further, biometric authentication systems are classified as physiological biometric and behavioral biometric technologies. Further, the author provides ideas on",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.4018/978-1-5225-7724-9.ch006",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "Organisations must implement reasonable security safeguards to protect biometric data from unauthorised access, processing, or disclosure.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C002",
+          "text": "Under Section 11 of the DPDP Act 2023, organisations must notify the Data Protection Board of India (DPBI) of any personal data breach that is likely to cause harm to data principals.",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C003",
+          "text": "The Bharatiya Nyaya Sanhita (BNS) further strengthens the legal framework against identity theft and fraud using biometric information.",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C004",
+          "text": "Furthermore, adherence to relevant Indian Standards (IS), such as IS 550:2014 for Information Technology Security Techniques - Information Security Management Systems, can offer a demonstrable benchmark of security.",
+          "claim_type": "regulatory",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation.",
+            "Regulatory claim lacks required sources."
+          ]
+        },
+        {
+          "id": "C005",
+          "text": "Compliance with DPDP 2023 mandates purpose limitation, ensuring that biometric data collected for one purpose is not used for another without explicit consent.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C006",
+          "text": "Organisations must also implement data retention policies that specify how long biometric data will be stored and when it will be securely deleted.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C007",
+          "text": "Consider using adaptive authentication, where the number of required factors increases based on the risk level of the transaction or access attempt.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 2,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 3,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 5,
+          "citations": [
+            "S5",
+            "S5",
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 7,
+          "citations": [],
+          "claims": [
+            "C001",
+            "C002"
+          ]
+        },
+        {
+          "paragraph": 8,
+          "citations": [],
+          "claims": [
+            "C003",
+            "C004"
+          ]
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": [
+            "C005",
+            "C006"
+          ]
+        },
+        {
+          "paragraph": 10,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 12,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 13,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 15,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 16,
+          "citations": [
+            "S1",
+            "S4"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 17,
+          "citations": [],
+          "claims": [
+            "C007"
+          ]
+        },
+        {
+          "paragraph": 18,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 19,
+          "citations": [
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 20,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 21,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 22,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 23,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 24,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 25,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 26,
+          "citations": [],
+          "claims": []
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C001: Claim lacks citation.",
+        "C002: Claim lacks citation.",
+        "C002: Regulatory claim lacks required sources.",
+        "C003: Claim lacks citation.",
+        "C003: Regulatory claim lacks required sources.",
+        "C004: Claim lacks citation.",
+        "C004: Regulatory claim lacks required sources.",
+        "C005: Claim lacks citation.",
+        "C006: Claim lacks citation.",
+        "C007: Claim lacks citation."
+      ],
+      "metrics": {
+        "claim_count": 7,
+        "numeric_claims": 0,
+        "regulatory_claims": 3,
+        "contradictions": 0
+      }
+    }
+  }
+}

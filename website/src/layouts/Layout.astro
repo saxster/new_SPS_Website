@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+import '../styles/brutalist-titanium.css';
+import '../styles/fonts.css';
+import { ClientRouter } from 'astro:transitions';
+import Ticker from '../components/Ticker.astro';
+import Schema from '../components/Schema.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import AskExpertWidget from '../components/widgets/AskExpertWidget';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+	title?: string;
+	description?: string;
+    type?: 'Organization' | 'Article' | 'FAQPage';
+    publishDate?: Date;
+    author?: string;
+    ogImage?: string;
+    ogType?: 'website' | 'article';
+    canonicalUrl?: string;
+    breadcrumbs?: BreadcrumbItem[];
+    faqItems?: FAQItem[];
+}
+
+const {
+    title = 'SPS | Security Intelligence Platform',
+    description = 'Trusted Since 1965. SPS delivers authoritative compliance guidance, real-time threat intelligence, and intelligent security solutions across 10 verticals. A Sukhi Enterprise.',
+    type = 'Organization',
+    publishDate,
+    author,
+    ogImage = '/sps-logo.png', // TODO: Create dedicated 1200x630px OG image as sps-og-default.png
+    ogType = 'website',
+    canonicalUrl,
+    breadcrumbs = [],
+    faqItems = [],
+} = Astro.props;
+
+// Construct full URLs
+const siteUrl = Astro.site ? Astro.site.href : 'https://sps-security.com';
+const currentUrl = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- SEO -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={currentUrl} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={currentUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={fullOgImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:site_name" content="SPS Security Intelligence" />
+		<meta property="og:locale" content="en_IN" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={currentUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={fullOgImage} />
+
+		{/* Article-specific meta tags */}
+		{publishDate && <meta property="article:published_time" content={publishDate.toISOString()} />}
+		{author && <meta property="article:author" content={author} />}
+		
+		<!-- Resource Hints - Prefetch Critical Routes -->
+		<link rel="prefetch" href="/intelligence" />
+		<link rel="prefetch" href="/articles" />
+        
+        <!-- Structured Data -->
+        <Schema
+            type={type}
+            title={title}
+            description={description}
+            publishDate={publishDate}
+            author={author}
+            breadcrumbs={breadcrumbs}
+            faqItems={faqItems}
+        />
+
+        <!-- Analytics (Plausible - Privacy-first, no cookies) -->
+        <script defer data-domain="sps-security.com" src="https://plausible.io/js/script.js"></script>
+
+        <!-- View Transitions for SPA-like navigation -->
+        <ClientRouter />
+	</head>
+	<body class="bg-black text-neutral-200 antialiased font-sans selection:bg-primary-accent selection:text-black">
+        <!-- Skip to main content link for accessibility -->
+        <a
+            href="#main-content"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-12 focus:left-4 focus:z-[200] focus:bg-primary-accent focus:text-black focus:px-4 focus:py-2 focus:font-bold focus:text-sm"
+        >
+            Skip to main content
+        </a>
+
+        <!-- Intelligence Ticker -->
+        <div
+            class="fixed top-0 left-0 w-full z-[100]"
+            role="marquee"
+            aria-live="off"
+            aria-label="Live security intelligence ticker"
+        >
+            <Ticker />
+        </div>
+
+        <!-- Main Content (Padded for Ticker) -->
+        <main id="main-content" class="pt-10" tabindex="-1">
+		    <slot />
+        </main>
+
+        <CommandPalette />
+        <AskExpertWidget client:idle />
+	</body>
+</html>

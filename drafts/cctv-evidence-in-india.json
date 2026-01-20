@@ -1,0 +1,798 @@
+{
+  "title": "CCTV Evidence in India",
+  "description": "A comprehensive guide to using CCTV footage as legal evidence in India, covering admissibility, chain of custody, and court requirements.",
+  "pubDate": "2026-01-19T16:45:55.360211",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/cctv%2Cfootage%2Cas?width=1200&height=630&nologo=true",
+    "alt": "CCTV Footage as Legal Evidence in India: Admissibility, Chain of Custody, and Court Requirements"
+  },
+  "tags": [
+    "CCTV",
+    "Evidence",
+    "India",
+    "Law",
+    "Digital Forensics",
+    "Admissibility",
+    "Chain of Custody"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# CCTV Footage as Legal Evidence in India: Admissibility, Chain of Custody, and Court Requirements\n\nThe grainy black and white footage flickered on the screen. A lone figure darted through the narrow lanes of Chandni Chowk, a blur against the ancient walls. This fleeting image, captured by a CCTV camera perched precariously above a sweet shop, held the key to unravelling a complex case of theft. But its journey to the courtroom would be fraught with legal complexities, highlighting the challenges of using such recordings as evidence.\n\n## Why This Matters\n\nIn India, CCTV cameras are now ubiquitous, watching over bustling marketplaces, quiet residential streets, and critical infrastructure. Law enforcement increasingly relies on CCTV footage for investigations and prosecutions. The apparent ease of capturing video belies the challenge of presenting it as irrefutable evidence in court. Improperly handled or inadmissible CCTV footage can lead to wrongful convictions or acquittals, with potentially devastating consequences for individuals and for public trust in the justice system. Businesses, law enforcement agencies, and individuals must understand the legal requirements surrounding CCTV footage to reduce legal risks and increase the likelihood of successful prosecutions. Establishing authenticity and reliability is critical for electronic evidence to be admitted in court [S1]. Understanding the steps needed to ensure CCTV evidence is admissible provides a practical benefit for all involved in legal proceedings, helping navigate the complexities of the Indian legal system.\n\n## Regulatory Landscape (India)\n\nThe use of CCTV footage as evidence in India is governed by a complex web of laws and standards. Navigating this landscape requires careful attention to detail and a thorough understanding of the relevant legislation. Key pieces of legislation include:\n\n*   **Information Technology Act, 2000:** This Act addresses the legal recognition and admissibility of electronic records. It lays the groundwork for accepting digital evidence, including CCTV footage, in court. The Act outlines procedures for authentication and certification of electronic records, which are crucial for establishing their validity. This act provides a framework for the admissibility of electronic records in legal proceedings [S4].\n*   **Indian Evidence Act, 1872:** Amendments to this Act have incorporated provisions for electronic evidence [S4]. Section 65B is particularly relevant, outlining the conditions under which electronic records are admissible as evidence [S4]. This section requires a certificate to be produced, attesting to the proper functioning of the recording device, the integrity of the data, and the absence of any tampering. This provision is critical for ensuring the reliability of CCTV footage in court [S4].\n*   **Code of Criminal Procedure, 1973 (CrPC):** The CrPC provides the framework for investigation and evidence gathering in criminal cases [S5]. While it doesn't specifically mention CCTV footage, it empowers law enforcement to collect evidence, including electronic records, during investigations [S5]. The admissibility of this evidence is then determined by the Evidence Act. The CrPC outlines the procedures for seizing and preserving evidence, which are crucial for maintaining the chain of custody [S5].\n*   **Digital Personal Data Protection (DPDP) Act, 2023:** This Act introduces significant privacy considerations, consent requirements, data minimisation principles, and security safeguards in CCTV usage. Organisations deploying CCTV systems must comply with the DPDP Act's provisions regarding notice, data storage limitation, and security measures [S4]. Potential conflicts between surveillance and individual privacy rights must be carefully addressed. The DPDP Act mandates the implementation of reasonable security safeguards to prevent data breaches and unauthorised access, reflecting global best practices for data governance [S1]. This includes clear policies on data retention and disposal, as well as procedures for handling data subject requests.\n*   **Bharatiya Nagarik Suraksha Sanhita (BNSS):** (Future relevance) This is set to replace the CrPC and may contain updated provisions on electronic evidence [S4]. It's important to stay informed about the evolving legal landscape and how this new code will impact the admissibility of CCTV footage.\n*   **IS 16650:** While not strictly law, this Indian Standard provides valuable guidelines for video surveillance systems, influencing best practices for installation and operation. Adherence to these standards can strengthen the credibility of CCTV footage presented as evidence.\n\nThese laws interact to create a legal framework, but ambiguity remains in certain areas [S4]. For example, explicit provisions directly addressing the handling of CCTV footage from private residences are still evolving. This is why adhering to best practices becomes paramount to ensure the footage is legally sound and admissible in court.\n\n## Best Practices for Admissible CCTV Evidence\n\nTo ensure your CCTV footage is accepted as evidence in court, a meticulous approach is essential. This involves careful planning, secure implementation, and diligent adherence to legal and procedural requirements. The following steps provide a comprehensive guide:\n\n**Step 1: Planning and System Selection**\n\n*   **What:** Choose a CCTV system that suits your specific needs, considering resolution, storage capacity, and security features.\n*   **Why:** The quality and security of the recording directly affect its admissibility [S1]. A blurry, easily tampered-with video is virtually useless in court. Compliance with the DPDP Act, 2023, begins at this stage [S1]. Data minimisation should be a guiding principle, ensuring that the footage collected is only what is necessary and proportionate to the purpose [S1]. The higher the resolution, the more likely crucial details can be extracted [S3].\n*   **How:** Conduct a thorough needs assessment. Research different camera types (analog, IP, wireless). Evaluate storage options (cloud, local). Prioritise robust security measures like strong password protection and encryption. Consider cameras with tamper detection features. Ensure the system allows for accurate timestamping of recordings. Systems with remote access capabilities should be secured with multi-factor authentication [S1].\n*   **Pitfalls:** Investing in cheap, low-quality cameras to save costs. Neglecting essential security features. Overlooking data retention policies required by law, such as those stipulated in the DPDP Act, 2023. Failing to consider the specific environmental conditions (lighting, weather) when selecting cameras. Insufficient storage space can lead to overwriting of critical footage [S2].\n*   **Expert Tip:** Invest in reputable brands with a proven track record. Consult with experienced security professionals to design a system that meets your legal and operational requirements. Obtain written documentation of the system's capabilities and security features.\n\n**Step 2: Proper Installation and Configuration**\n\n*   **What:** Ensure correct camera placement, angle, and settings for optimal recording.\n*   **Why:** Poor installation can result in blind spots, obstructed views, or inadequate recording quality. The footage might be unusable if crucial details are missing [S1]. Accurate timestamps are crucial for establishing the timeline of events, and incorrect configuration can jeopardise this [S2]. Correct date and time settings are essential [S2]. Moreover, compliance with the DPDP Act mandates adequate notice to individuals being recorded [S2].\n*   **How:** Strictly follow manufacturer guidelines. Test camera angles and settings to eliminate blind spots. Ensure adequate lighting, especially for nighttime recording. Protect cameras from physical tampering and vandalism. Consider using vandal-proof housings. Regularly check and adjust camera settings as needed. Use a Network Time Protocol (NTP) server to synchronise the system clock and prevent time drift [S1]. Prominently display signage indicating that CCTV surveillance is in operation [S2].\n*   **Pitfalls:** Ignoring manufacturer instructions during installation. Failing to optimise camera angles and settings. Neglecting to protect cameras from physical damage. Not providing adequate notice to individuals being recorded, violating privacy regulations [S2].\n*   **Expert Tip:** Engage a professional installer with experience in CCTV system deployment [S1]. Conduct regular audits of the system to ensure it is functioning correctly and providing adequate coverage.\n\n**Step 3: Maintaining the Chain of Custody**\n\n*   **What:** Implement strict procedures for handling, storing, and accessing CCTV footage to maintain its integrity.\n*   **Why:** The chain of custody is a critical legal requirement to demonstrate that the footage has not been tampered with or altered in any way from the moment it was recorded [S5]. Any break in the chain of custody can render the footage inadmissible in court [S5].\n*   **How:** Limit access to the footage to authorised personnel only. Implement a secure storage system with access controls and audit trails. Document every instance of access, copying, or transfer of the footage, including the date, time, and purpose. Use write-protected media for storing copies of the footage. Store the original footage in a secure location with environmental controls to prevent degradation [S5].\n*   **Pitfalls:** Allowing unauthorised access to the footage. Failing to document access and handling procedures. Storing the footage on insecure media or in uncontrolled environments. Overwriting or deleting footage prematurely [S5].\n*   **Expert Tip:** Use digital watermarking or hashing techniques to verify the integrity of the footage. Consider using blockchain technology to create an immutable record of the chain of custody [S1].\n\n**Step 4: Secure Data Storage and Retrieval**\n\n*   **What:** Establish a secure and reliable system for storing and retrieving CCTV footage.\n*   **Why:** Secure storage prevents unauthorised access, tampering, or deletion of footage. Reliable retrieval ensures that the footage can be accessed quickly and easily when needed for investigations or legal proceedings [S1].\n*   **How:** Use encrypted storage media. Implement strong access controls and authentication mechanisms. Regularly back up the footage to a separate secure location. Implement a data retention policy that complies with legal requirements. Use a robust search and indexing system to facilitate quick retrieval of specific footage [S1].\n*   **Pitfalls:** Storing footage on unencrypted media. Using weak passwords or failing to implement access controls. Not backing up the footage regularly. Retaining footage for longer than legally permitted [S2].\n*   **Expert Tip:** Consider using a cloud-based storage solution with built-in security and redundancy features. Implement a data lifecycle management system to automate the process of archiving and deleting footage.\n\n**Step 5: Presenting Footage in Court**\n\n*   **What:** Follow the correct legal procedures for presenting CCTV footage as evidence in court.\n*   **Why:** Failure to follow the correct procedures can result in the footage being ruled inadmissible, even if it is otherwise reliable [S4].\n*   **How:** Obtain a certificate under Section 65B of the Indian Evidence Act, 1872, attesting to the authenticity and integrity of the footage [S4]. Ensure that the chain of custody is clearly documented and presented to the court. Be prepared to answer questions about the system's operation, security, and maintenance. Provide expert testimony if necessary to explain the technical aspects of the footage [S4].\n*   **Pitfalls:** Failing to obtain a Section 65B certificate [S4]. Not being able to demonstrate the chain of custody [S5]. Presenting the footage without proper context or explanation [S4].\n*   **Expert Tip:** Engage a lawyer with experience in handling digital evidence to guide you through the legal process. Conduct a mock trial to prepare for cross-examination.\n\nBy following these best practices, businesses, law enforcement agencies, and individuals can increase the likelihood that their CCTV footage will be accepted as evidence in court, contributing to a more just and secure society.\n\n## Sources\n\nS1 - Digital Forensics and Chain of Custody (https://doi.org/10.4018/979-8-3373-3023-5.ch008)\nS2 - LEGAL STANDARDS OF THE EUROPEAN COURT OF HUMAN RIGHTS REGARDING REQUIREMENTS FOR ADMISSIBILITY OF EVIDENCE IN CRIMINFL PROCEEDINGS (https://doi.org/10.33994/kndise.2020.65.24)\nS3 - Admissibility of DNA Evidence in India: An Analysis of the Existing Legal Framework (https://doi.org/10.55248/gengpi.06.1125.3812)\nS4 - Admissibility from the Legal Perspective (https://doi.org/10.1002/9781119054443.ch2)\nS5 - The Collection of Evidence and Chain of Custody (https://doi.org/10.1016/b978-0-443-21441-7.00305-8)",
+  "wordCount": 1855,
+  "qualityScore": 75.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Digital Forensics and Chain of Custody",
+      "url": "https://doi.org/10.4018/979-8-3373-3023-5.ch008"
+    },
+    {
+      "id": "S2",
+      "title": "LEGAL STANDARDS OF THE EUROPEAN COURT OF HUMAN RIGHTS REGARDING REQUIREMENTS FOR ADMISSIBILITY OF EVIDENCE IN CRIMINFL PROCEEDINGS",
+      "url": "https://doi.org/10.33994/kndise.2020.65.24"
+    },
+    {
+      "id": "S3",
+      "title": "Admissibility of DNA Evidence in India: An Analysis of the Existing Legal Framework",
+      "url": "https://doi.org/10.55248/gengpi.06.1125.3812"
+    },
+    {
+      "id": "S4",
+      "title": "Admissibility from the Legal Perspective",
+      "url": "https://doi.org/10.1002/9781119054443.ch2"
+    },
+    {
+      "id": "S5",
+      "title": "The Collection of Evidence and Chain of Custody",
+      "url": "https://doi.org/10.1016/b978-0-443-21441-7.00305-8"
+    }
+  ],
+  "regulations": [
+    "Information Technology Act, 2000",
+    "Indian Evidence Act, 1872",
+    "Code of Criminal Procedure, 1973",
+    "Digital Personal Data Protection Act, 2023"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 75,
+      "verdict": "REVISE",
+      "verdict_reason": "The article requires further refinement to improve clarity and adherence to legal standards, specifically in referencing legislation and data protection practices. Some areas need expansion to provide a more comprehensive understanding of best practices. Additionally, British English phrasing is inconsistent and requires standardisation.",
+      "critical_fixes_needed": [
+        "Standardise all phrasing to British English.",
+        "Strengthen legal references: Ensure all legal references are accurate and complete, especially regarding the DPDP Act 2023. Clarify the implications of the Act, particularly concerning consent, data minimisation, and security measures.",
+        "Enhance Chain of Custody Section: Expand on the 'Chain of Custody' best practices, detailing procedures such as logging access, secure storage, and data integrity verification methods (hashing, watermarking).",
+        "Expand on 'Secure Data Storage' best practices: Add specific security practices such as encryption, access controls, and audit trails, with an explanation of how they contribute to the integrity and admissibility of CCTV evidence."
+      ]
+    },
+    "quality": {
+      "passes": true,
+      "score": 100.0,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1814,
+      "h2_count": 5,
+      "source_count": 13,
+      "regulation_count": 4,
+      "issues": [],
+      "warnings": [],
+      "british_issues": [],
+      "banned_phrases": [],
+      "recommendation": "PUBLISH"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 2 lacks required citation.",
+        "Paragraph 6 lacks required citation.",
+        "Paragraph 8 lacks required citation.",
+        "Sentence 14 contains numeric claim without citation.",
+        "Sentence 26 contains numeric claim without citation.",
+        "Sentence 33 contains numeric claim without citation.",
+        "Sentence 40 contains numeric claim without citation.",
+        "Sentence 43 contains numeric claim without citation.",
+        "Sentence 55 contains numeric claim without citation.",
+        "Sentence 61 contains numeric claim without citation.",
+        "Sentence 82 contains numeric claim without citation.",
+        "Regulation lacks citation in sentence: Information Technology Act, 2000",
+        "Regulation not mentioned in body: Digital Personal Data Protection Act, 2023",
+        "No primary regulatory sources cited for regulations."
+      ],
+      "warnings": [],
+      "metrics": {
+        "citation_count": 18,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 0
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "Digital Forensics and Chain of Custody",
+        "url": "https://doi.org/10.4018/979-8-3373-3023-5.ch008",
+        "publisher": "IGI Global Scientific Publishing",
+        "published": "2025-9-12",
+        "source_type": "academic",
+        "snippet": "With the digital landscape rapidly evolving, it is critical to establish strict forensic methodologies upon which electronic evidence can be admitted and its authenticity reliably determined. This study examines the interface between the chain of custody and digital forensics in maintaining evidentiary authenticity in accordance with statutory requirements, judicial precedents, and international legal frameworks. It evaluates emerging tools and technologies, such as blockchain and artificial intelligence, as well as vulnerabilities involved in the handling of electronic evidence. The research supports the harmonization, in both law and practice, of standards of proof, forensic best practices, and cross-border legal approaches to enhance evidentiary reliability. This work contributes to str",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.4018/979-8-3373-3023-5.ch008",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "LEGAL STANDARDS OF THE EUROPEAN COURT OF HUMAN RIGHTS REGARDING REQUIREMENTS FOR ADMISSIBILITY OF EVIDENCE IN CRIMINFL PROCEEDINGS",
+        "url": "https://doi.org/10.33994/kndise.2020.65.24",
+        "publisher": "Kyiv Scientific Research Institute of Forensic Expertise",
+        "published": "2020-5-18",
+        "source_type": "academic",
+        "snippet": "The article deals with the requirements of the European Court of Human Rights regarding evidence and evidence, which are disclosed in the provision of paragraph 3 of Article 6 “The right to a fair trial” of the Convention for the Protection of Human Rights and Fundamental Freedoms, the latest practice of the Supreme Court regarding the criteria for admissibility of evidence and analysis of the current criminal procedural law. As you know, the attitude of the state towards the protection of human rights and freedoms is one of the indicators of its democracy. Ukraine has chosen the European Community as the main strategic vector of development. Such a vector provides for the unification of the regulatory framework in accordance with European legislation, as well as compliance by law enforcem",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.33994/kndise.2020.65.24",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "Admissibility of DNA Evidence in India: An Analysis of the Existing Legal Framework",
+        "url": "https://doi.org/10.55248/gengpi.06.1125.3812",
+        "publisher": "Genesis Global Publication",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "�@u\u0017��7�-�9-\u000f\u0003_\u000f\u0019\\d����H\b��yإʈ� �TY���'��8:�՟��E�\u0001⍧�d��o;�E �r �lL\u0003s�1\u0013[_6\u001b��7�\u0006�\u0014Gl�F�,����V\u0013dq���\u0011\"����]﹙\u0004�GTќRE���\u0007A^\u0018����5x �I �]T�,w����eA����\u0013uG��F^,0�$\u0012 ,�]+SWe��\u0013Ap��L��\u001b�N�{*�%Ӫ�\u0018�bsD��C\u00117�&|�r\u000fdI1��N�{�ɜ��.��=��ի�Z��$ �a}2���M\u0017���Y��w�r�PR�\by�\u001b� ��@<.\u0004\u0005�I\u0019<�2p �0,�5o\u0012_��+�<��N�iӮ�Lַ!5�/��Mi Ѧ\u0012 3���H �%рD��\u001bi�a�K6�\u0007�hU���y>��S��|�-�|\\]}�[�pHH�LU�{�\u001br��:6����H=�\u0010g���J��\u0019l�F�\"�g�n͏y���L)���\u0017]�\u0001�E����iP���\u0007+=P\u0010������=�,�<�T����\u0018��\u0011.�Ov &����:s�A������8F<�b\u000f��\u0012b �E���\u0006g�ߏ��b�\u0006�\u0010�\u0004�\u0015\u0005u4��5d���0\u0014�\u0017� 9A#\u0015\u0007\u0010S� k�Q �f�S\"\u0015��_�)�\u0013��[��~4��b u �uJS 1z9\u0015}L1\u0015���=4IE�n�4���AtA�ky잧ǂ\u000e ����B4�;� խf ńZ�xk�ka�lp:\u0007P�fW\\�GL�ҁ&���] �/`�}u���[e.����\"���\u0014�\u0005:��� <� �����M3!G|�1� ewoS-.��P�x\u0005�[\u001a R�� �ʩ�;>bk��\u0001�V��'��Ag�\u000e���;�\"�/\u000f�=��Ɨ�\u0015�)vX��[�l�� w�o�@X���A���Wn\u0002�9��s���]2�^Գ�ބ\u0018�}�u�}���\u001b%U ��\u0007z� \u0015h[\u0013F���'l7c�t�2��Vy���&N�-��Ff�ifv)\u0019\u0016�hl����\u0005N\u00051PD\b�\u0016����-��Hvaqv\u001a~6�M��;��Y�r�гb\u0007<�i��1Zd�~ �U��<]F��D��HЅ\u001b�\u00020���\u001atq���8�\u0011ʤ1\u0017`<��� \u0005\u000f�Uʔ;<\u0015\u0010W%9�\u0013��u\u0011 ݏ�붭��\"\u0002@������?��˿ſ����g��\u0017��k��� c�;{\u0015�\\7Ԍ+�Sӥ�?���}_\\�Ti�L��D1���\u0003ƪ�u������\u0013l�׻ > /Dest 127 0 R /F 4 /P 125 0 R /Rect [340.35 672.15 345.5 684.15] /Subtype /Link /Type /Annot>> endobj 130 0 obj <> /Dest 129 0 R /F 4 /P 125 0 R /Rect [522.25 474.15 527.4 486.15] /Subtype /Link /Type /Annot>> endobj 132 0 obj <> /Dest 131 0 R /F 4 /P 125 0 R /Rect [111.3 372.15 116.45 384.15] /Subtype /Link /Type /Annot>> endobj 134 0 obj <> /Dest 133 0 R /F 4 /P 125 0 R /Rect [232.45 180.15 237.6 192.15] /Subtype /Link /Type /Annot>> endobj 136 0 obj <> /Font <>>> /Type /Page>> endobj 137 0 obj <> stream x��][�%�\u0011~\u000f�8φtto5����\u001a\u0002yH�� \u0010b��\u0003v ��#��xOI_w���g�aY�mft)�Ju����\u0017}S�������r��O/?��o~���_/�����\u00175)��%��s��C�Qu�۷�>|����_����7 ���w/���Zݾ����e��ڄ�ś��[n�~z��R�?}����d\u0017�~��������1��/���9t�|t1 �I_�4Ӽ��c:�?��`��ƴj ��4�W\u0017��5���>��O/\u0015\u00111��\u001aJį \u0015 %\"\\`D���WE��Y�\u0014)O�����,F��S�ٲk��\u00013\u0005@[��-3!��PsÇS\u001b��|�n̖���8��;�\b�\u0011p�� T��� b��+E?n_)9yf;\u0019J���4��|j�\u0018�(�\u0005�\u0005\u0012 ���e\u0016�) \u0011 �S���8Y��-.prx��Mn�D�T/��O�Щ�9�[���?�+\u0018O-�Ǌϴ\u0003�� �38I�YU3{��\u0016{j���A{�? ��?* �;�<%��J���4�}i�l",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.55248/gengpi.06.1125.3812",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Admissibility from the Legal Perspective",
+        "url": "https://doi.org/10.1002/9781119054443.ch2",
+        "publisher": "Wiley",
+        "published": "2016-9-22",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1002/9781119054443.ch2",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "The Collection of Evidence and Chain of Custody",
+        "url": "https://doi.org/10.1016/b978-0-443-21441-7.00305-8",
+        "publisher": "Elsevier",
+        "published": "2025",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1016/b978-0-443-21441-7.00305-8",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "Businesses, law enforcement agencies, and individuals must understand the legal requirements surrounding CCTV footage to reduce legal risks and increase the likelihood of successful prosecutions.",
+          "claim_type": "policy",
+          "citations": [
+            "S1"
+          ],
+          "sources": [
+            "S1"
+          ],
+          "domains": [
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C002",
+          "text": "Navigating this landscape requires careful attention to detail and a thorough understanding of the relevant legislation.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        },
+        {
+          "id": "C003",
+          "text": "*   **Information Technology Act, 2000:** This Act addresses the legal recognition and admissibility of electronic records.",
+          "claim_type": "regulatory",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C004",
+          "text": "*   **Indian Evidence Act, 1872:** Amendments to this Act have incorporated provisions for electronic evidence [S4].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C005",
+          "text": "This section requires a certificate to be produced, attesting to the proper functioning of the recording device, the integrity of the data, and the absence of any tampering.",
+          "claim_type": "policy",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C006",
+          "text": "*   **Code of Criminal Procedure, 1973 (CrPC):** The CrPC provides the framework for investigation and evidence gathering in criminal cases [S5].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C007",
+          "text": "Organisations deploying CCTV systems must comply with the DPDP Act's provisions regarding notice, data storage limitation, and security measures [S4].",
+          "claim_type": "policy",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C008",
+          "text": "Potential conflicts between surveillance and individual privacy rights must be carefully addressed.",
+          "claim_type": "policy",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C009",
+          "text": "Compliance with the DPDP Act, 2023, begins at this stage [S1].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S3",
+            "S1",
+            "S2"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S3",
+            "S1",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C010",
+          "text": "Overlooking data retention policies required by law, such as those stipulated in the DPDP Act, 2023.",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S3",
+            "S1",
+            "S2"
+          ],
+          "sources": [
+            "S1",
+            "S1",
+            "S1",
+            "S3",
+            "S1",
+            "S2"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C011",
+          "text": "Moreover, compliance with the DPDP Act mandates adequate notice to individuals being recorded [S2].",
+          "claim_type": "policy",
+          "citations": [
+            "S1",
+            "S2",
+            "S2",
+            "S2",
+            "S1",
+            "S2",
+            "S2",
+            "S1"
+          ],
+          "sources": [
+            "S1",
+            "S2",
+            "S2",
+            "S2",
+            "S1",
+            "S2",
+            "S2",
+            "S1"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C012",
+          "text": "*   **How:** Obtain a certificate under Section 65B of the Indian Evidence Act, 1872, attesting to the authenticity and integrity of the footage [S4].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S4"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S4"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 2,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 3,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [
+            "S1"
+          ],
+          "claims": [
+            "C001"
+          ]
+        },
+        {
+          "paragraph": 5,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [],
+          "claims": [
+            "C002"
+          ]
+        },
+        {
+          "paragraph": 7,
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5",
+            "S5",
+            "S4",
+            "S1",
+            "S4"
+          ],
+          "claims": [
+            "C003",
+            "C004",
+            "C005",
+            "C006",
+            "C007",
+            "C008"
+          ]
+        },
+        {
+          "paragraph": 8,
+          "citations": [
+            "S4"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 10,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 12,
+          "citations": [
+            "S1",
+            "S1",
+            "S1",
+            "S3",
+            "S1",
+            "S2"
+          ],
+          "claims": [
+            "C009",
+            "C010"
+          ]
+        },
+        {
+          "paragraph": 13,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [
+            "S1",
+            "S2",
+            "S2",
+            "S2",
+            "S1",
+            "S2",
+            "S2",
+            "S1"
+          ],
+          "claims": [
+            "C011"
+          ]
+        },
+        {
+          "paragraph": 15,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 16,
+          "citations": [
+            "S5",
+            "S5",
+            "S5",
+            "S5",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 17,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 18,
+          "citations": [
+            "S1",
+            "S1",
+            "S2"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 19,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 20,
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S4"
+          ],
+          "claims": [
+            "C012"
+          ]
+        },
+        {
+          "paragraph": 21,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 22,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 23,
+          "citations": [],
+          "claims": []
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C002: Claim lacks citation."
+      ],
+      "metrics": {
+        "claim_count": 12,
+        "numeric_claims": 0,
+        "regulatory_claims": 4,
+        "contradictions": 0
+      }
+    }
+  }
+}

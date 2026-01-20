@@ -1,0 +1,106 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import SectorPreferences from '../../components/dashboard/SectorPreferences';
+import { getCollection } from 'astro:content';
+
+// Force server-side rendering for this page
+export const prerender = false;
+
+// Get all sectors
+const allSectors = await getCollection('sectors');
+const sectorsList = allSectors.map(s => ({
+  slug: s.slug,
+  name: s.data.title,
+  icon: s.data.icon || 'shield'
+}));
+---
+
+<DashboardLayout activeTab="preferences">
+  <div class="space-y-8">
+    <!-- Header -->
+    <section class="bg-neutral-900 border-2 border-neutral-800 p-6">
+      <div>
+        <h2 class="text-2xl font-black text-neutral-100 mb-2">SYSTEM PREFERENCES</h2>
+        <p class="text-neutral-400 text-sm font-mono">
+          Configure your intelligence feed and notification settings
+        </p>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Sector Preferences -->
+      <div>
+        <h3 class="text-sm font-bold text-neutral-400 uppercase tracking-wider mb-4">
+          Intelligence Sectors
+        </h3>
+        <SectorPreferences
+          client:load
+          sectors={sectorsList}
+        />
+      </div>
+
+      <!-- Notification Preferences -->
+      <div class="space-y-6">
+        <h3 class="text-sm font-bold text-neutral-400 uppercase tracking-wider mb-4">
+          Alert Preferences
+        </h3>
+
+        <div class="bg-neutral-900 border-2 border-neutral-800 p-6">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-neutral-200">Email Alerts</p>
+                <p class="text-xs text-neutral-500">Receive critical threat alerts via email</p>
+              </div>
+              <div class="w-12 h-6 bg-neutral-700 rounded-full relative cursor-not-allowed opacity-50">
+                <div class="absolute left-1 top-1 w-4 h-4 bg-neutral-500 rounded-full"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-neutral-200">SMS Alerts</p>
+                <p class="text-xs text-neutral-500">Get urgent alerts via SMS</p>
+              </div>
+              <div class="w-12 h-6 bg-neutral-700 rounded-full relative cursor-not-allowed opacity-50">
+                <div class="absolute left-1 top-1 w-4 h-4 bg-neutral-500 rounded-full"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-neutral-200">Weekly Digest</p>
+                <p class="text-xs text-neutral-500">Summary of key intelligence each week</p>
+              </div>
+              <div class="w-12 h-6 bg-neutral-700 rounded-full relative cursor-not-allowed opacity-50">
+                <div class="absolute left-1 top-1 w-4 h-4 bg-neutral-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-neutral-800">
+            <p class="text-xs text-amber-500 font-mono">
+              ALERT SYSTEM COMING SOON
+            </p>
+          </div>
+        </div>
+
+        <!-- Account Info -->
+        <div class="bg-neutral-900 border-2 border-neutral-800 p-6">
+          <h4 class="text-sm font-bold text-neutral-400 uppercase tracking-wider mb-4">
+            Account
+          </h4>
+          <p class="text-xs text-neutral-600 mb-4">
+            Manage your account settings through the profile menu.
+          </p>
+          <a
+            href="/sign-in"
+            class="text-sm text-primary-accent hover:text-primary-accent/80 font-mono uppercase tracking-wider"
+          >
+            Manage Account →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

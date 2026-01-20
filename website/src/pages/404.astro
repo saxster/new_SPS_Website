@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SideDrawer from '../components/SideDrawer.astro';
+
+const title = "404 | Resource Not Found | SPS";
+const description = "The requested intelligence resource could not be located. Return to the command centre for navigation assistance.";
+---
+
+<Layout title={title} description={description}>
+  <SideDrawer />
+
+  <main class="min-h-screen flex items-center justify-center bg-gradient-radial bg-noise relative overflow-hidden">
+    <!-- Decorative Grid Background -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-20"></div>
+
+    <!-- Decorative Lines -->
+    <div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary-accent/20 to-transparent"></div>
+    <div class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary-accent/20 to-transparent"></div>
+
+    <div class="brutalist-container relative z-10 text-center py-24 px-8">
+      <!-- Error Code Display -->
+      <div class="mb-8 fade-in-up">
+        <div class="inline-flex items-center gap-2 mb-6 border-2 border-red-500/40 px-4 py-2 bg-red-500/5">
+          <span class="w-2 h-2 bg-red-500 status-pulse rounded-full"></span>
+          <span class="text-xs font-mono text-red-500 tracking-widest uppercase">Resource Not Found</span>
+        </div>
+      </div>
+
+      <!-- Large 404 -->
+      <div class="relative mb-8 fade-in-scale delay-1">
+        <h1 class="text-[150px] md:text-[200px] font-black text-neutral-800 leading-none tracking-tighter" style="font-family: var(--font-family-display);">
+          404
+        </h1>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="text-6xl md:text-8xl font-black text-primary-accent glitch-hover" style="font-family: var(--font-family-display);">
+            404
+          </span>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="max-w-2xl mx-auto mb-12 fade-in-up delay-2">
+        <h2 class="text-heading-3 mb-4 text-white">INTELLIGENCE NOT LOCATED</h2>
+        <p class="text-body text-lg text-neutral-400 leading-relaxed">
+          The requested resource has been moved, archived, or does not exist in our intelligence database.
+          This could be a broken link or a deprecated endpoint.
+        </p>
+      </div>
+
+      <!-- Diagnostic Info -->
+      <div class="max-w-xl mx-auto mb-12 p-6 border-2 border-neutral-800 bg-neutral-900/50 text-left font-mono text-sm fade-in-up delay-3">
+        <div class="text-neutral-500 mb-2">// Diagnostic Report</div>
+        <div class="text-neutral-400 space-y-1">
+          <p><span class="text-primary-accent">Status:</span> 404 NOT_FOUND</p>
+          <p><span class="text-primary-accent">Path:</span> <span id="current-path" class="text-red-400"></span></p>
+          <p><span class="text-primary-accent">Timestamp:</span> <span id="timestamp" class="text-neutral-500"></span></p>
+        </div>
+      </div>
+
+      <!-- Navigation Options -->
+      <div class="flex flex-col sm:flex-row gap-5 justify-center fade-in-up delay-4">
+        <a href="/" class="brutalist-button brutalist-button--primary hover-glow">
+          RETURN TO COMMAND CENTRE
+        </a>
+        <a href="/articles" class="brutalist-button brutalist-button--secondary">
+          BROWSE INTELLIGENCE
+        </a>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="mt-16 pt-8 border-t-2 border-neutral-800 fade-in-up delay-5">
+        <p class="text-xs text-neutral-500 uppercase tracking-widest mb-6">Quick Navigation</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/sectors" class="text-sm text-neutral-400 hover:text-primary-accent transition-colors">Sectors</a>
+          <span class="text-neutral-700">|</span>
+          <a href="/services" class="text-sm text-neutral-400 hover:text-primary-accent transition-colors">Services</a>
+          <span class="text-neutral-700">|</span>
+          <a href="/tools" class="text-sm text-neutral-400 hover:text-primary-accent transition-colors">Tools</a>
+          <span class="text-neutral-700">|</span>
+          <a href="/contact" class="text-sm text-neutral-400 hover:text-primary-accent transition-colors">Contact</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-16 fade-in-up delay-6">
+        <p class="text-xs font-bold text-neutral-600 uppercase tracking-widest">SPS | A Sukhi Enterprise</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Display current path and timestamp
+    document.getElementById('current-path').textContent = window.location.pathname;
+    document.getElementById('timestamp').textContent = new Date().toISOString();
+  </script>
+</Layout>

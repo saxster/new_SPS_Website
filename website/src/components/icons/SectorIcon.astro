@@ -1,0 +1,105 @@
+---
+/**
+ * SectorIcon - SVG icons for sector pages
+ * Maps sector slugs to professional SVG icons
+ * Falls back to emoji if no SVG mapping exists
+ */
+
+interface Props {
+  sector: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  class?: string;
+}
+
+const { sector, size = 'lg', class: className = '' } = Astro.props;
+
+const sizeClasses = {
+  sm: 'w-6 h-6',
+  md: 'w-8 h-8',
+  lg: 'w-12 h-12',
+  xl: 'w-16 h-16'
+};
+
+const sizeClass = sizeClasses[size];
+
+// SVG icon definitions - professional security-themed icons
+const icons: Record<string, string> = {
+  jewellery: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" stroke-linejoin="miter" d="M12 2L3 9l9 13 9-13-9-7z"/>
+    <path stroke-linecap="square" stroke-linejoin="miter" d="M3 9h18"/>
+    <path stroke-linecap="square" stroke-linejoin="miter" d="M7.5 9l4.5 13 4.5-13"/>
+  </svg>`,
+
+  healthcare: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <rect x="3" y="3" width="18" height="18" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M12 7v10M7 12h10"/>
+  </svg>`,
+
+  education: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" d="M12 3L2 9l10 6 10-6-10-6z"/>
+    <path stroke-linecap="square" d="M2 9v8"/>
+    <path stroke-linecap="square" d="M6 11.5v6.5l6 3 6-3v-6.5"/>
+  </svg>`,
+
+  finance: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <rect x="2" y="7" width="20" height="14" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M2 11h20"/>
+    <path stroke-linecap="square" d="M6 15h4"/>
+    <path stroke-linecap="square" d="M16 3v4"/>
+    <path stroke-linecap="square" d="M8 3v4"/>
+  </svg>`,
+
+  industrial: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" d="M3 21V8l6 4V8l6 4V8l6 4v9H3z"/>
+    <path stroke-linecap="square" d="M3 21h18"/>
+  </svg>`,
+
+  hospitality: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <rect x="4" y="5" width="16" height="14" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M4 9h16"/>
+    <path stroke-linecap="square" d="M9 5v4"/>
+    <path stroke-linecap="square" d="M15 5v4"/>
+    <rect x="7" y="12" width="4" height="3" stroke-linecap="square"/>
+    <rect x="13" y="12" width="4" height="3" stroke-linecap="square"/>
+  </svg>`,
+
+  logistics: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <rect x="1" y="6" width="15" height="10" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M16 10h4l3 4v2h-7V10z"/>
+    <circle cx="6" cy="18" r="2" stroke-linecap="square"/>
+    <circle cx="18" cy="18" r="2" stroke-linecap="square"/>
+  </svg>`,
+
+  cyber: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <rect x="2" y="4" width="20" height="12" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M6 20h12"/>
+    <path stroke-linecap="square" d="M12 16v4"/>
+    <path stroke-linecap="square" d="M9 8l2 2-2 2"/>
+    <path stroke-linecap="square" d="M13 12h2"/>
+  </svg>`,
+
+  petrol: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" d="M4 22V6h12v16"/>
+    <path stroke-linecap="square" d="M16 10h3v6h-3"/>
+    <path stroke-linecap="square" d="M19 10l2-4"/>
+    <rect x="7" y="10" width="6" height="4" stroke-linecap="square"/>
+    <path stroke-linecap="square" d="M4 6l6-4 6 4"/>
+  </svg>`,
+
+  residential: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" d="M3 10L12 3l9 7"/>
+    <rect x="4" y="10" width="16" height="11" stroke-linecap="square"/>
+    <rect x="9" y="14" width="6" height="7" stroke-linecap="square"/>
+  </svg>`,
+
+  // Default fallback - shield icon
+  default: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="${sizeClass} ${className}">
+    <path stroke-linecap="square" d="M12 3L4 7v6c0 5.5 3.5 9.5 8 11 4.5-1.5 8-5.5 8-11V7l-8-4z"/>
+    <path stroke-linecap="square" d="M9 12l2 2 4-4"/>
+  </svg>`
+};
+
+const iconHtml = icons[sector] || icons.default;
+---
+
+<Fragment set:html={iconHtml} />

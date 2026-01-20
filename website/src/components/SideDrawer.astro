@@ -1,0 +1,291 @@
+---
+// Side drawer navigation component with Clerk auth integration
+import { SignedIn, SignedOut, UserButton } from '@clerk/astro/components';
+---
+
+<!-- Hamburger Button - Fixed Left Edge -->
+<button
+  id="drawer-toggle"
+  class="absolute top-16 left-6 z-50 bg-neutral-900 border-2 border-primary-accent p-3 hover:bg-primary-accent hover:text-black transition-all"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="side-drawer"
+>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
+
+<!-- Overlay -->
+<div
+  id="drawer-overlay"
+  class="fixed inset-0 bg-black/80 z-40 hidden transition-opacity"
+  aria-hidden="true"
+></div>
+
+<!-- Side Drawer -->
+<nav
+  id="side-drawer"
+  class="fixed top-0 left-0 h-full w-80 bg-neutral-900 border-r-4 border-primary-accent z-50 transform -translate-x-full transition-transform duration-300 flex flex-col"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site navigation"
+  aria-hidden="true"
+>
+  <!-- Header -->
+  <div class="p-6 border-b-2 border-neutral-800">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <img src="/sps-logo.png" alt="SPS" class="w-12 h-auto" width="48" height="48" loading="lazy" decoding="async" />
+        <div>
+          <h2 class="text-xl font-black text-primary-accent">SPS</h2>
+          <p class="text-xs text-neutral-500 uppercase tracking-wide">Security Intelligence</p>
+        </div>
+      </div>
+      <button
+        id="drawer-close"
+        class="text-neutral-400 hover:text-primary-accent transition-colors"
+        aria-label="Close menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation Links -->
+  <div class="flex-1 overflow-y-auto">
+    <div class="p-6 space-y-1">
+      <!-- User Account Section -->
+      <SignedIn>
+        <div class="mb-6 pb-6 border-b-2 border-neutral-800">
+          <div class="flex items-center gap-3 mb-4">
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "w-10 h-10 border-2 border-primary-accent",
+                  userButtonPopoverCard: "bg-neutral-900 border-2 border-neutral-700",
+                  userButtonPopoverActionButton: "hover:bg-neutral-800",
+                  userButtonPopoverActionButtonText: "text-neutral-200",
+                  userButtonPopoverFooter: "hidden"
+                }
+              }}
+            />
+            <div>
+              <p class="font-bold text-sm text-primary-accent">INTEL OPERATIVE</p>
+              <p class="text-xs text-neutral-500 font-mono">CLEARANCE: ACTIVE</p>
+            </div>
+          </div>
+          <a href="/dashboard" class="block py-2 px-4 text-sm hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-2 border-transparent hover:border-primary-accent">
+            Dashboard
+          </a>
+          <a href="/dashboard/saved" class="block py-2 px-4 text-sm hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-2 border-transparent hover:border-primary-accent">
+            Saved Articles
+          </a>
+          <a href="/dashboard/conversations" class="block py-2 px-4 text-sm hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-2 border-transparent hover:border-primary-accent">
+            Expert History
+          </a>
+        </div>
+      </SignedIn>
+
+      <SignedOut>
+        <div class="mb-6 pb-6 border-b-2 border-neutral-800">
+          <a
+            href="/sign-in"
+            class="flex items-center gap-3 py-3 px-4 bg-primary-accent/10 border-2 border-primary-accent hover:bg-primary-accent hover:text-black transition-all group"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            <span class="font-bold text-sm uppercase tracking-wider">Secure Login</span>
+          </a>
+          <p class="text-xs text-neutral-500 mt-3 px-4 font-mono">
+            Access personalized threat intel
+          </p>
+        </div>
+      </SignedOut>
+
+      <!-- Main Navigation -->
+      <a
+        href="/"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Home
+      </a>
+      <a
+        href="#sectors"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Sectors
+      </a>
+      <a
+        href="/intelligence"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Global Command Center
+      </a>
+      <a
+        href="/news"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent flex items-center justify-between group"
+      >
+        <span>SPS News & Views</span>
+        <span class="text-[10px] font-black bg-primary-accent text-black px-2 py-0.5 rounded animate-pulse group-hover:animate-none">LIVE</span>
+      </a>
+      <a
+        href="/intelligence/india-trends"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-amber-500 transition-colors border-l-4 border-transparent hover:border-amber-500 flex items-center justify-between"
+      >
+        India Threat Forecast
+        <span class="text-[10px] font-bold bg-amber-900/30 text-amber-500 px-2 py-0.5 rounded border border-amber-500/20">BETA</span>
+      </a>
+      <a
+        href="/operations"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Operations Log
+      </a>
+      <a
+        href="/about"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        About SPS
+      </a>
+      
+      <!-- Intelligence Tools -->
+      <div class="mt-4 mb-2 px-4 text-xs font-bold text-neutral-500 uppercase tracking-widest">
+        Intelligence Tools
+      </div>
+      <a
+        href="/tools/compliance-calculator"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-compliance transition-colors border-l-4 border-transparent hover:border-compliance flex items-center justify-between"
+      >
+        Compliance Calc
+        <span class="text-[10px] font-bold bg-neutral-800 px-1.5 py-0.5 rounded text-neutral-400">V1.0</span>
+      </a>
+      <a
+        href="/community/expert-forum"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Expert Q&A Forum
+      </a>
+
+      <a
+        href="/officers"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Command Structure
+      </a>
+      <a
+        href="/services"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Our Services
+      </a>
+      <a
+        href="/contact"
+        class="block py-3 px-4 text-base font-medium hover:bg-neutral-800 hover:text-primary-accent transition-colors border-l-4 border-transparent hover:border-primary-accent"
+      >
+        Contact
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer Badge -->
+  <div class="p-6 border-t-2 border-neutral-800">
+    <div class="flex items-center gap-3">
+      <div class="status-badge status-badge--compliance px-3 py-1 text-xs">
+        TRUSTED SINCE 1965
+      </div>
+      <span class="text-xs text-neutral-500">60 Years</span>
+    </div>
+    <p class="text-xs text-neutral-500 mt-3 uppercase tracking-wide">A Sukhi Enterprise</p>
+  </div>
+</nav>
+
+<script>
+  const toggleButton = document.getElementById('drawer-toggle');
+  const closeButton = document.getElementById('drawer-close');
+  const drawer = document.getElementById('side-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+
+  // Get all focusable elements in the drawer for focus trapping
+  const getFocusableElements = () => {
+    return drawer?.querySelectorAll(
+      'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+    ) as NodeListOf<HTMLElement>;
+  };
+
+  function openDrawer() {
+    drawer?.classList.remove('-translate-x-full');
+    overlay?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Update ARIA attributes
+    toggleButton?.setAttribute('aria-expanded', 'true');
+    drawer?.setAttribute('aria-hidden', 'false');
+
+    // Focus the close button when drawer opens
+    setTimeout(() => closeButton?.focus(), 100);
+  }
+
+  function closeDrawer() {
+    drawer?.classList.add('-translate-x-full');
+    overlay?.classList.add('hidden');
+    document.body.style.overflow = '';
+
+    // Update ARIA attributes
+    toggleButton?.setAttribute('aria-expanded', 'false');
+    drawer?.setAttribute('aria-hidden', 'true');
+
+    // Return focus to toggle button
+    toggleButton?.focus();
+  }
+
+  toggleButton?.addEventListener('click', openDrawer);
+  closeButton?.addEventListener('click', closeDrawer);
+  overlay?.addEventListener('click', closeDrawer);
+
+  // Close drawer when clicking nav links (smooth UX)
+  const navLinks = drawer?.querySelectorAll('a');
+  navLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(closeDrawer, 200);
+    });
+  });
+
+  // Keyboard accessibility
+  document.addEventListener('keydown', (e) => {
+    const isDrawerOpen = !drawer?.classList.contains('-translate-x-full');
+
+    // ESC to close
+    if (e.key === 'Escape' && isDrawerOpen) {
+      closeDrawer();
+      return;
+    }
+
+    // Focus trap: Tab and Shift+Tab cycle within drawer
+    if (e.key === 'Tab' && isDrawerOpen) {
+      const focusable = getFocusableElements();
+      if (!focusable || focusable.length === 0) return;
+
+      const firstElement = focusable[0];
+      const lastElement = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        // Shift + Tab: If on first element, go to last
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        // Tab: If on last element, go to first
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+  });
+</script>

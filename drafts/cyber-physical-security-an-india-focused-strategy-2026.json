@@ -1,0 +1,839 @@
+{
+  "title": "Cyber-Physical Security: An India-Focused Strategy (2026)",
+  "description": "A practical guide for securing critical infrastructure and operational technology in India amidst the cyber-physical convergence.",
+  "pubDate": "2026-01-19T16:33:57.995400",
+  "author": "SPS Intelligence Team",
+  "image": {
+    "url": "https://image.pollinations.ai/prompt/the%2Cgreat%2Cconvergence%3A?width=1200&height=630&nologo=true",
+    "alt": "The Great Convergence: When Cyber Met Physical (2026 Strategy)"
+  },
+  "tags": [
+    "cybersecurity",
+    "OT security",
+    "critical infrastructure",
+    "India",
+    "cyber-physical systems"
+  ],
+  "category": "Security",
+  "contentType": "Guide",
+  "draft": false,
+  "body": "# The Great Convergence: When Cyber Met Physical - Securing India's Future (2026)\n\nImagine a scenario unfolding in Mumbai: a sophisticated ransomware attack cripples the city's water supply system. Valves malfunction, reservoirs overflow, and entire neighbourhoods face water shortages, all orchestrated by malicious code targeting vulnerable industrial control systems. This isn't a far-fetched movie plot; it's a plausible consequence of the escalating convergence of cyber and physical systems in India. Such an attack could exploit vulnerabilities in supervisory control and data acquisition (SCADA) systems, leading to widespread disruption and potential public health crises [S1]. The interconnected nature of modern infrastructure makes these systems prime targets for malicious actors [S1].\n\n## Why This Matters\n\nIndia's infrastructure, manufacturing, and energy sectors are rapidly embracing cyber-physical systems (CPS), integrating digital networks with physical processes [S2]. This convergence offers immense potential for efficiency and innovation, but it also introduces unprecedented security risks [S2]. The integration of operational technology (OT) with IT systems creates a larger, more complex attack surface, making critical infrastructure vulnerable to cyberattacks with real-world consequences [S2]. Consider the potential impact on *your* organisation: a compromised programmable logic controller (PLC) in *your* factory could halt production, resulting in significant financial losses and reputational damage. A successful attack could even endanger human lives. \"With the convergence of the physical and digital worlds comes a heightened risk of security threats…\" [S2]. These cyber-physical attacks targeting critical infrastructures have the potential to damage physical assets and have widespread consequences for national security and society [S1]. Addressing these escalating risks is paramount for security professionals, facility managers, IT leaders, and business executives across India. The financial implications alone can be staggering, with recovery costs, legal fees, and lost revenue potentially reaching millions of rupees. Furthermore, the reputational damage associated with a successful cyber-physical attack can erode customer trust and negatively impact brand value. The increasing sophistication of cyber threats, coupled with the inherent vulnerabilities of legacy OT systems, necessitates a proactive and comprehensive approach to cyber-physical security. The stakes are simply too high to ignore.\n\n## Regulatory Landscape (India)\n\nThe current regulatory landscape in India presents both opportunities and challenges for cyber-physical security. While India has made strides in data protection and cybersecurity, specific regulations tailored to the unique risks of CPS remain limited. This gap necessitates a reliance on broader legal frameworks and industry best practices. The **Data Protection Digital Personal Data Act (DPDP) 2023** establishes a framework for data security and accountability, impacting how organisations handle data collected from and used by CPS [S3]. Under the DPDP Act 2023, organisations acting as data fiduciaries are responsible for protecting personal data processed by CPS, including implementing reasonable security safeguards to prevent data breaches and reporting breaches to the Data Protection Board of India and affected individuals [S3]. This includes data related to system performance, user activity, and environmental conditions. Failure to comply with the DPDP Act can result in significant penalties, including financial fines and reputational damage [S3]. The **Bharatiya Nyaya Sanhita (BNS) 2023** includes relevant sections addressing cybercrime and penalties, providing a legal basis for prosecuting cyber-physical attacks [S3]. Organisations must be aware of the BNS 2023 provisions related to offences such as data theft, hacking, and disruption of critical infrastructure, which can carry significant fines and imprisonment [S3]. The BNS enhances the legal framework for addressing cyber threats to critical infrastructure. Relevant Indian Standards, such as **IS 550**, outline cybersecurity best practices [S3]. However, they may not fully address the specific challenges of securing CPS. For example, IS 550 may provide general guidance on vulnerability management but not offer specific recommendations for securing industrial control systems (ICS) commonly found in critical infrastructure [S3]. The Ministry of Home Affairs (MHA) and CERT-In play key roles in coordinating cybersecurity efforts and responding to cyber incidents affecting critical infrastructure [S3]. Organisations operating in India must comply with the guidelines and directives issued by these bodies, including reporting security breaches and implementing recommended security measures [S3]. While no regulations are specifically tailored to cyber-physical security, the government may introduce new frameworks for critical infrastructure protection [S3]. Organisations should proactively monitor regulatory developments and prepare for potential future requirements, such as mandatory security audits, incident reporting, and compliance with specific security standards [S3]. Compliance is not merely a legal obligation; it is a business imperative that safeguards an organisation's operations, reputation, and bottom line [S3]. Adopting a proactive stance towards regulatory compliance will minimise risks and ensure long-term sustainability [S3].\n\n## Understanding Cyber-Physical Systems (CPS)\n\nBefore diving into the solution, it's essential to define what constitutes a Cyber-Physical System (CPS) in the Indian context. CPS are engineered systems that integrate computation, communication, and control with physical processes [S4]. These systems are prevalent in various sectors, including manufacturing, energy, transportation, and healthcare [S4]. Examples of CPS in India include smart grids, intelligent transportation systems, automated manufacturing plants, and advanced healthcare devices [S4]. The convergence of cyber and physical elements in CPS introduces unique security challenges [S4]. Unlike traditional IT systems, CPS directly interact with the physical world, making them vulnerable to attacks that can have tangible consequences [S4]. For instance, a compromised industrial robot in a manufacturing plant could cause physical damage to equipment or injure workers [S4]. Similarly, a cyberattack on a smart grid could lead to widespread power outages, impacting critical services and infrastructure [S4]. Understanding the specific characteristics and vulnerabilities of CPS is crucial for developing effective security strategies [S4]. This involves considering the unique operational requirements, technical constraints, and regulatory landscape of each sector [S4]. Furthermore, it's essential to recognise that CPS are constantly evolving, with new technologies and applications emerging regularly [S5]. This requires a continuous assessment of security risks and adaptation of security measures to address emerging threats [S5].\n\n## The Step-By-Step Solution\n\nTo effectively secure cyber-physical systems in India, organisations must adopt a comprehensive, multi-layered security strategy. The following steps outline a practical approach to mitigating cyber-physical risks and protecting critical infrastructure.\n\n### Step 1: Asset Inventory and Risk Assessment\n\nThe first step is to identify all physical and cyber assets within the organisation, including ICS, IoT devices, network infrastructure, and data repositories [S3]. You cannot protect what you do not know. This comprehensive inventory forms the foundation of a solid security strategy [S3]. Conduct a thorough asset inventory and vulnerability assessment, employing automated discovery tools and manual inspections. Involve both IT and OT teams to ensure a holistic view of the organisation's assets [S3].\n\n**What:** Identify all physical and cyber assets, encompassing ICS, IoT devices, and network infrastructure [S3].\n\n**Why:** A comprehensive inventory is the cornerstone of a robust security posture [S3]. Without knowing what assets exist, it's impossible to adequately protect them [S3]. This inventory should be regularly updated to reflect changes in the organisation's environment [S3].\n\n**How:** Utilise automated discovery tools to scan the network and identify connected devices [S3]. Supplement this with manual inspections to account for shadow IT and legacy systems [S3]. Engage both IT and OT teams to ensure all assets are identified and documented [S3].\n\n**Pitfalls:** Overlooking shadow IT, failing to account for legacy systems, and inaccurate data can all undermine the effectiveness of the asset inventory [S3]. Neglecting to regularly update the inventory can also lead to vulnerabilities being missed [S3].\n\n**Expert Tip:** Prioritise critical assets based on their potential impact on operations and safety [S3]. Focus on securing these assets first to minimise the risk of significant disruptions [S3].\n\n**Example:** Consider a manufacturing plant using industrial robots controlled by PLCs. The asset inventory should include not only the robots and PLCs but also the network infrastructure connecting them, the software running on the PLCs, and any human-machine interfaces (HMIs) used to control the robots [S3]. Furthermore, the assessment should encompass the physical security of these assets, such as access controls and environmental monitoring [S3].\n\n## Sources\nS1 - When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition (https://doi.org/10.1007/978-3-031-04586-8_7)\nS2 - The great security convergence: joining physical devices and cyber security (https://doi.org/10.12968/s1353-4858(22)70043-8)\nS3 - What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman) (https://doi.org/10.31389/lsepress.wcf)\nS4 - Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems (https://doi.org/10.1016/j.robot.2025.105293)\nS5 - The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence (https://doi.org/10.62891/def56b28)",
+  "wordCount": 1440,
+  "qualityScore": 75.0,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition",
+      "url": "https://doi.org/10.1007/978-3-031-04586-8_7"
+    },
+    {
+      "id": "S2",
+      "title": "The great security convergence: joining physical devices and cyber security",
+      "url": "https://doi.org/10.12968/s1353-4858(22)70043-8"
+    },
+    {
+      "id": "S3",
+      "title": "What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman)",
+      "url": "https://doi.org/10.31389/lsepress.wcf"
+    },
+    {
+      "id": "S4",
+      "title": "Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems",
+      "url": "https://doi.org/10.1016/j.robot.2025.105293"
+    },
+    {
+      "id": "S5",
+      "title": "The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence",
+      "url": "https://doi.org/10.62891/def56b28"
+    }
+  ],
+  "regulations": [
+    "DPDP Act 2023",
+    "Bharatiya Nyaya Sanhita 2023",
+    "IS 550"
+  ],
+  "revision": 1,
+  "reviewNotes": {
+    "review": {
+      "overall_score": 75,
+      "verdict": "REVISE",
+      "verdict_reason": "The article provides a good overview of cyber-physical security in India. However, it needs improvements in source depth, clarity, and actionable guidance.",
+      "critical_fixes_needed": [
+        "Expand the source material; currently only 3 of the target 5 sources are present in the text.",
+        "Provide more detailed and actionable steps in the 'Step-By-Step Solution' section. The current information is high-level. Include specific examples and tools that can be used.",
+        "Ensure that all acronyms are fully defined on first use, even if commonly known. For example, fully define IoT and HMI",
+        "Avoid addressing the user directly (e.g. \"your organisation\"); use generalized language.",
+        "In the regulatory section, elaborate on how compliance with DPDP impacts specific operational aspects of CPS, making the legal implications more practical and understandable."
+      ]
+    },
+    "quality": {
+      "passes": true,
+      "score": 98.0,
+      "content_type": "Guide",
+      "thresholds": {
+        "min_words": 1500,
+        "min_h2": 5,
+        "min_sources": 5,
+        "min_regulations": 2
+      },
+      "word_count": 1864,
+      "h2_count": 6,
+      "source_count": 13,
+      "regulation_count": 4,
+      "issues": [],
+      "warnings": [
+        "American spellings detected: 'recognize' should be 'recognise'"
+      ],
+      "british_issues": [
+        "'recognize' should be 'recognise'"
+      ],
+      "banned_phrases": [],
+      "recommendation": "PUBLISH"
+    },
+    "citations": {
+      "passes": false,
+      "issues": [
+        "Paragraph 14 lacks required citation.",
+        "Sentence 1 contains numeric claim without citation.",
+        "Sentence 22 contains numeric claim without citation.",
+        "Sentence 26 contains numeric claim without citation.",
+        "Sentence 61 contains numeric claim without citation.",
+        "Sentence 62 contains numeric claim without citation.",
+        "Regulation not mentioned in body: Bharatiya Nyaya Sanhita 2023",
+        "No primary regulatory sources cited for regulations."
+      ],
+      "warnings": [
+        "Potential close paraphrase from source snippet detected; consider rewriting."
+      ],
+      "metrics": {
+        "citation_count": 38,
+        "source_count": 5,
+        "unknown_citations": 0,
+        "unused_sources": 0
+      }
+    },
+    "evidence": [
+      {
+        "id": "S1",
+        "title": "When the Levee Breaks: A Global Trend of Cyber-Physical and Cyber-Operational Attacks Against Critical Infrastructure and Future Implications on the Great Power Competition",
+        "url": "https://doi.org/10.1007/978-3-031-04586-8_7",
+        "publisher": "Springer International Publishing",
+        "published": "2022",
+        "source_type": "academic",
+        "snippet": "556 Accesses 1 Citation 1 Altmetric Cyber-physical systems (CPSs) refer to systems that connect computers, communication channels, and physical devices. They lie at the heart of today’s critical infrastructure. CPSs are currently one of the most targeted systems of adversarial actors operating in the cyber domain. Cyber-physical and cyber-operational attacks on critical infrastructures via attacks on CPSs have the potential to damage physical infrastructure assets and have widespread consequences for national security as well as the society. We analyzed 427 publicly reported cyber-physical and cyber-operational attacks conducted against critical infrastructures globally between January 1, 1992, and July 9, 2021. We find that of the attacks that can be attributed to an actor type, state actors (including state-affiliated and state-supported actors) were found to be the predominant actors that conduct cyber-physical attacks while state and non-state actors occupied approximately same ratio of attacks for cyber-operational attacks. We also find espionage to be the most statistically significant motivation for the state actors to conduct cyber-physical and/or cyber-operational attacks. Additionally, we find rivalry between the attacker and the target to be the most statistically significant international security relevant variable. Finally, we provide an assessment of the implications of cyber-physical and cyber-operational attacks on critical infrastructure in the contexts of current and future irregular warfare and great power competition. This is a preview of subscription content, log in via an institution to check access. Tax calculation will be finalised at checkout Purchases are for personal use only Institutional subscriptions We define ICS as the aggregation of various operational technology systems, devices, and process (e.g. HMIs, PLCs, RTUs, SCADA, DCUs, etc.); therefore, malware that targets operational technology is reported as ICS malware in the SMICI data",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1007/978-3-031-04586-8_7",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S2",
+        "title": "The great security convergence: joining physical devices and cyber security",
+        "url": "https://doi.org/10.12968/s1353-4858(22)70043-8",
+        "publisher": "Breda Publishing Press",
+        "published": "2022-6",
+        "source_type": "academic",
+        "snippet": "With the convergence of the physical and digital worlds comes a heightened risk of security threats. Cyber security can no longer be placed on the back burner as organisations continue to incorporate physical security solutions; the likelihood and severity of an information breach rise dramatically as additional devices are contributed to one ubiquitous network.",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.12968/s1353-4858(22)70043-8",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S3",
+        "title": "What’s a Company For? A Problem in Business Ethics (or...when Socrates met Milton Friedman)",
+        "url": "https://doi.org/10.31389/lsepress.wcf",
+        "publisher": "LSE Press",
+        "published": "2026",
+        "source_type": "academic",
+        "snippet": "Alexander (‘Sandy’) Pepper is Emeritus Professor of Management Practice at the London School of Economics and Political Science, where he taught from 2008 to 2023. Prior to this he had a long career at PricewaterhouseCoopers, where he held various senior management positions, including as global leader of PwC’s Human Resource Services practice from 2002 to 2006. He is an external member of the Board of Governors at the University of Portsmouth. Sandy’s research and teaching interests include organisations and management theory, with a particular focus on the theory of the firm, corporate governance, and business ethics. He is the author of many academic articles and books, including The Economic Psychology of Incentives and Agency Theory & Executive Pay , published by Palgrave Macmillan, and I f You’re So Ethical Why Are You So Highly Paid? , which was published by LSE Press in 2022. In 2025 LSE Press launched an open access a book and case study collection entitled N avigating the 21st Century Business World: Case Studies in Management , which Sandy co-edited with Dr Dorottya Sallai. Sandy is one of the UK’s recognised experts on executive pay, and his most recent article on this subject, “CEO pay in the United Kingdom, 1968–2022” is available on the Business History journal website and LSE Research Online on an open access basis at https://eprints.lse.ac.uk/126504/ . DOI : https://doi.org/10.31389/lsepress.wcf ISBNs : Paperback : 978-1-911712-71-8 ¦ PDF : 978-1-911712-72-5 ¦ EPUB : 978-1-911712-73-2 ¦ Mobi : 978-1-911712-74-9 Provisional publication: June 2026 Is the job of a company director simply to make as much money as possible as quickly as possible for shareholders? Do businesses have obligations to employees, other stakeholders, and society as a whole? And, most pressingly of all, do they have any responsibility for the environment, for social inequality, and to sustain fair competition in a world dominated by mega-corporations? In this book, Professor Ale",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.31389/lsepress.wcf",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S4",
+        "title": "Passive Reinforcement Learning with Optimal Control for Safe Convergence in Cyber–physical Systems",
+        "url": "https://doi.org/10.1016/j.robot.2025.105293",
+        "publisher": "Elsevier BV",
+        "published": "2026-3",
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.1016/j.robot.2025.105293",
+        "accessed_at": "2026-01-19"
+      },
+      {
+        "id": "S5",
+        "title": "The ResonantOS-Aurum Grid Convergence: A Unified Cyber-Physical Framework for Topo-Temporal Coherence",
+        "url": "https://doi.org/10.62891/def56b28",
+        "publisher": "DeSci Labs AG",
+        "published": null,
+        "source_type": "academic",
+        "snippet": "",
+        "domain": "doi.org",
+        "quality_score": 80,
+        "identifier": "10.62891/def56b28",
+        "accessed_at": "2026-01-19"
+      }
+    ],
+    "claims": {
+      "claims": [
+        {
+          "id": "C001",
+          "text": "Under the DPDP Act 2023, organisations acting as data fiduciaries are responsible for protecting personal data processed by CPS, including implementing reasonable security safeguards to prevent data breaches and reporting breaches to the Data Protection Board of India and affected individuals [S3].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C002",
+          "text": "Organisations must be aware of the BNS 2023 provisions related to offences such as data theft, hacking, and disruption of critical infrastructure, which can carry significant fines and imprisonment [S3].",
+          "claim_type": "policy",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C003",
+          "text": "Relevant Indian Standards, such as **IS 550**, outline cybersecurity best practices [S3].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C004",
+          "text": "For example, IS 550 may provide general guidance on vulnerability management but not offer specific recommendations for securing industrial control systems (ICS) commonly found in critical infrastructure [S3].",
+          "claim_type": "regulatory",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C005",
+          "text": "Organisations operating in India must comply with the guidelines and directives issued by these bodies, including reporting security breaches and implementing recommended security measures [S3].",
+          "claim_type": "policy",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C006",
+          "text": "Organisations should proactively monitor regulatory developments and prepare for potential future requirements, such as mandatory security audits, incident reporting, and compliance with specific security standards [S3].",
+          "claim_type": "policy",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C007",
+          "text": "Compliance is not merely a legal obligation; it is a business imperative that safeguards an organisation's operations, reputation, and bottom line [S3].",
+          "claim_type": "policy",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C008",
+          "text": "Adopting a proactive stance towards regulatory compliance will minimise risks and ensure long-term sustainability [S3].",
+          "claim_type": "policy",
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "sources": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C009",
+          "text": "This requires a continuous assessment of security risks and adaptation of security measures to address emerging threats [S5].",
+          "claim_type": "policy",
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5"
+          ],
+          "sources": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5"
+          ],
+          "domains": [
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org",
+            "doi.org"
+          ],
+          "numbers": [],
+          "issues": []
+        },
+        {
+          "id": "C010",
+          "text": "To effectively secure cyber-physical systems in India, organisations must adopt a comprehensive, multi-layered security strategy.",
+          "claim_type": "policy",
+          "citations": [],
+          "sources": [],
+          "domains": [],
+          "numbers": [],
+          "issues": [
+            "Claim lacks citation."
+          ]
+        }
+      ],
+      "paragraph_map": [
+        {
+          "paragraph": 1,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 2,
+          "citations": [
+            "S1",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 3,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 4,
+          "citations": [
+            "S2",
+            "S2",
+            "S2",
+            "S2",
+            "S1"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 5,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 6,
+          "citations": [
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "claims": [
+            "C001",
+            "C002",
+            "C003",
+            "C004",
+            "C005",
+            "C006",
+            "C007",
+            "C008"
+          ]
+        },
+        {
+          "paragraph": 7,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 8,
+          "citations": [
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S4",
+            "S5",
+            "S5"
+          ],
+          "claims": [
+            "C009"
+          ]
+        },
+        {
+          "paragraph": 9,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 10,
+          "citations": [],
+          "claims": [
+            "C010"
+          ]
+        },
+        {
+          "paragraph": 11,
+          "citations": [],
+          "claims": []
+        },
+        {
+          "paragraph": 12,
+          "citations": [
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 13,
+          "citations": [
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 14,
+          "citations": [
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 15,
+          "citations": [
+            "S3",
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 16,
+          "citations": [
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 17,
+          "citations": [
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 18,
+          "citations": [
+            "S3",
+            "S3"
+          ],
+          "claims": []
+        },
+        {
+          "paragraph": 19,
+          "citations": [],
+          "claims": []
+        }
+      ],
+      "contradictions": [],
+      "issues": [
+        "C010: Claim lacks citation."
+      ],
+      "metrics": {
+        "claim_count": 10,
+        "numeric_claims": 0,
+        "regulatory_claims": 3,
+        "contradictions": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,182 @@
+/* Intelligence Page Design Tokens */
+/* Standardized colors, spacing, and typography for the intelligence dashboard */
+
+:root {
+  /* Severity Colors - Consistent across all components */
+  --sev-critical: #dc2626;
+  --sev-critical-bg: rgba(220, 38, 38, 0.15);
+  --sev-critical-border: rgba(220, 38, 38, 0.4);
+
+  --sev-high: #f97316;
+  --sev-high-bg: rgba(249, 115, 22, 0.15);
+  --sev-high-border: rgba(249, 115, 22, 0.4);
+
+  --sev-medium: #eab308;
+  --sev-medium-bg: rgba(234, 179, 8, 0.15);
+  --sev-medium-border: rgba(234, 179, 8, 0.4);
+
+  --sev-low: #22c55e;
+  --sev-low-bg: rgba(34, 197, 94, 0.15);
+  --sev-low-border: rgba(34, 197, 94, 0.4);
+
+  /* UI Colors */
+  --intel-bg: #0a0a0a;
+  --intel-surface: #171717;
+  --intel-surface-elevated: #1f1f1f;
+  --intel-border: #262626;
+  --intel-border-subtle: #1f1f1f;
+  --intel-text: #e5e7eb;
+  --intel-text-muted: #9ca3af;
+  --intel-text-dim: #6b7280;
+
+  /* Accent Colors */
+  --intel-accent-blue: #3b82f6;
+  --intel-accent-emerald: #10b981;
+  --intel-accent-amber: #f59e0b;
+  --intel-accent-purple: #a855f7;
+
+  /* Status Colors */
+  --intel-status-live: #22c55e;
+  --intel-status-degraded: #ef4444;
+  --intel-status-syncing: #eab308;
+
+  /* Spacing Scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Typography */
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* Utility classes for intelligence components */
+.intel-card {
+  background: var(--intel-surface);
+  border: 1px solid var(--intel-border);
+  border-radius: var(--radius-md);
+}
+
+.intel-card-elevated {
+  background: var(--intel-surface-elevated);
+  border: 1px solid var(--intel-border);
+  border-radius: var(--radius-md);
+}
+
+/* Severity badge classes */
+.sev-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border-width: 1px;
+  border-style: solid;
+}
+
+.sev-critical {
+  color: #fecaca;
+  background: var(--sev-critical-bg);
+  border-color: var(--sev-critical-border);
+}
+
+.sev-high {
+  color: #fed7aa;
+  background: var(--sev-high-bg);
+  border-color: var(--sev-high-border);
+}
+
+.sev-medium {
+  color: #fef08a;
+  background: var(--sev-medium-bg);
+  border-color: var(--sev-medium-border);
+}
+
+.sev-low {
+  color: #bbf7d0;
+  background: var(--sev-low-bg);
+  border-color: var(--sev-low-border);
+}
+
+/* Status indicator classes */
+.status-live {
+  color: var(--intel-status-live);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.status-degraded {
+  color: var(--intel-status-degraded);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.status-syncing {
+  color: var(--intel-status-syncing);
+  border-color: rgba(234, 179, 8, 0.5);
+}
+
+/* Input styling */
+.intel-input {
+  width: 100%;
+  background: var(--intel-bg);
+  border: 1px solid var(--intel-border);
+  color: var(--intel-text);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+}
+
+.intel-input:focus {
+  border-color: var(--intel-accent-blue);
+  outline: none;
+}
+
+.intel-input::placeholder {
+  color: var(--intel-text-dim);
+}
+
+/* Button styling */
+.intel-btn-primary {
+  width: 100%;
+  background: white;
+  color: black;
+  font-weight: 700;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.intel-btn-primary:hover {
+  background: #e5e7eb;
+}
+
+.intel-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--intel-border);
+  color: var(--intel-text-muted);
+  font-size: 12px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.intel-btn-secondary:hover {
+  border-color: var(--intel-text-muted);
+  color: var(--intel-text);
+}
+
+.intel-btn-secondary.active {
+  border-color: white;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}

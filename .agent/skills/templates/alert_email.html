@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {{
+            font-family: 'Courier New', Courier, monospace;
+            background: #0A0C10;
+            color: #FAFAFA;
+            margin: 0;
+            padding: 0;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 32px;
+        }}
+        .header {{
+            border-bottom: 4px solid {color};
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+        }}
+        .logo {{
+            width: 48px;
+            height: 48px;
+        }}
+        .severity-badge {{
+            display: inline-block;
+            padding: 6px 16px;
+            background: {color};
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            margin-top: 16px;
+        }}
+        .title {{
+            font-size: 24px;
+            font-weight: bold;
+            margin: 24px 0 8px;
+            color: #FAFAFA;
+        }}
+        .sector {{
+            color: #A3A3A3;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }}
+        .description {{
+            margin: 24px 0;
+            line-height: 1.6;
+            color: #D4D4D4;
+        }}
+        .cta {{
+            display: inline-block;
+            padding: 16px 32px;
+            background: #FF4D00;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }}
+        .footer {{
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #2A2A2A;
+            font-size: 12px;
+            color: #525252;
+        }}
+        .footer a {{
+            color: #FF4D00;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://sps-security.com/sps-logo.png" alt="SPS" class="logo" />
+            <div class="severity-badge">{severity_upper} ALERT</div>
+        </div>
+
+        <h1 class="title">{title}</h1>
+        <p class="sector">Sector: {sector}</p>
+
+        <p class="description">{description}</p>
+
+        <a href="{action_url}" class="cta">View Full Details</a>
+
+        <div class="footer">
+            <p>SPS Security Intelligence Platform</p>
+            <p>You're receiving this because you subscribed to {sector} alerts.</p>
+            <p><a href="https://sps-security.com/dashboard/preferences">Manage Preferences</a> | <a href="https://sps-security.com/api/alerts/unsubscribe">Unsubscribe</a></p>
+        </div>
+    </div>
+</body>
+</html>

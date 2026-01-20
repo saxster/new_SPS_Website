@@ -1,0 +1,221 @@
+---
+// CCTV Storage Calculator - Interactive tool for calculating surveillance storage requirements
+---
+
+<div class="brutalist-card p-8 bg-neutral-900 border border-neutral-700">
+  <div class="mb-8">
+    <div class="inline-block px-2 py-1 bg-primary-accent/10 border border-primary-accent/30 text-primary-accent text-xs font-mono mb-2 uppercase tracking-widest">
+      Surveillance Planning
+    </div>
+    <h3 class="text-2xl font-black text-white mb-2">CCTV STORAGE CALCULATOR</h3>
+    <p class="text-neutral-400 text-sm">Calculate storage requirements for your surveillance system based on cameras, resolution, and retention period.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Number of Cameras -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Number of Cameras</label>
+      <input type="number" id="camera-count" min="1" max="500" value="8"
+        class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm">
+    </div>
+
+    <!-- Resolution -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Resolution</label>
+      <select id="resolution-select" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm uppercase">
+        <option value="2" data-label="1080p (2MP)">1080p (2MP) - Standard</option>
+        <option value="4" data-label="2K (4MP)">2K (4MP) - Enhanced</option>
+        <option value="5" data-label="5MP">5MP - High Detail</option>
+        <option value="8" data-label="4K (8MP)" selected>4K (8MP) - Ultra HD</option>
+        <option value="12" data-label="12MP">12MP - Premium</option>
+      </select>
+    </div>
+
+    <!-- Frame Rate -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Frame Rate (FPS)</label>
+      <select id="fps-select" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm uppercase">
+        <option value="10">10 FPS - Economy</option>
+        <option value="15">15 FPS - Standard</option>
+        <option value="20">20 FPS - Smooth</option>
+        <option value="25" selected>25 FPS - PAL Standard</option>
+        <option value="30">30 FPS - Full Motion</option>
+      </select>
+    </div>
+
+    <!-- Recording Mode -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Recording Mode</label>
+      <select id="recording-mode" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm uppercase">
+        <option value="24" selected>24/7 Continuous</option>
+        <option value="12">12 Hours/Day (Business)</option>
+        <option value="8">8 Hours/Day (Office)</option>
+        <option value="6">Motion-Triggered (~6h estimate)</option>
+      </select>
+    </div>
+
+    <!-- Compression -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Compression Codec</label>
+      <select id="codec-select" class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm uppercase">
+        <option value="1.5">H.264 (AVC) - Legacy</option>
+        <option value="1" selected>H.265 (HEVC) - Modern</option>
+        <option value="0.8">H.265+ (Smart) - Optimized</option>
+      </select>
+    </div>
+
+    <!-- Retention Days -->
+    <div class="space-y-2">
+      <label class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Retention Period (Days)</label>
+      <input type="number" id="retention-days" min="7" max="365" value="30"
+        class="w-full bg-neutral-950 border border-neutral-700 text-white p-3 rounded-none focus:border-primary-accent focus:outline-none font-mono text-sm">
+    </div>
+  </div>
+
+  <button id="calculate-storage-btn" class="w-full brutalist-button brutalist-button--primary mb-8 text-center justify-center">
+    CALCULATE STORAGE
+  </button>
+
+  <!-- Results Container -->
+  <div id="storage-results" class="hidden border-t-2 border-dashed border-neutral-800 pt-8">
+    <h4 class="text-lg font-bold text-white mb-6 flex items-center gap-3">
+      <span class="w-2 h-2 bg-primary-accent rounded-full animate-pulse"></span>
+      STORAGE REQUIREMENTS
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Total Storage -->
+      <div class="bg-neutral-950 border border-neutral-800 p-6">
+        <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Total Storage Required</div>
+        <div class="text-4xl font-black text-primary-accent" id="total-storage">0 TB</div>
+        <div class="text-xs text-neutral-500 mt-2" id="storage-detail">0 GB per camera</div>
+      </div>
+
+      <!-- Daily Usage -->
+      <div class="bg-neutral-950 border border-neutral-800 p-6">
+        <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Daily Usage</div>
+        <div class="text-4xl font-black text-compliance" id="daily-storage">0 GB</div>
+        <div class="text-xs text-neutral-500 mt-2" id="hourly-detail">0 GB/hour per camera</div>
+      </div>
+
+      <!-- Bitrate -->
+      <div class="bg-neutral-950 border border-neutral-800 p-6">
+        <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Est. Bitrate</div>
+        <div class="text-4xl font-black text-success" id="bitrate-display">0 Mbps</div>
+        <div class="text-xs text-neutral-500 mt-2" id="bandwidth-detail">Per camera stream</div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="space-y-4" id="recommendations-container">
+      <h5 class="text-sm font-bold text-neutral-400 uppercase tracking-wider">Recommended Equipment</h5>
+      <div id="nvr-recommendation" class="flex items-start gap-4 p-4 bg-neutral-950 border border-neutral-800">
+        <span class="text-2xl">📹</span>
+        <div>
+          <div class="text-sm font-bold text-white mb-1">NVR Specification</div>
+          <p class="text-xs text-neutral-400" id="nvr-spec-text">Loading...</p>
+        </div>
+      </div>
+      <div id="hdd-recommendation" class="flex items-start gap-4 p-4 bg-neutral-950 border border-neutral-800">
+        <span class="text-2xl">💾</span>
+        <div>
+          <div class="text-sm font-bold text-white mb-1">Hard Drive Configuration</div>
+          <p class="text-xs text-neutral-400" id="hdd-spec-text">Loading...</p>
+        </div>
+      </div>
+      <div id="network-recommendation" class="flex items-start gap-4 p-4 bg-neutral-950 border border-neutral-800">
+        <span class="text-2xl">🌐</span>
+        <div>
+          <div class="text-sm font-bold text-white mb-1">Network Bandwidth</div>
+          <p class="text-xs text-neutral-400" id="network-spec-text">Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retention Compliance Note -->
+    <div class="mt-8 p-4 bg-compliance/10 border border-compliance/30 text-compliance text-xs font-mono">
+      <strong>RETENTION COMPLIANCE:</strong> Banks/NBFCs require 90-day retention (RBI). Schools require 60 days (CBSE/State norms). Hospitals require 30 days minimum. Verify your sector-specific requirements using our <a href="/tools/compliance-calculator" class="underline hover:text-white">Compliance Calculator</a>.
+    </div>
+
+    <div class="mt-4 p-4 bg-amber-900/10 border border-amber-500/20 text-amber-500 text-xs font-mono">
+      ⚠ DISCLAIMER: Storage estimates are approximate. Actual usage varies based on scene complexity, lighting conditions, and compression efficiency. Add 20-30% buffer for production deployments.
+    </div>
+  </div>
+</div>
+
+<script>
+  const calculateBtn = document.getElementById('calculate-storage-btn');
+  const resultsArea = document.getElementById('storage-results');
+
+  calculateBtn.addEventListener('click', () => {
+    const cameras = parseInt(document.getElementById('camera-count').value) || 8;
+    const resolution = parseFloat(document.getElementById('resolution-select').value) || 8;
+    const fps = parseInt(document.getElementById('fps-select').value) || 25;
+    const recordingHours = parseInt(document.getElementById('recording-mode').value) || 24;
+    const codecFactor = parseFloat(document.getElementById('codec-select').value) || 1;
+    const retentionDays = parseInt(document.getElementById('retention-days').value) || 30;
+
+    // Calculate bitrate (Mbps) based on resolution and FPS
+    // Base formula: Resolution (MP) × FPS × Compression Factor × 0.1 = Mbps (approximate)
+    const baseBitrate = resolution * fps * 0.08 * codecFactor;
+    const bitratePerCamera = Math.round(baseBitrate * 10) / 10;
+
+    // Calculate storage per camera per hour (in GB)
+    // Mbps × 3600 seconds / 8 bits / 1024 MB = GB per hour
+    const gbPerHourPerCamera = (bitratePerCamera * 3600) / 8 / 1024;
+
+    // Daily storage per camera
+    const gbPerDayPerCamera = gbPerHourPerCamera * recordingHours;
+
+    // Total daily storage
+    const dailyStorageGB = gbPerDayPerCamera * cameras;
+
+    // Total storage for retention period
+    const totalStorageGB = dailyStorageGB * retentionDays;
+    const totalStorageTB = totalStorageGB / 1024;
+
+    // Update display
+    document.getElementById('total-storage').textContent = totalStorageTB >= 1
+      ? `${totalStorageTB.toFixed(1)} TB`
+      : `${Math.round(totalStorageGB)} GB`;
+    document.getElementById('storage-detail').textContent = `${Math.round(gbPerDayPerCamera * retentionDays)} GB per camera for ${retentionDays} days`;
+
+    document.getElementById('daily-storage').textContent = dailyStorageGB >= 1000
+      ? `${(dailyStorageGB/1024).toFixed(1)} TB`
+      : `${Math.round(dailyStorageGB)} GB`;
+    document.getElementById('hourly-detail').textContent = `${gbPerHourPerCamera.toFixed(2)} GB/hour per camera`;
+
+    document.getElementById('bitrate-display').textContent = `${bitratePerCamera} Mbps`;
+    document.getElementById('bandwidth-detail').textContent = `${(bitratePerCamera * cameras).toFixed(0)} Mbps total bandwidth`;
+
+    // NVR Recommendation
+    let nvrSpec = '';
+    if (cameras <= 4) nvrSpec = '4-Channel NVR with PoE ports. Budget-friendly for small setups.';
+    else if (cameras <= 8) nvrSpec = '8-Channel NVR with 8 PoE ports. Ideal for small businesses and homes.';
+    else if (cameras <= 16) nvrSpec = '16-Channel NVR with PoE switch. Standard for medium facilities.';
+    else if (cameras <= 32) nvrSpec = '32-Channel Enterprise NVR. Suitable for large campuses.';
+    else nvrSpec = `Multiple NVRs or VMS (Video Management System) required. Consider ${Math.ceil(cameras/32)} x 32-channel units.`;
+    document.getElementById('nvr-spec-text').textContent = nvrSpec;
+
+    // HDD Recommendation
+    const recommendedTB = Math.ceil(totalStorageTB * 1.25); // 25% buffer
+    let hddSpec = '';
+    if (recommendedTB <= 4) hddSpec = `1 × 4TB Surveillance HDD (WD Purple/Seagate SkyHawk). ~₹8,000-10,000`;
+    else if (recommendedTB <= 8) hddSpec = `1 × 8TB Surveillance HDD or 2 × 4TB in RAID. ~₹15,000-20,000`;
+    else if (recommendedTB <= 16) hddSpec = `2 × 8TB Surveillance HDDs. Consider RAID-1 for redundancy. ~₹30,000-40,000`;
+    else if (recommendedTB <= 32) hddSpec = `4 × 8TB or 2 × 16TB Surveillance HDDs. RAID-5 recommended. ~₹60,000-80,000`;
+    else hddSpec = `${Math.ceil(recommendedTB/16)} × 16TB Enterprise HDDs. Consider dedicated storage server with RAID-6. Budget: ₹${Math.ceil(recommendedTB * 8000).toLocaleString('en-IN')}+`;
+    document.getElementById('hdd-spec-text').textContent = hddSpec;
+
+    // Network Recommendation
+    const totalBandwidth = bitratePerCamera * cameras;
+    let networkSpec = '';
+    if (totalBandwidth <= 100) networkSpec = 'Standard 100Mbps network sufficient. Use Cat5e cabling.';
+    else if (totalBandwidth <= 500) networkSpec = 'Gigabit network required. Use Cat6 cabling with PoE+ switches.';
+    else if (totalBandwidth <= 1000) networkSpec = 'Dual Gigabit or 2.5GbE recommended. Consider managed PoE switches.';
+    else networkSpec = `10GbE backbone required. Total bandwidth: ${Math.round(totalBandwidth)} Mbps. Use fiber for long runs.`;
+    document.getElementById('network-spec-text').textContent = networkSpec;
+
+    resultsArea.classList.remove('hidden');
+  });
+</script>

@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "./brutalist-titanium.css";
+@import "rehype-callouts/theme/vitepress";
+
+/* =====================================================
+   GLOBAL OVERRIDES & TAILWIND EXTENSIONS
+   ===================================================== */
+
+/* Ensure Tailwind color utilities map to our design system */
+@theme {
+  --color-primary-accent: #FF4D00;
+  /* Accessibility: Using lighter variants for WCAG 2.1 AA contrast ratio (4.5:1) on dark backgrounds */
+  --color-compliance: #FACC15;  /* Yellow-400 - improved from #EAB308 */
+  --color-success: #34D399;     /* Emerald-400 - improved from #10B981 */
+  --color-verified: #06B6D4;
+  --color-critical: #F87171;    /* Red-400 - improved from #EF4444 */
+}
+
+/* Override any remaining rounded corners */
+.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
+  border-radius: 0 !important;
+}
+
+/* Ensure all borders default to 2px for brutalist aesthetic */
+.border {
+  border-width: 2px;
+}
+
+/* Strictly square status indicators */
+.status-indicator {
+  border-radius: 50%;
+}
+
+/* Font mono override to use Space Mono */
+.font-mono {
+  font-family: 'Space Mono', 'Fira Code', monospace;
+}
+
+/* Font sans override to use Outfit */
+.font-sans {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =====================================================
+   ACCESSIBILITY: Motion Sensitivity Support
+   ===================================================== */
+
+/* Respect user's motion preferences to prevent vestibular issues */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,35 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import ExpertHistory from '../../components/dashboard/ExpertHistory';
+
+// Force server-side rendering for this page
+export const prerender = false;
+---
+
+<DashboardLayout activeTab="conversations">
+  <div class="space-y-8">
+    <!-- Header -->
+    <section class="bg-neutral-900 border-2 border-neutral-800 p-6">
+      <div class="flex items-start justify-between">
+        <div>
+          <h2 class="text-2xl font-black text-neutral-100 mb-2">EXPERT COMMUNICATIONS</h2>
+          <p class="text-neutral-400 text-sm font-mono">
+            Your conversation history with the SPS AI Expert
+          </p>
+        </div>
+        <a
+          href="/"
+          class="flex items-center gap-2 bg-primary-accent text-black px-4 py-2 font-bold text-sm uppercase tracking-wider hover:bg-primary-accent/80 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          New Session
+        </a>
+      </div>
+    </section>
+
+    <!-- Conversations List -->
+    <ExpertHistory client:load />
+  </div>
+</DashboardLayout>

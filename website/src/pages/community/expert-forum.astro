@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import { getCollection } from 'astro:content';
+
+const title = "Expert Forum | SPS";
+const description = "Community Q&A with SPS Security Experts. Real-world scenarios, authoritative answers.";
+
+// Fetch Q&A from the collection, sorted by date (newest first)
+const questions = (await getCollection('qna'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={title} description={description}>
+  <SideDrawer />
+  <div class="pt-32 pb-24 min-h-screen bg-neutral-950">
+    <div class="brutalist-container px-6 pl-20">
+      
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-neutral-800 pb-8">
+        <div>
+          <h1 class="text-heading-2 mb-2">EXPERT FORUM</h1>
+          <p class="text-body text-lg text-neutral-400">Direct line to SPS Command Centre. Ask hard questions, get field-tested answers.</p>
+        </div>
+        <a href="#ask" class="brutalist-button brutalist-button--primary mt-6 md:mt-0">
+          SUBMIT QUERY
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Feed -->
+        <div class="lg:col-span-2 space-y-8">
+          {questions.map(q => (
+            <div class="brutalist-card p-8 bg-neutral-900/50 border border-neutral-800 hover:border-primary-accent transition-colors">
+              <div class="flex gap-2 mb-4 flex-wrap">
+                {q.data.tags.map(t => (
+                  <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-neutral-800 text-neutral-400 border border-neutral-700">{t}</span>
+                ))}
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">{q.data.question}</h3>
+              <div class="text-xs font-mono text-neutral-500 mb-6">
+                ASKED BY {q.data.author.toUpperCase()}, {q.data.role.toUpperCase()} · {q.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </div>
+              
+              <div class="pl-4 border-l-2 border-primary-accent">
+                <p class="text-sm text-neutral-300 leading-relaxed mb-2">
+                  "{q.data.answer}"
+                </p>
+                <div class="text-xs font-bold text-primary-accent uppercase tracking-wider">
+                  — {q.data.answeredBy}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Sidebar / Ask Form -->
+        <div class="lg:col-span-1">
+          <div id="ask" class="brutalist-card p-6 bg-primary-accent/5 border border-primary-accent/20 sticky top-24">
+            <h3 class="text-lg font-bold text-white mb-4">ASK AN EXPERT</h3>
+            <p class="text-xs text-neutral-400 mb-4">
+              Questions are reviewed by our security specialists and answered within 48-72 hours. Published responses are anonymised.
+            </p>
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-4">
+              <input type="hidden" name="_subject" value="Expert Forum Question" />
+              <div>
+                <label class="text-xs font-bold text-neutral-500 uppercase">Your Role</label>
+                <input type="text" name="role" placeholder="e.g. CSO, Facility Manager" class="w-full bg-neutral-950 border border-neutral-700 p-2 text-sm text-white focus:border-primary-accent outline-none" required />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-neutral-500 uppercase">Sector</label>
+                <select name="sector" class="w-full bg-neutral-950 border border-neutral-700 p-2 text-sm text-white focus:border-primary-accent outline-none">
+                  <option>Corporate</option>
+                  <option>Industrial</option>
+                  <option>Healthcare</option>
+                  <option>Education</option>
+                  <option>Retail</option>
+                  <option>Finance</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-neutral-500 uppercase">Your Question</label>
+                <textarea name="question" rows="4" placeholder="Be specific. e.g., 'What is the standard CCTV retention period for hospitals in Karnataka?'" class="w-full bg-neutral-950 border border-neutral-700 p-2 text-sm text-white focus:border-primary-accent outline-none" required></textarea>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-neutral-500 uppercase">Email (for follow-up, not published)</label>
+                <input type="email" name="email" placeholder="your@email.com" class="w-full bg-neutral-950 border border-neutral-700 p-2 text-sm text-white focus:border-primary-accent outline-none" required />
+              </div>
+              <button type="submit" class="w-full brutalist-button brutalist-button--secondary text-xs">
+                SEND TO INTELLIGENCE DESK
+              </button>
+              <p class="text-[10px] text-neutral-500 mt-2 text-center">
+                Questions are reviewed manually. Relevant Q&As are published to help the community.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Layout>

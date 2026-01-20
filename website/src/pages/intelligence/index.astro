@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HybridIntelConsole from '../../components/intelligence/HybridIntelConsole.tsx';
+import Ticker from '../../components/Ticker.astro';
+import '../../styles/intelligence-tokens.css';
+---
+
+<Layout title="SPS SENTINEL | Command Centre" description="Live cyber-physical threat monitoring across India and globally.">
+    <main class="intel-page bg-black min-h-screen text-gray-300 font-sans relative overflow-hidden">
+        <!-- CRT/Scanline Effects -->
+        <div class="pointer-events-none fixed inset-0 z-50 bg-[url('/scanlines.png')] opacity-[0.03] mix-blend-overlay"></div>
+        <div class="pointer-events-none fixed inset-0 z-50 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
+
+        <!-- Command Header -->
+        <header class="border-b border-neutral-800 bg-neutral-950/90 backdrop-blur-md py-4 px-6 md:px-8 flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 relative">
+             <div class="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-primary-accent/50 to-transparent"></div>
+             
+             <div class="flex items-center gap-4">
+                <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_#ef4444]"></div>
+                <div>
+                    <h1 class="text-2xl font-black text-white tracking-widest uppercase font-mono glitch-text" data-text="SPS SENTINEL">
+                        SPS SENTINEL
+                    </h1>
+                    <div class="flex items-center gap-2 text-[10px] font-mono text-primary-accent uppercase tracking-[0.2em]">
+                        <span>Command Link Established</span>
+                        <span class="text-neutral-600">|</span>
+                        <span>v2.4.0-LIVE</span>
+                    </div>
+                </div>
+             </div>
+
+             <div class="flex items-center gap-6 mt-4 md:mt-0">
+                <!-- DEFCON Widget -->
+                <div class="flex items-center gap-0 border border-neutral-800 bg-black/50 rounded overflow-hidden">
+                    <div class="bg-neutral-900 px-3 py-2 border-r border-neutral-800">
+                        <div class="text-[9px] text-gray-500 uppercase tracking-widest font-bold">Threat Con</div>
+                    </div>
+                    <div class="px-4 py-2 bg-red-950/30 text-red-500 font-black font-mono text-xl animate-pulse">
+                        LEVEL 3
+                    </div>
+                </div>
+
+                <div class="hidden md:block text-right">
+                    <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">System Time</div>
+                    <div class="text-sm font-mono text-white" id="clock">00:00:00 Z</div>
+                </div>
+             </div>
+        </header>
+
+        <!-- Main Operations Theatre -->
+        <div class="w-full relative z-10" style="height: calc(100vh - 140px);">
+            <HybridIntelConsole client:idle />
+        </div>
+
+        <!-- Bottom Ticker -->
+        <div class="fixed bottom-0 left-0 right-0 z-50 border-t-2 border-primary-accent shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+            <Ticker />
+        </div>
+
+        <script>
+            // Simple clock script
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toISOString().replace('T', ' ').substring(0, 19) + ' Z';
+                const clockEl = document.getElementById('clock');
+                if (clockEl) clockEl.textContent = timeString;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        </script>
+
+        <style>
+            .glitch-text {
+                position: relative;
+            }
+            .glitch-text::before,
+            .glitch-text::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #0a0a0a;
+            }
+            .glitch-text::before {
+                left: 2px;
+                text-shadow: -1px 0 #ff00c1;
+                clip: rect(44px, 450px, 56px, 0);
+                animation: glitch-anim-1 5s infinite linear alternate-reverse;
+            }
+            .glitch-text::after {
+                left: -2px;
+                text-shadow: -1px 0 #00fff9;
+                clip: rect(44px, 450px, 56px, 0);
+                animation: glitch-anim-2 5s infinite linear alternate-reverse;
+            }
+            @keyframes glitch-anim-1 {
+                0% { clip: rect(30px, 9999px, 10px, 0); }
+                100% { clip: rect(70px, 9999px, 90px, 0); }
+            }
+            @keyframes glitch-anim-2 {
+                0% { clip: rect(10px, 9999px, 90px, 0); }
+                100% { clip: rect(30px, 9999px, 10px, 0); }
+            }
+        </style>
+    </main>
+</Layout>

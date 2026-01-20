@@ -1,0 +1,437 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SideDrawer from '../components/SideDrawer.astro';
+import SectorIcon from '../components/icons/SectorIcon.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import spsLogo from '../assets/sps-logo.png';
+
+import SectorIntelligence from '../components/widgets/SectorIntelligence';
+
+// Fetch case studies for featuring
+const caseStudies = await getCollection('casestudies');
+const featuredCases = caseStudies.slice(0, 2);
+
+const title = "SPS | The Security Intelligence Platform";
+const description = "India's definitive security intelligence platform. Authoritative compliance guidance, real-time threat intelligence, and actionable protocols. 60 years of Sukhi Enterprise legacy.";
+---
+
+<Layout title={title} description={description}>
+  <SideDrawer />
+  
+  <!-- Hero Section -->
+  <section class="brutalist-section pt-24 pb-20 bg-gradient-radial bg-noise relative overflow-hidden">
+    <!-- Decorative Grid Background -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
+
+    <div class="brutalist-container relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-8 text-center lg:text-left pl-8 lg:pl-20">
+          <div class="fade-in-up inline-flex items-center gap-2 mb-6 border-2 border-primary-accent/40 px-4 py-2 bg-primary-accent/5">
+             <span class="w-2 h-2 bg-primary-accent status-pulse rounded-full"></span>
+             <span class="text-xs font-mono text-primary-accent tracking-widest uppercase">System Operational · 1965-2026</span>
+          </div>
+
+          <h1 class="text-heading-1 mb-6 leading-tight fade-in-up delay-1">
+            INTELLIGENCE IS THE<br/>
+            <span class="text-primary-accent glitch-hover">ULTIMATE DEFENCE</span>
+          </h1>
+
+          <p class="text-body text-xl max-w-2xl mb-10 leading-relaxed text-neutral-300 fade-in-up delay-2">
+            We translate six decades of ground-level security operations into actionable intelligence.
+            Authoritative guidance for India's most critical sectors.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start fade-in-up delay-3">
+            <a href="#sectors" class="brutalist-button brutalist-button--primary hover-glow">
+              ACCESS SECTOR INTEL
+            </a>
+            <a href="/about" class="brutalist-button brutalist-button--secondary">
+              OUR DOCTRINE
+            </a>
+          </div>
+        </div>
+
+        <!-- SPS Logo Badge -->
+        <div class="lg:col-span-4 flex justify-center lg:justify-end pt-10 lg:pt-0 pr-0 lg:pr-20 fade-in-scale delay-4">
+          <div class="relative group corner-accent">
+            <div class="absolute inset-0 bg-primary-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <Image
+              src={spsLogo}
+              alt="SPS - A Sukhi Enterprise"
+              width={256}
+              height={256}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="w-64 h-auto relative z-10 drop-shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+            />
+            <div class="text-center mt-6">
+              <p class="text-sm font-bold text-compliance tracking-widest uppercase">A Sukhi Enterprise</p>
+              <p class="text-xs text-neutral-500 mt-1 font-mono cursor-blink">EST. 1965</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diagonal Separator -->
+    <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-br from-transparent via-transparent to-neutral-950"></div>
+  </section>
+
+  <!-- Live Stats Strip -->
+  <section class="brutalist-section brutalist-section--dark py-12 border-y-2 border-neutral-800 bg-diagonal-lines">
+    <div class="brutalist-container">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="p-4 count-up delay-1 border-r border-neutral-800/50">
+          <div class="text-4xl font-bold text-white font-mono mb-2">60+</div>
+          <div class="text-xs text-neutral-500 uppercase tracking-widest">Years Active</div>
+        </div>
+        <div class="p-4 count-up delay-2 border-r border-neutral-800/50">
+          <div class="text-4xl font-bold text-compliance font-mono mb-2">10</div>
+          <div class="text-xs text-neutral-500 uppercase tracking-widest">Critical Verticals</div>
+        </div>
+        <div class="p-4 count-up delay-3 border-r border-neutral-800/50">
+          <div class="text-4xl font-bold text-success font-mono mb-2">ISO</div>
+          <div class="text-xs text-neutral-500 uppercase tracking-widest">9001:2015 Certified</div>
+        </div>
+        <div class="p-4 count-up delay-4">
+          <div class="text-4xl font-bold text-primary-accent font-mono mb-2">24/7</div>
+          <div class="text-xs text-neutral-500 uppercase tracking-widest">Command Centre</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sector Intelligence Grid -->
+  <section id="sectors" class="brutalist-section py-24 bg-dot-pattern">
+    <div class="brutalist-container pl-20">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-neutral-700 pb-8 fade-in-up">
+        <div>
+          <h2 class="text-heading-2 mb-2">SECTOR COMMAND</h2>
+          <p class="text-body text-lg text-neutral-400">Specialised protocols for { (await getCollection('sectors')).length } high-risk environments.</p>
+        </div>
+        <div class="hidden md:block text-right">
+          <span class="text-xs font-mono text-primary-accent cursor-blink">INDEX: SECTOR_V2.0</span>
+        </div>
+      </div>
+
+      <div class="brutalist-grid brutalist-grid--3">
+        {
+          (await getCollection('sectors')).map((sector, index) => (
+            <a
+              href={`/sectors/${sector.slug}`}
+              class={`brutalist-card hover:border-compliance transition-all group h-full flex flex-col justify-between hover-lift fade-in-up delay-${(index % 6) + 1} ${index === 0 ? 'md:col-span-2 md:row-span-1' : ''}`}
+            >
+              <div>
+                <div class="mb-6 text-primary-accent group-hover:text-compliance transition-colors group-hover:scale-110 origin-left">
+                  <SectorIcon sector={sector.slug} size="xl" />
+                </div>
+                <h3 class="text-2xl font-bold mb-3 group-hover:text-compliance transition-colors">{sector.data.title}</h3>
+                <p class="text-body text-sm leading-relaxed mb-4 text-neutral-400">
+                  {sector.data.description}
+                </p>
+              </div>
+              <span class="text-xs font-bold text-compliance uppercase tracking-wide group-hover:translate-x-1 transition-transform inline-flex items-center gap-2">
+                View Protocol <span class="text-lg">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Sector Personalized Watch -->
+  <section class="brutalist-section py-12 bg-black">
+    <div class="brutalist-container pl-20 max-w-4xl">
+      <SectorIntelligence client:visible />
+    </div>
+  </section>
+
+  <!-- Featured Case Studies -->
+  <section class="brutalist-section py-24 bg-gradient-to-b from-black to-neutral-950">
+    <div class="brutalist-container pl-20">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-2 border-neutral-700 pb-8 fade-in-up">
+        <div>
+          <span class="text-compliance font-bold text-sm tracking-widest uppercase mb-4 block">OPERATIONS // PROVEN RESULTS</span>
+          <h2 class="text-heading-2 mb-2">FIELD OPERATIONS</h2>
+          <p class="text-body text-lg text-neutral-400">Real interventions. Documented outcomes.</p>
+        </div>
+        <div class="hidden md:block">
+          <a href="/operations" class="text-primary-accent hover:text-white transition-colors text-sm font-bold uppercase tracking-wider">
+            View All Operations →
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {featuredCases.map((caseStudy, index) => (
+          <article class={`brutalist-card bg-neutral-900 border-neutral-800 hover:border-compliance transition-all group fade-in-up delay-${index + 1}`}>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="status-badge status-badge--verified">
+                <span class="status-indicator"></span>
+                VERIFIED
+              </span>
+              <span class="text-xs font-mono text-neutral-500">{caseStudy.data.location}</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-compliance transition-colors">
+              <a href={`/operations/${caseStudy.slug}`}>
+                {caseStudy.data.title}
+              </a>
+            </h3>
+
+            <p class="text-neutral-400 text-sm mb-6 leading-relaxed">
+              {caseStudy.data.summary}
+            </p>
+
+            <div class="border-t border-neutral-800 pt-4">
+              <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Key Outcomes:</p>
+              <ul class="space-y-1">
+                {caseStudy.data.outcome.slice(0, 2).map(item => (
+                  <li class="text-sm text-success flex items-start gap-2">
+                    <span>✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-8 md:hidden text-center">
+        <a href="/operations" class="brutalist-button brutalist-button--secondary w-full">
+          VIEW ALL OPERATIONS
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SENTINEL Command Center -->
+  <section class="brutalist-section py-20 bg-neutral-950 border-y border-neutral-800">
+    <div class="brutalist-container pl-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="fade-in-up">
+          <span class="text-primary-accent font-bold text-sm tracking-widest uppercase mb-4 block">24/7 OPERATIONS</span>
+          <h2 class="text-heading-2 mb-6">SENTINEL COMMAND</h2>
+          <p class="text-lg text-neutral-400 mb-8 leading-relaxed">
+            Our Command Centre operates round-the-clock, providing real-time threat monitoring, incident response coordination, and emergency support for all deployed personnel.
+          </p>
+
+          <div class="grid grid-cols-2 gap-6 mb-8">
+            <div class="p-4 border border-neutral-800 bg-neutral-900">
+              <div class="text-2xl font-bold text-primary-accent mb-1">24/7</div>
+              <div class="text-xs text-neutral-500 uppercase">Live Monitoring</div>
+            </div>
+            <div class="p-4 border border-neutral-800 bg-neutral-900">
+              <div class="text-2xl font-bold text-success mb-1">&lt;15 min</div>
+              <div class="text-xs text-neutral-500 uppercase">QRT Response</div>
+            </div>
+            <div class="p-4 border border-neutral-800 bg-neutral-900">
+              <div class="text-2xl font-bold text-compliance mb-1">Multi-City</div>
+              <div class="text-xs text-neutral-500 uppercase">Coverage</div>
+            </div>
+            <div class="p-4 border border-neutral-800 bg-neutral-900">
+              <div class="text-2xl font-bold text-critical mb-1">Direct</div>
+              <div class="text-xs text-neutral-500 uppercase">Police Liaison</div>
+            </div>
+          </div>
+
+          <a href="/contact" class="brutalist-button brutalist-button--primary">
+            CONNECT WITH COMMAND
+          </a>
+        </div>
+
+        <div class="relative fade-in-scale delay-2">
+          <div class="aspect-video bg-neutral-900 border border-neutral-800 relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <div class="text-6xl font-black text-neutral-800 mb-4">SENTINEL</div>
+                <div class="flex items-center justify-center gap-2">
+                  <span class="w-2 h-2 bg-success status-pulse rounded-full"></span>
+                  <span class="text-sm font-mono text-success">SYSTEM ONLINE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Articles -->
+  <section id="latest" class="brutalist-section brutalist-section--dark py-24 bg-scanlines">
+    <div class="brutalist-container pl-20">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-in-up">
+        <h2 class="text-heading-2 mb-0 text-white">LATEST INTELLIGENCE</h2>
+        <div class="flex gap-6 hidden md:flex font-mono text-sm">
+             <a href="/intelligence/india-trends" class="text-amber-500 hover:text-amber-400 transition-colors flex items-center gap-2">
+                // INDIA FORECAST <span class="text-[10px] bg-amber-900/50 px-1 border border-amber-500/30">BETA</span>
+             </a>
+             <a href="/articles" class="text-neutral-400 hover:text-primary-accent transition-colors">
+                // ACCESS ARCHIVE
+             </a>
+        </div>
+      </div>
+
+      <div class="brutalist-grid brutalist-grid--3">
+        {
+          (await getCollection('blog'))
+            .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+            .slice(0, 3)
+            .map((post, index) => (
+              <article class={`brutalist-card group relative overflow-hidden flex flex-col h-full bg-neutral-900 border-neutral-800 hover-lift fade-in-up delay-${index + 1}`}>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-neutral-800 pb-3">
+                  <span class={`status-badge ${
+                    post.data.category === 'Critical' ? 'status-badge--critical' :
+                    post.data.category === 'Compliance' ? 'status-badge--compliance' : 'status-badge--verified'
+                  }`}>
+                    <span class="status-indicator status-pulse"></span>
+                    {post.data.category?.toUpperCase() || 'BRIEF'}
+                  </span>
+                  <span class="text-mono text-xs text-neutral-500 ml-auto">
+                    {post.data.pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </span>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-3 group-hover:text-primary-accent transition-colors line-clamp-2">
+                  <a href={`/articles/${post.slug}`}>
+                    <span class="absolute inset-0 z-10"></span>
+                    {post.data.title}
+                  </a>
+                </h3>
+
+                <p class="text-neutral-400 text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
+                  {post.data.description}
+                </p>
+
+                <div class="flex items-center justify-between relative z-20 mt-auto pt-4 border-t-2 border-neutral-800">
+                  <span class="text-primary-accent text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-transform inline-flex items-center gap-2">
+                    Read Analysis
+                  </span>
+                  <span class="text-primary-accent text-lg group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </article>
+            ))
+        }
+      </div>
+
+      <div class="mt-8 md:hidden text-center">
+        <a href="/articles" class="brutalist-button brutalist-button--secondary w-full">
+          ACCESS ARCHIVE
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="brutalist-section py-24 bg-gradient-radial-subtle">
+    <div class="brutalist-container pl-20">
+      <div class="brutalist-card brutalist-card--verified p-12 md:p-20 text-center relative overflow-hidden corner-accent fade-in-scale">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-dot-pattern opacity-20"></div>
+
+        <div class="relative z-10">
+          <h2 class="text-heading-3 mb-6">REQUIRE A SECURITY AUDIT?</h2>
+          <p class="text-body text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-neutral-300">
+            Engage with our consultants for a comprehensive threat assessment and physical security audit.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <a href="/contact" class="brutalist-button brutalist-button--primary px-12 hover-glow">
+              INITIATE CONSULTATION
+            </a>
+            <a href="https://wa.me/919820000000" class="brutalist-button brutalist-button--secondary px-12" aria-label="Contact SPS via WhatsApp (opens external site)" rel="noopener noreferrer" target="_blank">
+              WHATSAPP SUPPORT
+            </a>
+          </div>
+
+          <div class="mt-12 pt-8 border-t-2 border-neutral-700">
+             <p class="text-xs font-bold text-neutral-500 uppercase tracking-widest">SPS | A SUKHI ENTERPRISE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="brutalist-section brutalist-section--dark py-16 border-t-2 border-neutral-800">
+    <div class="brutalist-container pl-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="fade-in-up">
+          <h2 class="text-heading-3 mb-4">STAY INFORMED</h2>
+          <p class="text-body text-neutral-400 max-w-lg">
+            Subscribe to our weekly intelligence briefings. Get threat updates, compliance advisories, and sector-specific security insights delivered to your inbox.
+          </p>
+        </div>
+        <div class="fade-in-up delay-2">
+          <NewsletterSignup variant="inline" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="brutalist-section brutalist-section--dark border-t-4 border-primary-accent py-20 bg-grid-pattern">
+    <div class="brutalist-container pl-20">
+      <!-- Top Section -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
+        <!-- Brand Column -->
+        <div class="md:col-span-2 pr-12 fade-in-up">
+          <div class="mb-8">
+            <h3 class="text-5xl font-black text-white mb-2 tracking-tighter" style="font-family: var(--font-family-display);">SPS</h3>
+            <p class="text-xs text-primary-accent uppercase tracking-[0.2em] font-bold">Security Intelligence Platform</p>
+          </div>
+          <p class="text-neutral-400 text-sm leading-loose mb-8">
+            India's premier security intelligence platform, delivering authoritative compliance guidance and real-time threat intelligence. Built on the 60-year legacy of the Sukhi Enterprise.
+          </p>
+          <div class="flex items-center gap-4 flex-wrap">
+            <div class="px-4 py-2 border-2 border-compliance/30 bg-compliance/10 text-xs font-bold text-compliance uppercase">
+              Trusted Since 1965
+            </div>
+            <div class="px-4 py-2 border-2 border-neutral-700 bg-neutral-800 text-xs font-bold text-neutral-400 uppercase">
+              ISO 9001:2015
+            </div>
+          </div>
+        </div>
+
+        <!-- Sectors Column -->
+        <div class="fade-in-up delay-2">
+          <h4 class="text-sm font-bold text-white uppercase tracking-widest mb-6 border-b-2 border-neutral-700 pb-4">Sectors</h4>
+          <ul class="space-y-4 text-sm font-medium">
+            <li><a href="/sectors/jewellery" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Jewellery & High Value</a></li>
+            <li><a href="/sectors/education" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Education</a></li>
+            <li><a href="/sectors/healthcare" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Healthcare</a></li>
+            <li><a href="/sectors/finance" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">SME Finance</a></li>
+            <li><a href="/sectors/cyber" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Cyber Defence</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div class="fade-in-up delay-3">
+          <h4 class="text-sm font-bold text-white uppercase tracking-widest mb-6 border-b-2 border-neutral-700 pb-4">Company</h4>
+          <ul class="space-y-4 text-sm font-medium">
+            <li><a href="/about" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">About SPS</a></li>
+            <li><a href="/services" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Our Services</a></li>
+            <li><a href="/contact" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Contact</a></li>
+            <li><a href="/privacy" class="text-neutral-400 hover:text-primary-accent transition-colors hover:translate-x-1 inline-block">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Section -->
+      <div class="border-t-2 border-neutral-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-500 font-mono">
+        <div class="text-center md:text-left">
+          <p>© 2026 Security & Personnel Services Pvt. Ltd. · All rights reserved.</p>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-primary-accent/70">DESIGNED FOR HIGH-THREAT ENVIRONMENTS</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</Layout>

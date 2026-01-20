@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import ExecutiveSummary from '../../components/ExecutiveSummary.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const pubDate = entry.data.pubDate;
+const wordCount = entry.data.wordCount;
+const readingTime = wordCount ? Math.ceil(wordCount / 225) : null;
+const megatrend = entry.data.megatrend;
+const executiveSummary = entry.data.executive_summary;
+---
+
+<Layout 
+  title={entry.data.title} 
+  description={entry.data.description}
+  type="Article"
+  publishDate={pubDate}
+  author={entry.data.author}
+>
+  <SideDrawer />
+  
+  <article class="brutalist-section pt-32 pb-20 min-h-screen">
+    <div class="brutalist-container pl-20 max-w-4xl mx-auto">
+      
+      <!-- Header -->
+      <header class="mb-12 border-b-4 border-neutral-800 pb-8">
+        <div class="flex flex-wrap gap-4 mb-6 items-center">
+          <span class={`status-badge ${
+            entry.data.category === 'Critical' ? 'status-badge--critical' :
+            entry.data.category === 'Compliance' ? 'status-badge--compliance' : 'status-badge--verified'
+          }`}>
+            {entry.data.category || 'Security'}
+          </span>
+          {megatrend && (
+            <span class="megatrend-badge">
+              {megatrend}
+            </span>
+          )}
+          <span class="text-neutral-500 font-mono text-sm uppercase">
+            {pubDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </span>
+          {wordCount && readingTime && (
+            <span class="text-neutral-500 font-mono text-sm">
+              {wordCount.toLocaleString()} words · {readingTime} min read
+            </span>
+          )}
+          <span class="text-neutral-500 font-mono text-sm uppercase">
+            // {entry.data.author}
+          </span>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-black leading-tight text-white mb-6">
+          {entry.data.title}
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-neutral-400 leading-relaxed font-medium">
+          {entry.data.description}
+        </p>
+      </header>
+
+      <!-- Executive Summary -->
+      {executiveSummary && executiveSummary.length > 0 && (
+        <ExecutiveSummary summary={executiveSummary} />
+      )}
+
+      <!-- Content -->
+      <div class="prose prose-lg prose-invert prose-neutral max-w-none
+        prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
+        prose-h2:border-b-2 prose-h2:border-neutral-700 prose-h2:pb-2 prose-h2:mt-12 prose-h2:mb-6
+        prose-h3:mt-8 prose-h3:mb-4
+        prose-a:text-primary-accent prose-a:no-underline hover:prose-a:underline
+        prose-blockquote:border-l-primary-accent prose-blockquote:bg-neutral-900 prose-blockquote:not-italic
+        prose-code:text-primary-accent prose-code:bg-neutral-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono
+        prose-pre:bg-neutral-900 prose-pre:border prose-pre:border-neutral-700
+        prose-li:marker:text-primary-accent
+        prose-th:bg-neutral-900 prose-th:uppercase prose-th:text-sm
+        prose-img:border-2 prose-img:border-neutral-700">
+        <Content />
+      </div>
+
+      <!-- Related Intelligence -->
+      {
+        (await getCollection('blog'))
+          .filter(post => post.slug !== entry.slug && post.data.category === entry.data.category)
+          .length > 0 && (
+            <div class="mt-20 border-t-4 border-neutral-800 pt-12">
+              <h3 class="text-2xl font-black text-white uppercase mb-8 tracking-tight">
+                Related Intelligence // {entry.data.category}
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {
+                  (await getCollection('blog'))
+                    .filter(post => post.slug !== entry.slug && post.data.category === entry.data.category)
+                    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+                    .slice(0, 3)
+                    .map(post => (
+                      <a href={`/articles/${post.slug}`} class="group block h-full">
+                        <article class="bg-neutral-900 border border-neutral-800 p-6 h-full hover:border-primary-accent transition-colors flex flex-col">
+                           <span class="text-xs font-mono text-neutral-500 mb-2">
+                             {post.data.pubDate.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+                           </span>
+                           <h4 class="text-lg font-bold text-white mb-2 group-hover:text-primary-accent transition-colors">
+                             {post.data.title}
+                           </h4>
+                           <p class="text-sm text-neutral-400 line-clamp-3 mb-4 flex-grow">
+                             {post.data.description}
+                           </p>
+                           <div class="text-xs font-bold text-primary-accent uppercase tracking-widest mt-auto group-hover:translate-x-1 transition-transform">
+                             Read Briefing →
+                           </div>
+                        </article>
+                      </a>
+                    ))
+                }
+              </div>
+            </div>
+          )
+      }
+      
+      <!-- Footer -->
+      <footer class="mt-16 pt-8 border-t-2 border-neutral-800">
+        <div class="flex justify-between items-center">
+          <a href="/articles" class="brutalist-button brutalist-button--secondary">
+            ← ACCESS ARCHIVE
+          </a>
+        </div>
+      </footer>
+
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .megatrend-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    border: 2px solid var(--color-verified, #06B6D4);
+    color: var(--color-verified, #06B6D4);
+  }
+</style>

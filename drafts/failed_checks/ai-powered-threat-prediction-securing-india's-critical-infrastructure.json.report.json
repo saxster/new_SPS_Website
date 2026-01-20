@@ -1,0 +1,5 @@
+{
+  "decision": "review",
+  "confidence": 0.0,
+  "critique": "Validation error: Unexpected error: 1 validation error for ArticleInput\nproposed_costs\n  String should have at most 200 characters [type=string_too_long, input_value='Implementation costs var...tial consultation fees.', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_too_long"
+}

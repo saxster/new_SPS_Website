@@ -1,0 +1,71 @@
+---
+import { Image as AstroImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * Optimized Image Component
+ *
+ * Features:
+ * - Supports Astro's native image optimization (pass imported image as src)
+ * - Fallback for public folder strings (legacy)
+ * - Lazy loading by default (below-fold images)
+ * - Proper dimensions to prevent CLS
+ */
+
+interface Props {
+  src: string | ImageMetadata;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  loading = 'lazy',
+  decoding = 'async',
+  fetchpriority = 'auto',
+  class: className = '',
+  sizes,
+} = Astro.props;
+
+// Determine if image should load eagerly (above the fold)
+const isAboveFold = loading === 'eager';
+const finalPriority = isAboveFold ? 'high' : fetchpriority;
+
+const isOptimizable = typeof src !== 'string';
+---
+
+{
+  isOptimizable ? (
+    <AstroImage
+      src={src as ImageMetadata}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={finalPriority}
+      class={className}
+    />
+  ) : (
+    <img
+      src={src as string}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding={decoding}
+      fetchpriority={finalPriority}
+      class={className}
+      sizes={sizes}
+    />
+  )
+}

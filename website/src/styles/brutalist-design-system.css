@@ -1,0 +1,588 @@
+/* =====================================================
+   BRUTALIST PHYSICAL SECURITY DESIGN SYSTEM
+   Authoritative • Professional • Reliable
+   ===================================================== */
+
+/* ===== CUSTOM PROPERTIES ===== */
+:root {
+  /* --- COLOR PALETTE --- */
+  --color-primary-bg: #0a0a0a;
+  --color-accent-cyan: #00ffff;
+  --color-warning-orange: #ff6b35;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3a3a3;
+  --color-success-green: #00ff41;
+  
+  /* Additional system colors */
+  --color-surface-dark: #1a1a1a;
+  --color-surface-darker: #151515;
+  --color-border-light: #333333;
+  --color-border-accent: #666666;
+  
+  /* --- TYPOGRAPHY --- */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  /* Font sizes - brutalist scale */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  --font-size-6xl: 3.75rem;   /* 60px */
+  
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Letter spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  
+  /* --- SPACING SYSTEM --- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+  
+  /* --- LAYOUT --- */
+  --container-max-width: 1200px;
+  --border-radius-none: 0;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+  
+  /* --- SHADOWS --- */
+  --shadow-brutalist-sm: 4px 4px 0 0 rgba(0, 0, 0, 0.5);
+  --shadow-brutalist-md: 8px 8px 0 0 rgba(0, 0, 0, 0.5);
+  --shadow-brutalist-lg: 12px 12px 0 0 rgba(0, 0, 0, 0.5);
+  --shadow-brutalist-xl: 16px 16px 0 0 rgba(0, 0, 0, 0.5);
+  
+  /* --- TRANSITIONS --- */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== BASE STYLES ===== */
+/* Note: Base styles are now handled by brutalist-titanium.css */
+/* This file provides supplementary component styles */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ===== TYPOGRAPHY SYSTEM ===== */
+.brutalist-heading-1 {
+  font-size: var(--font-size-6xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0 0 var(--space-8) 0;
+  text-transform: uppercase;
+}
+
+.brutalist-heading-2 {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0 0 var(--space-6) 0;
+  text-transform: uppercase;
+}
+
+.brutalist-heading-3 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-normal);
+  margin: 0 0 var(--space-5) 0;
+}
+
+.brutalist-heading-4 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-normal);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.brutalist-heading-5 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.brutalist-heading-6 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.brutalist-body-large {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.brutalist-body {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.brutalist-body-small {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.brutalist-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* ===== LAYOUT COMPONENTS ===== */
+.brutalist-container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.brutalist-section {
+  padding: var(--space-24) 0;
+  position: relative;
+}
+
+.brutalist-section--dark {
+  background-color: var(--color-surface-dark);
+}
+
+.brutalist-section--darker {
+  background-color: var(--color-surface-darker);
+}
+
+.brutalist-section-divider {
+  height: var(--border-width-thick);
+  background-color: var(--color-accent-cyan);
+  margin: var(--space-16) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.brutalist-section-divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-text-primary),
+    transparent
+  );
+  animation: brutalist-shimmer 3s infinite;
+}
+
+@keyframes brutalist-shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.brutalist-grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.brutalist-grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.brutalist-grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.brutalist-grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* ===== BUTTON COMPONENTS ===== */
+.brutalist-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  text-decoration: none;
+  border: var(--border-width-medium) solid;
+  border-radius: var(--border-radius-none);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  min-height: 48px;
+}
+
+.brutalist-button--primary {
+  background-color: var(--color-accent-cyan);
+  border-color: var(--color-accent-cyan);
+  color: var(--color-primary-bg);
+  box-shadow: var(--shadow-brutalist-sm);
+}
+
+.brutalist-button--primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutalist-md);
+  background-color: var(--color-text-primary);
+}
+
+.brutalist-button--secondary {
+  background-color: transparent;
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-brutalist-sm);
+}
+
+.brutalist-button--secondary:hover {
+  background-color: var(--color-text-primary);
+  color: var(--color-primary-bg);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutalist-md);
+}
+
+.brutalist-button--warning {
+  background-color: var(--color-warning-orange);
+  border-color: var(--color-warning-orange);
+  color: var(--color-primary-bg);
+  box-shadow: var(--shadow-brutalist-sm);
+}
+
+.brutalist-button--warning:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutalist-md);
+  background-color: var(--color-text-primary);
+}
+
+.brutalist-button--success {
+  background-color: var(--color-success-green);
+  border-color: var(--color-success-green);
+  color: var(--color-primary-bg);
+  box-shadow: var(--shadow-brutalist-sm);
+}
+
+.brutalist-button--success:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutalist-md);
+  background-color: var(--color-text-primary);
+}
+
+.brutalist-button--large {
+  padding: var(--space-6) var(--space-12);
+  font-size: var(--font-size-lg);
+  min-height: 56px;
+}
+
+.brutalist-button--small {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  min-height: 36px;
+}
+
+/* ===== FORM COMPONENTS ===== */
+.brutalist-form-group {
+  margin-bottom: var(--space-6);
+}
+
+.brutalist-label {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.brutalist-input {
+  width: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  background-color: var(--color-surface-dark);
+  border: var(--border-width-medium) solid var(--color-border-light);
+  border-radius: var(--border-radius-none);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+  min-height: 48px;
+}
+
+.brutalist-input:focus {
+  outline: none;
+  border-color: var(--color-accent-cyan);
+  box-shadow: var(--shadow-brutalist-sm);
+  transform: translate(-1px, -1px);
+}
+
+.brutalist-input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.brutalist-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.brutalist-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  background-size: 16px;
+  padding-right: var(--space-12);
+}
+
+/* ===== CARD COMPONENTS ===== */
+.brutalist-card {
+  background-color: var(--color-surface-dark);
+  border: var(--border-width-medium) solid var(--color-border-light);
+  border-radius: var(--border-radius-none);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-brutalist-sm);
+  transition: all var(--transition-fast);
+}
+
+.brutalist-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutalist-md);
+  border-color: var(--color-accent-cyan);
+}
+
+.brutalist-card--accent {
+  border-color: var(--color-accent-cyan);
+  box-shadow: var(--shadow-brutalist-md);
+}
+
+.brutalist-card--warning {
+  border-color: var(--color-warning-orange);
+  background-color: rgba(255, 107, 53, 0.1);
+}
+
+.brutalist-card--success {
+  border-color: var(--color-success-green);
+  background-color: rgba(0, 255, 65, 0.1);
+}
+
+.brutalist-card-header {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.brutalist-card-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.brutalist-card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--space-2) 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.brutalist-card-content {
+  margin-bottom: var(--space-6);
+}
+
+.brutalist-card-footer {
+  padding-top: var(--space-4);
+  border-top: var(--border-width-thin) solid var(--color-border-light);
+}
+
+/* ===== NAVIGATION COMPONENTS ===== */
+.brutalist-nav {
+  background-color: var(--color-surface-darker);
+  border-bottom: var(--border-width-thick) solid var(--color-accent-cyan);
+  padding: var(--space-4) 0;
+}
+
+.brutalist-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brutalist-nav-logo {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-accent-cyan);
+  text-decoration: none;
+}
+
+.brutalist-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.brutalist-nav-link {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.brutalist-nav-link:hover,
+.brutalist-nav-link--active {
+  color: var(--color-accent-cyan);
+  border-color: var(--color-accent-cyan);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 0 rgba(0, 255, 255, 0.3);
+}
+
+/* ===== STATUS INDICATORS ===== */
+.brutalist-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  border: var(--border-width-thin) solid;
+  border-radius: var(--border-radius-none);
+}
+
+.brutalist-status--secure {
+  background-color: rgba(0, 255, 65, 0.1);
+  border-color: var(--color-success-green);
+  color: var(--color-success-green);
+}
+
+.brutalist-status--alert {
+  background-color: rgba(0, 255, 255, 0.1);
+  border-color: var(--color-accent-cyan);
+  color: var(--color-accent-cyan);
+}
+
+.brutalist-status--critical {
+  background-color: rgba(255, 107, 53, 0.1);
+  border-color: var(--color-warning-orange);
+  color: var(--color-warning-orange);
+}
+
+.brutalist-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.brutalist-text-accent { color: var(--color-accent-cyan); }
+.brutalist-text-warning { color: var(--color-warning-orange); }
+.brutalist-text-success { color: var(--color-success-green); }
+.brutalist-text-secondary { color: var(--color-text-secondary); }
+
+.brutalist-bg-primary { background-color: var(--color-primary-bg); }
+.brutalist-bg-surface { background-color: var(--color-surface-dark); }
+.brutalist-bg-surface-darker { background-color: var(--color-surface-darker); }
+
+.brutalist-border-accent { border-color: var(--color-accent-cyan); }
+.brutalist-border-warning { border-color: var(--color-warning-orange); }
+.brutalist-border-success { border-color: var(--color-success-green); }
+
+.brutalist-shadow-sm { box-shadow: var(--shadow-brutalist-sm); }
+.brutalist-shadow-md { box-shadow: var(--shadow-brutalist-md); }
+.brutalist-shadow-lg { box-shadow: var(--shadow-brutalist-lg); }
+
+.brutalist-uppercase { text-transform: uppercase; }
+.brutalist-tracking-tight { letter-spacing: var(--letter-spacing-tight); }
+.brutalist-tracking-wide { letter-spacing: var(--letter-spacing-wide); }
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  :root {
+    --font-size-6xl: 2.5rem;
+    --font-size-5xl: 2rem;
+    --font-size-4xl: 1.75rem;
+  }
+  
+  .brutalist-nav-container {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .brutalist-nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+  
+  .brutalist-container {
+    padding: 0 var(--space-4);
+  }
+  
+  .brutalist-section {
+    padding: var(--space-16) 0;
+  }
+  
+  .brutalist-grid--2,
+  .brutalist-grid--3,
+  .brutalist-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .brutalist-button {
+    width: 100%;
+  }
+  
+  .brutalist-card {
+    padding: var(--space-6);
+  }
+} 

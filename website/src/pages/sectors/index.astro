@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+
+const sectors = await getCollection('sectors');
+---
+
+<Layout title="Security Sectors | SPS Intelligence Platform" description="Explore SPS's specialized command centers across 10 industry verticals.">
+  <SideDrawer />
+  
+  <section class="brutalist-section pt-32 pb-16">
+    <div class="brutalist-container pl-20">
+      <h1 class="text-heading-1 text-primary-accent mb-4">COMMAND CENTERS</h1>
+      <p class="text-2xl text-body max-w-3xl mb-16">
+        Deep expertise across India's most critical security verticals. Select a sector to explore threats, regulations, and SPS protocols.
+      </p>
+      
+      <div class="brutalist-grid brutalist-grid--3">
+        {sectors.map(sector => (
+          <a href={`/sectors/${sector.slug}`} class="brutalist-card hover:border-primary-accent transition-all group">
+            <div class="text-6xl mb-6" role="img" aria-label={`${sector.data.title} sector icon`}>{sector.data.icon}</div>
+            <h2 class="text-article-title group-hover:text-primary-accent transition-colors mb-3">
+              {sector.data.title}
+            </h2>
+            <p class="text-body text-sm mb-6 line-clamp-3">
+              {sector.data.description}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {sector.data.regulations.slice(0, 2).map(reg => (
+                <span class="text-xs bg-neutral-800 text-compliance px-2 py-1 rounded">
+                  {reg.split(' ')[0]}
+                </span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

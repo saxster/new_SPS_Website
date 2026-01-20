@@ -1,0 +1,140 @@
+.simulator-start-card {
+    background: var(--color-surface-dark);
+    border: 2px solid var(--color-border-light);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+}
+
+.sim-header {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.sim-badge, .sim-sector {
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sim-badge { background: var(--color-primary-accent); color: black; }
+
+.sim-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.sim-desc {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Active Simulation */
+.simulator-container {
+    background: black;
+    border: 2px solid var(--color-border-light);
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Space Mono', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-status-bar {
+    background: #111;
+    color: var(--color-primary-accent);
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.sim-content {
+    padding: 2rem;
+    min-height: 200px;
+}
+
+.narrative-text {
+    font-size: 1.1rem;
+    color: #ddd;
+    line-height: 1.6;
+}
+
+.sim-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 2rem 2rem 2rem;
+}
+
+.choice-btn {
+    background: #0f0f0f;
+    border: 1px solid #333;
+    padding: 1rem;
+    text-align: left;
+    color: #aaa;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.choice-btn:hover {
+    border-color: var(--color-primary-accent);
+    color: white;
+    transform: translateX(5px);
+}
+
+.choice-arrow {
+    color: var(--color-primary-accent);
+    font-weight: bold;
+}
+
+/* Outcome States */
+.sim-outcome {
+    padding: 2rem;
+    text-align: center;
+    border-top: 2px solid #333;
+}
+
+.outcome-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+.outcome-success {
+    background: rgba(51, 204, 51, 0.1);
+    border-color: #33cc33;
+}
+.outcome-success .outcome-title { color: #33cc33; }
+
+.outcome-failure {
+    background: rgba(255, 51, 51, 0.1);
+    border-color: #ff3333;
+}
+.outcome-failure .outcome-title { color: #ff3333; }
+
+.outcome-partial {
+    background: rgba(255, 204, 0, 0.1);
+    border-color: #ffcc00;
+}
+.outcome-partial .outcome-title { color: #ffcc00; }

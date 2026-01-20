@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SideDrawer from '../../components/SideDrawer.astro';
+import ArticleFilters from '../../components/ArticleFilters';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Extract unique categories and megatrends for filters
+const categories = [...new Set(posts.map((p) => p.data.category).filter(Boolean))] as string[];
+const megatrends = [...new Set(posts.map((p) => p.data.megatrend).filter(Boolean))] as string[];
+
+// Prepare articles data for the client component
+const articlesData = posts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  category: post.data.category,
+  tags: post.data.tags,
+  megatrend: post.data.megatrend,
+}));
+
+const title = "Intelligence Archive | SPS";
+const description = "The complete repository of SPS security intelligence, analysis, and compliance guides.";
+---
+
+<Layout title={title} description={description}>
+  <SideDrawer />
+
+  <section class="brutalist-section pt-32 pb-20">
+    <div class="brutalist-container pl-20">
+      <div class="border-b border-neutral-800 pb-12 mb-12">
+        <h1 class="text-heading-1 text-white mb-4">INTELLIGENCE ARCHIVE</h1>
+        <p class="text-xl text-neutral-400 font-mono">
+          // ACCESS LEVEL: PUBLIC<br/>
+          // TOTAL RECORDS: {posts.length}
+        </p>
+      </div>
+
+      <ArticleFilters
+        client:idle
+        articles={articlesData}
+        categories={categories}
+        megatrends={megatrends}
+      />
+    </div>
+  </section>
+</Layout>

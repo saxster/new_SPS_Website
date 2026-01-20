@@ -1,0 +1,237 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import EduTooltip from '../../components/ui/EduTooltip.astro';
+
+// Regional Threat Intelligence Data - Sources: NCRB, I4C, IMD, BWSSB, CERT-In
+// The 'points' array represents relative threat intensity for the sparkline
+const regionalTrends = [
+    {
+        region: 'Delhi NCR',
+        focus: 'Cybercrime Hotspot',
+        trend: '755/100K',
+        trendDirection: 'up',
+        severity: 'CRITICAL',
+        points: [45, 50, 55, 60, 65, 70, 75],
+        forecast: 'Highest cybercrime density in India. Digital arrest scams and UPI fraud remain dominant vectors. Enhanced vigilance required for financial transactions.',
+        impact: 'Financial Loss',
+        source: 'NCRB / I4C 2025'
+    },
+    {
+        region: 'Mumbai / Pune',
+        focus: 'Financial Sector Fraud',
+        trend: '₹1,127 Cr',
+        trendDirection: 'up',
+        severity: 'CRITICAL',
+        points: [30, 40, 50, 60, 75, 85, 95],
+        forecast: 'Financial capital facing unprecedented fraud surge. Stock market scams, fake investment platforms, and digital arrest schemes are primary vectors. BFSI sector remains top target.',
+        impact: 'Financial Loss (₹12,000+ Cr in 2024)',
+        source: 'Mumbai Police / I4C'
+    },
+    {
+        region: 'Bangalore Tech Corridor',
+        focus: 'Water Crisis / Infrastructure',
+        trend: '31% Deficit',
+        trendDirection: 'up',
+        severity: 'HIGH',
+        points: [50, 55, 60, 65, 70, 72, 75],
+        forecast: 'Ongoing infrastructure stress despite recent rains. Water restrictions continue. Business continuity planning essential for facilities dependent on municipal supply.',
+        impact: 'Operational Continuity',
+        source: 'BWSSB / IISc Report'
+    },
+    {
+        region: 'Coastal Tamil Nadu',
+        focus: 'Cyclonic Activity',
+        trend: 'IMD Watch',
+        trendDirection: 'stable',
+        severity: 'MEDIUM',
+        points: [30, 35, 40, 45, 50, 55, 55],
+        forecast: 'Cyclone season active. IMD monitoring Bay of Bengal. Facilities in coastal Tamil Nadu, Puducherry, and Andhra Pradesh should maintain updated BCPs.',
+        impact: 'Physical Safety / Asset Protection',
+        source: 'IMD Bulletin 2026'
+    },
+    {
+        region: 'Hyderabad',
+        focus: 'Cybercrime & Data Breaches',
+        trend: '261/100K',
+        trendDirection: 'up',
+        severity: 'HIGH',
+        points: [40, 45, 50, 55, 58, 62, 65],
+        forecast: 'Tech and pharma hub with elevated cyber risk. Insider threat and supply chain attacks are emerging concerns for IP-intensive businesses.',
+        impact: 'Intellectual Property / Data Loss',
+        source: 'NCRB / CERT-In'
+    }
+];
+
+// Helper to generate SVG Sparkline path
+function getSparklinePath(points: number[], width: number, height: number) {
+    const max = Math.max(...points);
+    const min = Math.min(...points);
+    const range = max - min || 1;
+    const step = width / (points.length - 1);
+    
+    return points.map((p, i) => {
+        const x = i * step;
+        // Invert Y because SVG 0 is top
+        const y = height - ((p - min) / range) * height; 
+        return `${x},${y}`;
+    }).join(' ');
+}
+---
+
+<Layout title="India Threat Forecast | Security Intelligence" description="Real-time threat intelligence for India: cybercrime statistics, infrastructure risks, and regional security data from NCRB, CERT-In, IMD, and I4C.">
+    <main class="bg-slate-950 min-h-screen text-slate-300 font-sans pb-20">
+        
+        <!-- Header -->
+        <div class="border-b border-slate-800 bg-slate-900 pt-32 pb-12 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-3 mb-4 flex-wrap">
+                    <span class="bg-amber-600/20 text-amber-500 border border-amber-600/50 text-xs font-bold px-2 py-1 rounded tracking-wider">BETA FEATURE</span>
+                    <span class="text-slate-500 text-sm font-mono">/ INTELLIGENCE / INDIA-FORESIGHT</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
+                    INDIA THREAT <span class="text-amber-500">FORECAST</span>
+                </h1>
+                <p class="text-lg text-slate-400 max-w-3xl">
+                    Consolidated threat intelligence from authoritative government and industry sources.
+                    <strong class="text-white">Real data. Real risks.</strong> Updated weekly.
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                {regionalTrends.map((item) => {
+                    const isCritical = item.severity === 'CRITICAL';
+                    const isUp = item.trendDirection === 'up';
+                    const isStable = item.trendDirection === 'stable';
+                    
+                    return (
+                        <div class={`
+                            relative overflow-hidden rounded-xl border p-6 transition-all duration-300 hover:shadow-lg group
+                            ${isCritical ? 'bg-slate-900/80 border-rose-900/50 hover:border-rose-700' : 'bg-slate-900/40 border-slate-800 hover:border-slate-600'}
+                        `}>
+                            {/* Header */}
+                            <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-white font-bold text-lg">{item.region}</h3>
+                                    <div class="text-xs font-mono text-slate-500 uppercase tracking-widest mt-1">{item.focus}</div>
+                                </div>
+                                <div class={`
+                                    px-2 py-1 rounded text-[10px] font-black tracking-widest border
+                                    ${item.severity === 'CRITICAL' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 
+                                      item.severity === 'HIGH' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
+                                      'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}
+                                `}>
+                                    {item.severity}
+                                </div>
+                            </div>
+
+                            {/* Sparkline Visualization */}
+                            <div class="h-24 w-full mb-6 relative">
+                                <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" class="overflow-visible">
+                                    {/* Gradient Definition */}
+                                    <defs>
+                                        <linearGradient id={`grad-${item.region}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color={isCritical ? '#f43f5e' : '#f59e0b'} stop-opacity="0.5" />
+                                            <stop offset="100%" stop-color={isCritical ? '#f43f5e' : '#f59e0b'} stop-opacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    {/* Fill Area */}
+                                    <path 
+                                        d={`M0,100 L${getSparklinePath(item.points, 100, 100)} L100,100 Z`} 
+                                        fill={`url(#grad-${item.region})`} 
+                                    />
+                                    
+                                    {/* The Line */}
+                                    <polyline 
+                                        points={getSparklinePath(item.points, 100, 100)} 
+                                        fill="none" 
+                                        stroke={isCritical ? '#fb7185' : isStable ? '#34d399' : '#fbbf24'} 
+                                        stroke-width="3" 
+                                        vector-effect="non-scaling-stroke"
+                                        class="drop-shadow-md"
+                                    />
+                                </svg>
+                                
+                                {/* Trend Badge Overlay */}
+                                <div class="absolute top-0 right-0 flex flex-col items-end">
+                                    <div class={`
+                                        text-2xl font-black
+                                        ${isUp ? 'text-rose-500' : isStable ? 'text-emerald-500' : 'text-blue-400'}
+                                    `}>
+                                        {item.trend}
+                                    </div>
+                                    <div class="text-[10px] text-slate-500 uppercase font-bold">7-Day Velocity</div>
+                                </div>
+                            </div>
+
+                            {/* Predictive Analysis */}
+                            <div class="border-t border-slate-800 pt-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xs font-bold text-slate-400 uppercase">Foresight</span>
+                                    {isCritical && <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>}
+                                </div>
+                                <p class="text-sm text-slate-300 leading-relaxed font-medium">
+                                    "{item.forecast}"
+                                </p>
+                                <div class="mt-3 pt-3 border-t border-slate-800/50 flex justify-between items-center">
+                                    <span class="text-xs text-slate-500">Potential Impact:</span>
+                                    <span class="text-xs font-mono text-slate-300 bg-slate-800 px-2 py-1 rounded">{item.impact}</span>
+                                </div>
+                                {item.source && (
+                                    <div class="mt-2 text-[10px] text-slate-600 uppercase tracking-wide">
+                                        Source: {item.source}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
+
+                {/* Call to Action Card */}
+                <div class="relative overflow-hidden rounded-xl border border-slate-700 bg-slate-800/50 p-6 flex flex-col justify-center items-center text-center group hover:border-amber-500/50 transition-colors">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        📍
+                    </div>
+                    <h3 class="text-white font-bold text-xl mb-2">Monitor Your Assets</h3>
+                    <p class="text-sm text-slate-400 mb-6 max-w-xs">
+                        Upload your Indian asset locations (Offices, Warehouses) to generate a custom predictive model.
+                    </p>
+                    <button class="bg-amber-600 hover:bg-amber-500 text-white font-bold py-2 px-6 rounded text-sm transition-colors">
+                        Start Free Trial
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Methodology Footer -->
+        <div class="border-t border-slate-900 bg-slate-950 py-12">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <p class="text-xs text-slate-600 uppercase tracking-widest font-bold mb-4">Data Sources</p>
+                <div class="flex flex-wrap justify-center gap-8 text-sm text-slate-500 mb-8">
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-600">●</span> CERT-In Threat Reports
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-600">●</span> IMD Weather Bulletins
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-600">●</span> NCRB Crime Statistics
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-600">●</span> I4C Fraud Analytics
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600 max-w-lg mx-auto">
+                    Data compiled from government and industry sources. Updated weekly. For enterprise-grade real-time monitoring, contact us.
+                </p>
+            </div>
+        </div>
+
+    </main>
+</Layout>

@@ -1,0 +1,134 @@
+---
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  type?: 'Organization' | 'Article' | 'WebSite' | 'FAQPage';
+  title?: string;
+  description?: string;
+  image?: string;
+  publishDate?: Date;
+  author?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  faqItems?: FAQItem[];
+}
+
+const {
+  type = 'Organization',
+  title = 'SPS | The Security Intelligence Platform',
+  description = "India's definitive security intelligence platform. Authoritative compliance guidance, real-time threat intelligence, and actionable protocols.",
+  image = 'https://sps-security.com/sps-logo.png',
+  publishDate,
+  author = 'SPS Intelligence Team',
+  breadcrumbs = [],
+  faqItems = []
+} = Astro.props;
+
+const siteUrl = 'https://sps-security.com';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
+
+let schema: any = {};
+let schemas: any[] = [];
+
+if (type === 'Organization' || type === 'WebSite') {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SPS Security Intelligence",
+    "url": siteUrl,
+    "logo": image,
+    "foundingDate": "1965",
+    "founder": {
+      "@type": "Person",
+      "name": "Capt. R.S. Sukhi"
+    },
+    "description": description,
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-98200-00000",
+      "contactType": "emergency",
+      "areaServed": "IN",
+      "availableLanguage": ["en", "hi"]
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/sps-security",
+      "https://twitter.com/sps_intel"
+    ]
+  };
+}
+
+if (type === 'Article') {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "image": image,
+    "datePublished": publishDate?.toISOString(),
+    "dateModified": publishDate?.toISOString(), // Assuming modified = published for now
+    "author": {
+      "@type": "Organization",
+      "name": author
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SPS Security Intelligence",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/sps-logo.png`
+      }
+    },
+    "description": description,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl.toString()
+    }
+  };
+}
+
+// Add BreadcrumbList schema if breadcrumbs provided
+if (breadcrumbs.length > 0) {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`
+    }))
+  };
+  schemas.push(breadcrumbSchema);
+}
+
+// Add FAQPage schema if FAQ items provided
+if (type === 'FAQPage' && faqItems.length > 0) {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+}
+
+// Add main schema to schemas array
+if (Object.keys(schema).length > 0) {
+  schemas.unshift(schema);
+}
+---
+
+{schemas.map(s => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
