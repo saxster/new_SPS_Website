@@ -7,14 +7,15 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: sps-brain
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000" # Internal Only
     volumes:
       - ./agent_backend:/app/agent_backend
       - ./website/src/content:/app/website/src/content
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - CHROMA_HOST=sps-chroma
     restart: unless-stopped
     networks:
       - sps-network
@@ -25,13 +26,13 @@ services:
       context: ./website
       dockerfile: Dockerfile
     container_name: sps-website
-    ports:
-      - "80:4321" # Expose internally on 4321, map to external 80 (HTTP)
+    expose:
+      - "4321" # Internal Only
     environment:
       - HOST=0.0.0.0
       - PORT=4321
-      # On the server, we talk to the brain via its container name
-      - PUBLIC_API_URL=http://sps-brain:8000 
+      - PUBLIC_API_URL=https://api.sps-security.com # Public URL via Tunnel
+      - PUBLIC_WS_URL=wss://api.sps-security.com/ws
     restart: unless-stopped
     depends_on:
       - sps-brain
@@ -42,15 +43,18 @@ services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
     container_name: n8n
-    ports:
-      - "5678:5678"
+    expose:
+      - "5678" # Internal Only
     volumes:
       - n8n_data:/home/node/.n8n
       - ./website:/app/website
       - ./agent_backend:/app/agent_backend
     environment:
-      - N8N_HOST=sps-n8n.com # Change this to your domain later
-      # PRIVACY SHIELDS: Disable tracking
+      - N8N_HOST=automator.sps-security.com
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://automator.sps-security.com/
+      # PRIVACY SHIELDS
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_PERSONALIZATION_ENABLED=false
       - N8N_TELEMETRY_DISABLED=true
@@ -62,13 +66,24 @@ services:
   chroma:
     image: chromadb/chroma:latest
     container_name: sps-chroma
-    ports:
-      - "8001:8000"
+    expose:
+      - "8000" # Internal Only (Mapped to 8001 in dev, 8000 internal here)
     volumes:
       - chroma_data:/chroma/chroma
     environment:
       - IS_PERSISTENT=TRUE
     restart: unless-stopped
+    networks:
+      - sps-network
+
+  # 5. THE TUNNEL (Cloudflare Zero Trust)
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     networks:
       - sps-network
 
