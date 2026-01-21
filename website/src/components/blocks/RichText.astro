@@ -1,0 +1,12 @@
+---
+import { marked } from 'marked'; // We need to install this package for client-side markdown rendering if not using content collection render()
+
+const { body } = Astro.props;
+const htmlContent = marked.parse(body || '');
+---
+
+<div class="brutalist-container pl-20 max-w-4xl mx-auto py-12">
+    <div class="prose prose-invert prose-lg prose-headings:font-bold prose-headings:uppercase prose-p:text-neutral-300 prose-a:text-primary-accent">
+        <div set:html={htmlContent} />
+    </div>
+</div>

@@ -1,0 +1,33 @@
+---
+const { title, items } = Astro.props;
+
+const iconMap: Record<string, string> = {
+    shield: '🛡️',
+    lock: '🔒',
+    cpu: '💾',
+    globe: '🌍',
+    zap: '⚡',
+    eye: '👁️',
+    alert: '🚨'
+};
+---
+
+<div class="brutalist-container pl-20 max-w-6xl mx-auto py-20">
+    {title && (
+        <div class="flex items-center gap-4 mb-12">
+            <span class="w-3 h-3 bg-primary-accent rounded-full animate-pulse"></span>
+            <h3 class="text-sm font-black text-neutral-500 uppercase tracking-widest">{title}</h3>
+        </div>
+    )}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {items.map((item: any) => (
+            <div class="p-8 border border-neutral-800 bg-neutral-900/50 hover:border-primary-accent/50 transition-all group">
+                <div class="text-4xl mb-6 text-neutral-600 group-hover:text-primary-accent transition-colors font-mono">
+                    {iconMap[item.icon] || '•'}
+                </div>
+                <h4 class="text-xl font-bold mb-3 text-white">{item.title}</h4>
+                <p class="text-sm text-gray-400 leading-relaxed">{item.text}</p>
+            </div>
+        ))}
+    </div>
+</div>

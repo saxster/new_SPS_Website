@@ -1,0 +1,12 @@
+{
+  "main_nav": [
+    { "label": "Services", "url": "/services" },
+    { "label": "Intelligence", "url": "/intelligence" },
+    { "label": "Sectors", "url": "/sectors" },
+    { "label": "About", "url": "/about" }
+  ],
+  "footer_nav": [
+    { "label": "Privacy Policy", "url": "/privacy" },
+    { "label": "Contact Command", "url": "/contact" }
+  ]
+}

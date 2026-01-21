@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+
+const { headline, cases } = Astro.props;
+
+let caseStudies = [];
+if (cases && cases.length > 0) {
+    const allCases = await getCollection('casestudies');
+    caseStudies = allCases.filter(c => cases.includes(c.slug));
+}
+---
+
+{caseStudies.length > 0 && (
+    <div class="brutalist-container pl-20 max-w-6xl mx-auto py-20">
+        <h3 class="text-xs font-black text-neutral-500 uppercase tracking-widest mb-8 border-b border-neutral-800 pb-4">
+            {headline}
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {caseStudies.map((c) => (
+                <a href={`/casestudies/${c.slug}`} class="relative h-[300px] border border-neutral-800 group overflow-hidden block">
+                    {c.data.image ? (
+                        <img src={c.data.image} alt={c.data.title} class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity grayscale" />
+                    ) : (
+                        <div class="absolute inset-0 bg-neutral-900"></div>
+                    )}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <div class="text-xs font-mono text-primary-accent mb-2">
+                            {c.data.location?.toUpperCase()}
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">{c.data.title}</h4>
+                        <div class="flex items-center gap-2 text-xs font-bold text-neutral-400">
+                            <span>OUTCOME:</span>
+                            <span class="text-white">{c.data.outcome}</span>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </div>
+)}

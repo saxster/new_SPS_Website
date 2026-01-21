@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+
+const { title, sector, count, style } = Astro.props;
+
+// Fetch and filter logic inside the component for encapsulation
+const allIntel = await getCollection('intelligence');
+let filtered = allIntel.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+if (sector && sector !== 'All') {
+    filtered = filtered.filter(item => item.data.sector === sector);
+}
+const intelItems = filtered.slice(0, count);
+---
+
+<div class="bg-neutral-900/20 border-y border-neutral-800 py-16">
+    <div class="brutalist-container pl-20 max-w-6xl mx-auto">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h3 class="text-3xl font-bold mb-2 uppercase text-white">{title}</h3>
+                <p class="text-sm font-mono text-primary-accent">
+                    // LIVE FEED: {sector ? sector.toUpperCase() : 'ALL'} SECTOR
+                </p>
+            </div>
+            <a href="/intelligence" class="text-xs font-bold text-neutral-500 hover:text-white uppercase tracking-widest border-b border-neutral-800 pb-1">
+                View All Intelligence →
+            </a>
+        </div>
+
+        {style === 'list' ? (
+            <div class="flex flex-col divide-y divide-neutral-800 border-t border-neutral-800">
+                {intelItems.map((item) => (
+                    <a href={`/intelligence/${item.slug}`} class="flex items-center justify-between py-6 hover:bg-white/5 transition-colors group px-4">
+                        <div>
+                            <span class="text-[10px] font-mono text-neutral-500 mb-1 block">
+                                {item.data.pubDate.toLocaleDateString()}
+                            </span>
+                            <h4 class="text-lg font-bold text-gray-200 group-hover:text-primary-accent">{item.data.title}</h4>
+                        </div>
+                        <span class={`text-[10px] font-bold uppercase px-2 py-1 rounded ${
+                            item.data.severity === 'Critical' ? 'bg-red-900 text-red-200' : 'bg-neutral-800 text-neutral-400'
+                        }`}>
+                            {item.data.severity}
+                        </span>
+                    </a>
+                ))}
+            </div>
+        ) : (
+            // Default Card Grid
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {intelItems.map((item) => (
+                    <a href={`/intelligence/${item.slug}`} class="block p-6 border border-neutral-800 bg-black hover:border-primary-accent transition-all group">
+                        <div class="flex justify-between mb-4">
+                            <span class={`text-[10px] font-bold uppercase px-2 py-1 rounded ${
+                                item.data.severity === 'Critical' ? 'bg-red-900 text-red-200' : 
+                                item.data.severity === 'High' ? 'bg-orange-900 text-orange-200' : 
+                                'bg-neutral-800 text-neutral-400'
+                            }`}>
+                                {item.data.severity}
+                            </span>
+                            <span class="text-[10px] font-mono text-neutral-500">
+                                {item.data.pubDate.toLocaleDateString()}
+                            </span>
+                        </div>
+                        <h4 class="text-lg font-bold mb-3 leading-tight text-white group-hover:text-primary-accent transition-colors">
+                            {item.data.title}
+                        </h4>
+                        <div class="text-xs font-mono text-neutral-600">
+                            SOURCE: {item.data.sector}
+                        </div>
+                    </a>
+                ))}
+            </div>
+        )}
+    </div>
+</div>

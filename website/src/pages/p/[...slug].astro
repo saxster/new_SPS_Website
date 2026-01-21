@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Import Block Components
+import Hero from '../../components/blocks/Hero.astro';
+import FeatureGrid from '../../components/blocks/FeatureGrid.astro';
+import SmartIntelFeed from '../../components/blocks/SmartIntelFeed.astro';
+import RelatedCases from '../../components/blocks/RelatedCases.astro';
+import RichText from '../../components/blocks/RichText.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map(page => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { title, description, sections } = page.data;
+---
+
+<Layout title={title} description={description}>
+  <div class="pt-32 min-h-screen bg-[#050505] text-white">
+    
+    {/* Page Header (Fallback) */}
+    {!sections?.some((s: any) => s.type === 'hero') && (
+        <div class="brutalist-container pl-20 max-w-6xl mb-12">
+            <h1 class="text-heading-1 text-white mb-4">{title}</h1>
+            <p class="text-xl text-neutral-400 font-mono">{description}</p>
+        </div>
+    )}
+
+    {/* Dynamic Block Renderer */}
+    {sections && sections.map((section: any) => (
+        <div class="block-wrapper">
+            
+            {section.type === 'hero' && (
+                <Hero 
+                    title={section.title} 
+                    subtitle={section.subtitle} 
+                    image={section.image} 
+                    cta_text={section.cta_text} 
+                    cta_link={section.cta_link} 
+                />
+            )}
+
+            {section.type === 'features' && (
+                <FeatureGrid 
+                    title={section.title} 
+                    items={section.items} 
+                />
+            )}
+
+            {section.type === 'smart_feed' && (
+                <SmartIntelFeed 
+                    title={section.title} 
+                    sector={section.sector} 
+                    count={section.count} 
+                    style={section.style} 
+                />
+            )}
+
+            {section.type === 'related_cases' && (
+                <RelatedCases 
+                    headline={section.headline} 
+                    cases={section.cases} 
+                />
+            )}
+
+            {section.type === 'content' && (
+                <RichText body={section.body} />
+            )}
+
+        </div>
+    ))}
+  </div>
+</Layout>
