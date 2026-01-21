@@ -3,10 +3,11 @@ import '../styles/global.css';
 import '../styles/brutalist-titanium.css';
 import '../styles/fonts.css';
 import { ClientRouter } from 'astro:transitions';
-import Ticker from '../components/Ticker.astro';
+import Ticker from '../components/RealTimeTicker';
 import Schema from '../components/Schema.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import AskExpertWidget from '../components/widgets/AskExpertWidget';
+import CommandSearch from '../components/CommandSearch';
 
 interface BreadcrumbItem {
   name: string;
@@ -122,7 +123,7 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site
             aria-live="off"
             aria-label="Live security intelligence ticker"
         >
-            <Ticker />
+            <Ticker client:only="preact" />
         </div>
 
         <!-- Main Content (Padded for Ticker) -->
@@ -131,6 +132,7 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site
         </main>
 
         <CommandPalette />
+        <CommandSearch client:idle />
         <AskExpertWidget client:idle />
 	</body>
 </html>

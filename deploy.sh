@@ -11,7 +11,10 @@ echo "📥 1. Pulling latest code from GitHub..."
 git pull origin main
 
 echo "🏗️  2. Rebuilding Containers..."
-# This is smart - it only rebuilds what changed (e.g. just the website, not the brain)
+# Ensure permissions for data volumes
+mkdir -p chroma_data n8n_data
+chmod 777 chroma_data n8n_data 2>/dev/null || true
+
 docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
 
 echo "🧹 3. Cleaning up..."
