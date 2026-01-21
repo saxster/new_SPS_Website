@@ -1,10 +1,12 @@
 import { useState } from 'preact/hooks';
+import Turnstile from 'react-turnstile';
 
 export default function RiskCalculator() {
     const [step, setStep] = useState(1);
     const [sector, setSector] = useState(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [token, setToken] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         has_fire_noc: false,
         has_guards: false,
@@ -21,12 +23,20 @@ export default function RiskCalculator() {
     };
 
     const handleCalculate = async () => {
+        if (!token) {
+            alert("Please complete the security check.");
+            return;
+        }
         setLoading(true);
         try {
             const response = await fetch('/api/assess-risk', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sector, data: formData })
+                body: JSON.stringify({ 
+                    sector, 
+                    data: formData,
+                    security_token: token
+                })
             });
             const data = await response.json();
             setResult(data);
@@ -82,8 +92,19 @@ export default function RiskCalculator() {
     if (step === 3) {
         return (
             <div className="p-8 bg-neutral-900 border border-neutral-800 rounded">
-                <h3 className="text-xl font-bold mb-4">Ready</h3>
-                <button onClick={handleCalculate} className="w-full p-4 bg-primary-accent text-black font-bold">
+                <h3 className="text-xl font-bold mb-4">Final Security Check</h3>
+                <div className="mb-6 flex justify-center">
+                    <Turnstile
+                        sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}
+                        onVerify={(t) => setToken(t)}
+                        theme="dark"
+                    />
+                </div>
+                <button 
+                    onClick={handleCalculate} 
+                    disabled={!token || loading}
+                    className="w-full p-4 bg-primary-accent text-black font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                     {loading ? 'CALCULATING...' : 'RUN SIMULATION'}
                 </button>
             </div>

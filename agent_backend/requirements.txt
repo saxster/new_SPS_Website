@@ -18,3 +18,4 @@ fastapi
 uvicorn[standard]
 chromadb
 sentence-transformers
+boto3

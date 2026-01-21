@@ -4,6 +4,8 @@ import re
 import json
 import argparse
 import sys
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 class ConsensusEngine:
     def __init__(self):
@@ -13,6 +15,29 @@ class ConsensusEngine:
             "Healthcare": "NABH Standards, Code Violet",
             "Banking": "RBI Master Directions, IS 1550"
         }
+        
+        # R2 Configuration
+        self.r2_client = None
+        if os.getenv("R2_ACCESS_KEY"):
+            self.r2_client = boto3.client(
+                's3',
+                endpoint_url=os.getenv("R2_ENDPOINT"),
+                aws_access_key_id=os.getenv("R2_ACCESS_KEY"),
+                aws_secret_access_key=os.getenv("R2_SECRET_KEY")
+            )
+
+    def upload_to_r2(self, filepath, object_name):
+        """Uploads the briefing to Cloudflare R2"""
+        if not self.r2_client:
+            return {"status": "skipped", "message": "No R2 credentials"}
+            
+        try:
+            bucket = os.getenv("R2_BUCKET", "sps-intel-archive")
+            self.r2_client.upload_file(filepath, bucket, object_name)
+            public_url = f"{os.getenv('R2_PUBLIC_URL')}/{object_name}"
+            return {"status": "success", "url": public_url}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
 
     def process_pipeline(self, signal):
         """
@@ -153,7 +178,11 @@ draft: false
         try:
             with open(filename, "w") as f:
                 f.write(md_content)
-            return {"status": "success", "file": filename}
+            
+            # TRIGGER UPLOAD
+            upload_res = self.upload_to_r2(filename, f"briefings/{os.path.basename(filename)}")
+            
+            return {"status": "success", "file": filename, "archive": upload_res}
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
