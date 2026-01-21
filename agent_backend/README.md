@@ -24,3 +24,4 @@ Use these tools to automate verification and analysis:
 When asked to "audit the site", run the SEO and Design skills.
 When asked to "write an article", use the Voice rule and verify with Fact Checker.
 # Dependency fixed
+# Fixed properly
