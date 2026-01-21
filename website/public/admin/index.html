@@ -10,11 +10,18 @@
   <!-- Include the script that builds the page and powers Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
+  <!-- Required for Custom Previews -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/create-react-class/create-react-class.min.js"></script>
+
   <!-- OPTIMIZATION 1: Inject Production Styles for True-to-Life Preview -->
   <script>
     CMS.registerPreviewStyle("/src/styles/global.css");
     CMS.registerPreviewStyle("/src/styles/brutalist-titanium.css");
     CMS.registerPreviewStyle("/src/styles/fonts.css");
   </script>
+
+  <!-- OPTIMIZATION: Custom Components & Widgets -->
+  <script src="/admin/cms-extensions.js"></script>
 </body>
 </html>

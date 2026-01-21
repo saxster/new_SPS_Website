@@ -122,9 +122,9 @@ collections:
                 name: "cases"
                 widget: "relation"
                 collection: "casestudies"
-                search_fields: ["title", "location"]
+                search_fields: ["title", "location", "outcome"]
                 value_field: "slug"
-                display_fields: ["title"]
+                display_fields: ["title", "location"]
                 multiple: true
 
           # BLOCK: RICH TEXT
