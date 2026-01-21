@@ -15,4 +15,6 @@ colorama
 mypy
 types-PyYAML
 fastapi
-uvicorn
+uvicorn[standard]
+chromadb
+sentence-transformers

@@ -56,9 +56,24 @@ services:
     networks:
       - sps-network
 
+  # 4. The Vault (Vector DB)
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: sps-chroma
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+    restart: unless-stopped
+    networks:
+      - sps-network
+
 networks:
   sps-network:
     driver: bridge
 
 volumes:
   n8n_data:
+  chroma_data:
