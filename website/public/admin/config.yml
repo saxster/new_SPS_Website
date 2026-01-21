@@ -1,0 +1,58 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update (optional; defaults to master)
+
+media_folder: "website/public/assets/uploads"
+public_folder: "/assets/uploads"
+
+# Display Settings
+site_url: https://sps-security.com
+display_url: https://sps-security.com
+logo_url: https://sps-security.com/sps-logo.png
+
+# Collections (Your Data Models)
+collections:
+  # 1. Intelligence Briefings (The .md files created by n8n or Humans)
+  - name: "intelligence"
+    label: "Intelligence Briefings"
+    folder: "website/src/content/intelligence"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "pubDate", widget: "datetime"}
+      - {label: "Severity", name: "severity", widget: "select", options: ["Critical", "High", "Medium", "Low", "Optimized"]}
+      - {label: "Sector", name: "sector", widget: "select", options: ["General", "Cyber", "Industrial", "Banking", "Healthcare", "Corporate"]}
+      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Source URLs", name: "source_urls", widget: "list", required: false}
+      - {label: "Analysis Engine", name: "analysis_engine", widget: "string", default: "Human Analyst"}
+      - {label: "Consensus Score", name: "consensus_score", widget: "number", default: 100}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 2. Case Studies (Your "Operations" Content)
+  - name: "casestudies"
+    label: "Case Studies"
+    folder: "website/src/content/casestudies"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Operation Name", name: "title", widget: "string"}
+      - {label: "Date", name: "pubDate", widget: "datetime"}
+      - {label: "Location", name: "location", widget: "string"}
+      - {label: "Outcome", name: "outcome", widget: "select", options: ["Success", "Partial Success", "Failure", "Ongoing"]}
+      - {label: "Cover Image", name: "image", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 3. Blog / Articles
+  - name: "blog"
+    label: "Blog Articles"
+    folder: "website/src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "pubDate", widget: "datetime"}
+      - {label: "Author", name: "author", widget: "string", default: "SPS Editorial Command"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
