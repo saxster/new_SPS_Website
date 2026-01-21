@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getLiveIntelBySlug } from '../../lib/content-live';
+import { marked } from 'marked';
+
+// SSR Mode
+export const prerender = false;
+
+const { slug } = Astro.params;
+const post = getLiveIntelBySlug(slug as string);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const htmlContent = marked.parse(post.content);
+---
+
+<Layout title={post.data.title} description={`Strategic intelligence briefing on ${post.data.title}`}>
+  <div class="pt-32 min-h-screen bg-[#050505] text-white">
+    <div class="brutalist-container pl-20 max-w-4xl mx-auto">
+        <div class="mb-8">
+            <a href="/intelligence" class="text-xs font-mono text-neutral-500 hover:text-primary-accent mb-6 block">
+                ← RETURN TO FEED
+            </a>
+            <div class="flex items-center gap-3 mb-4">
+                <span class={`text-xs font-bold uppercase px-2 py-1 rounded ${
+                    post.data.severity === 'Critical' ? 'bg-red-900 text-red-200' : 
+                    post.data.severity === 'High' ? 'bg-orange-900 text-orange-200' : 
+                    'bg-neutral-800 text-neutral-400'
+                }`}>
+                    {post.data.severity}
+                </span>
+                <span class="text-xs font-mono text-primary-accent">
+                    // {post.data.sector.toUpperCase()} SECTOR
+                </span>
+            </div>
+            <h1 class="text-4xl font-black mb-4 leading-tight">{post.data.title}</h1>
+            <p class="text-sm font-mono text-neutral-500">
+                PUBLISHED: {post.data.pubDate.toLocaleDateString()} {post.data.pubDate.toLocaleTimeString()}
+            </p>
+        </div>
+
+        <div class="prose prose-invert prose-lg prose-headings:font-bold prose-headings:uppercase prose-p:text-neutral-300 prose-a:text-primary-accent border-t border-neutral-800 pt-8">
+            <div set:html={htmlContent} />
+        </div>
+    </div>
+  </div>
+</Layout>

@@ -1,11 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getLiveIntelligence } from '../../lib/content-live';
 
 const { title, sector, count, style } = Astro.props;
 
-// Fetch and filter logic inside the component for encapsulation
-const allIntel = await getCollection('intelligence');
-let filtered = allIntel.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Use the Live Reader to ensure Server Islands see fresh content
+const allIntel = getLiveIntelligence();
+
+let filtered = allIntel;
 
 if (sector && sector !== 'All') {
     filtered = filtered.filter(item => item.data.sector === sector);
@@ -38,7 +39,9 @@ const intelItems = filtered.slice(0, count);
                             <h4 class="text-lg font-bold text-gray-200 group-hover:text-primary-accent">{item.data.title}</h4>
                         </div>
                         <span class={`text-[10px] font-bold uppercase px-2 py-1 rounded ${
-                            item.data.severity === 'Critical' ? 'bg-red-900 text-red-200' : 'bg-neutral-800 text-neutral-400'
+                            item.data.severity === 'Critical' ? 'bg-red-900 text-red-200' : 
+                            item.data.severity === 'High' ? 'bg-orange-900 text-orange-200' : 
+                            'bg-neutral-800 text-neutral-400'
                         }`}>
                             {item.data.severity}
                         </span>
