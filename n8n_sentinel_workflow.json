@@ -1,0 +1,160 @@
+{
+  "name": "SPS Sentinel: Autonomous Newsroom",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hours": 1
+            }
+          ]
+        }
+      },
+      "name": "Hourly Patrol",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "python3 /app/agent_backend/skills/news_miner.py --query \"Data Breach\" --sector \"Cyber\" --limit 3 --json"
+      },
+      "name": "Mine Cyber Threats",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = [];\nconst results = JSON.parse(items[0].json.stdout);\n\nresults.forEach(item => {\n  output.push({ json: item });\n});\n\nreturn output;"
+      },
+      "name": "Parse Signals",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=/app/agent_backend/.venv/bin/python3 /app/agent_backend/skills/consensus_engine.py --mode pipeline --input '{{JSON.stringify($json)}}' --write-md"
+      },
+      "name": "Run Consensus Engine",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.stdout}}",
+              "operation": "contains",
+              "value2": "approved"
+            }
+          ]
+        }
+      },
+      "name": "Filter: Approved Only",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/HERE",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=🚨 *SPS SENTINEL ALERT* 🚨\n\nNew Strategic Briefing Generated.\n\n*Title:* {{$json.stdout}}\n*Action:* Awaiting human review."
+            }
+          ]
+        }
+      },
+      "name": "Notify Command",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Hourly Patrol": {
+      "main": [
+        [
+          {
+            "node": "Mine Cyber Threats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mine Cyber Threats": {
+      "main": [
+        [
+          {
+            "node": "Parse Signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Signals": {
+      "main": [
+        [
+          {
+            "node": "Run Consensus Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Consensus Engine": {
+      "main": [
+        [
+          {
+            "node": "Filter: Approved Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Approved Only": {
+      "main": [
+        [
+          {
+            "node": "Notify Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

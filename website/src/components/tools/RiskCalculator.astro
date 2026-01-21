@@ -1,0 +1,76 @@
+<div id="risk-engine-interface" class="p-8 bg-neutral-900 border border-neutral-800 rounded font-mono">
+    <h3 class="text-xl font-bold text-white mb-6 uppercase tracking-widest">Select Sector Protocol</h3>
+    
+    <div class="grid grid-cols-2 gap-4 mb-8">
+        <button data-sector="jewellery" class="sector-select-btn p-4 border border-neutral-700 text-neutral-400 hover:border-primary-accent hover:text-white transition-all uppercase text-xs font-bold tracking-wider">
+            💎 Jewellery
+        </button>
+        <button data-sector="corporate" class="sector-select-btn p-4 border border-neutral-700 text-neutral-400 hover:border-primary-accent hover:text-white transition-all uppercase text-xs font-bold tracking-wider">
+            🏢 Corporate
+        </button>
+        <button data-sector="finance" class="sector-select-btn p-4 border border-neutral-700 text-neutral-400 hover:border-primary-accent hover:text-white transition-all uppercase text-xs font-bold tracking-wider">
+            🏦 Finance
+        </button>
+        <button data-sector="industrial" class="sector-select-btn p-4 border border-neutral-700 text-neutral-400 hover:border-primary-accent hover:text-white transition-all uppercase text-xs font-bold tracking-wider">
+            🏭 Industrial
+        </button>
+    </div>
+
+    <div id="console-output" class="hidden">
+        <div class="mb-4">
+            <span class="text-primary-accent">>>></span>
+            <span class="text-white" id="status-line">INITIALIZING...</span>
+        </div>
+        <pre id="json-result" class="bg-black p-4 border border-neutral-800 text-xs text-green-500 overflow-x-auto"></pre>
+    </div>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.sector-select-btn');
+    const consoleDiv = document.getElementById('console-output');
+    const statusLine = document.getElementById('status-line');
+    const jsonResult = document.getElementById('json-result');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            // Visual Feedback
+            buttons.forEach(b => b.classList.remove('bg-white', 'text-black', 'border-white'));
+            btn.classList.add('bg-white', 'text-black', 'border-white');
+
+            const sector = btn.getAttribute('data-sector');
+            
+            // Show Console
+            if (consoleDiv) consoleDiv.classList.remove('hidden');
+            if (statusLine) statusLine.innerText = `CONNECTING TO BRAIN [SECTOR: ${sector.toUpperCase()}]...`;
+
+            try {
+                // Direct Fetch to Backend Proxy
+                const response = await fetch('/api/assess-risk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        sector: sector,
+                        data: {
+                            has_fire_noc: false, // Defaulting to worst-case for quick test
+                            has_guards: true,
+                            guards_psara_verified: false
+                        }
+                    })
+                });
+
+                const text = await response.text();
+                
+                if (response.ok) {
+                    if (statusLine) statusLine.innerText = `CALCULATION COMPLETE. RISK SCORE: RECEIVED`;
+                    if (jsonResult) jsonResult.innerText = text; // Show raw text just in case
+                } else {
+                    if (statusLine) statusLine.innerText = `API ERROR ${response.status}`;
+                    if (jsonResult) jsonResult.innerText = `Full Response: ${text}`;
+                }
+            } catch (e) {
+                if (statusLine) statusLine.innerText = `CONNECTION FAILED: ${e.message}`;
+                if (jsonResult) jsonResult.innerText = "Check network tab.";
+            }
+        });
+    });
+</script>

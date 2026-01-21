@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # 1. The Brain (Python API)
+  sps-brain:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sps-brain
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./agent_backend:/app/agent_backend
+      - ./website/src/content:/app/website/src/content
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    restart: unless-stopped
+    networks:
+      - sps-network
+
+  # 2. The Face (Astro Website)
+  sps-website:
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    container_name: sps-website
+    ports:
+      - "80:4321" # Expose internally on 4321, map to external 80 (HTTP)
+    environment:
+      - HOST=0.0.0.0
+      - PORT=4321
+      # On the server, we talk to the brain via its container name
+      - PUBLIC_API_URL=http://sps-brain:8000 
+    restart: unless-stopped
+    depends_on:
+      - sps-brain
+    networks:
+      - sps-network
+
+  # 3. The Orchestrator (n8n)
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      - N8N_HOST=sps-n8n.com # Change this to your domain later
+    restart: unless-stopped
+    networks:
+      - sps-network
+
+networks:
+  sps-network:
+    driver: bridge
+
+volumes:
+  n8n_data:

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SideDrawer from '../../components/SideDrawer.astro';
-import RiskCalculator from '../../components/tools/RiskCalculator';
+import RiskCalculator from '../../components/tools/RiskCalculator.astro'; // Importing the Astro component
 ---
 
 <Layout title="Threat Calculus | SPS" description="Calculate your facility's vulnerability score.">
@@ -20,7 +20,8 @@ import RiskCalculator from '../../components/tools/RiskCalculator';
       </div>
 
       <div class="w-full flex justify-center">
-        <RiskCalculator client:load />
+        <!-- Render the new HTML/JS Component directly -->
+        <RiskCalculator />
       </div>
     </div>
   </section>

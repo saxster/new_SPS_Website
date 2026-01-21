@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  sps-brain:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sps-brain
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./agent_backend:/app/agent_backend
+      - ./drafts:/app/drafts
+      - ./website/src/content:/app/website/src/content
+    environment:
+      - GEMINI_API_KEY=${GOOGLE_API_KEY}
+    restart: unless-stopped
+    networks:
+      - sps-network
+
+  # n8n service (Self-hosted)
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      - N8N_HOST=localhost
+    restart: unless-stopped
+    networks:
+      - sps-network
+
+networks:
+  sps-network:
+    driver: bridge
+
+volumes:
+  n8n_data:

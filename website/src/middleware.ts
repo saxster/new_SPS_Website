@@ -41,13 +41,15 @@ const securityMiddleware = defineMiddleware(async (context, next) => {
   // Content Security Policy
   // Note: 'unsafe-inline' is required for Astro's island hydration
   // Added Clerk domains for authentication
+  const isDev = process.env.NODE_ENV === 'development';
+  
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://unpkg.com https://*.clerk.accounts.dev",
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://*.clerk.accounts.dev ${isDev ? 'http://localhost:* http://127.0.0.1:*' : ''}`,
     "style-src 'self' 'unsafe-inline' https://unpkg.com",
     "img-src 'self' data: https: blob:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.basemaps.cartocdn.com https://*.clerk.accounts.dev https://clerk.sps-security.com",
+    `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.basemaps.cartocdn.com https://*.clerk.accounts.dev https://clerk.sps-security.com ${isDev ? 'ws://localhost:* http://localhost:* http://127.0.0.1:*' : ''}`,
     "frame-src 'self' https://*.clerk.accounts.dev",
     "frame-ancestors 'none'",
     "base-uri 'self'",
