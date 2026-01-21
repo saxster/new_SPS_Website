@@ -1,0 +1,160 @@
+{
+  "name": "SPS Watchtower: Security & Compliance Audit",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeks": 1
+            }
+          ]
+        }
+      },
+      "name": "Weekly Audit Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "cd /app/agent_backend && /app/agent_backend/.venv/bin/pip install safety && /app/agent_backend/.venv/bin/safety check --json"
+      },
+      "name": "Scan Python Deps",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        450,
+        200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "command": "cd /app/website && npm audit --json"
+      },
+      "name": "Scan Node Deps",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        450,
+        400
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "https://securityheaders.com/?q=sps-security.com&hide=on&followRedirects=on",
+        "options": {}
+      },
+      "name": "Check Security Headers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const pyIssues = JSON.parse(items[0].json.stdout || '[]');\nconst nodeIssues = JSON.parse(items[1].json.stdout || '{}');\nconst headerScore = items[2].json.grade || 'Unknown'; // Assuming API returns grade, simplified for example\n\nconst pyCount = pyIssues.length;\nconst nodeCount = nodeIssues.metadata?.vulnerabilities?.total || 0;\n\nconst status = (pyCount + nodeCount) === 0 ? 'SECURE' : 'VULNERABLE';\nconst color = status === 'SECURE' ? '#36a64f' : '#ff0000';\n\nreturn [{\n  json: {\n    status,\n    color,\n    pyCount,\n    nodeCount,\n    headerScore,\n    summary: `Python Issues: ${pyCount}\nNode Issues: ${nodeCount}\nHeader Grade: ${headerScore}`\n  }\n}];"
+      },
+      "name": "Synthesize Report",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/HERE",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=🛡️ *SPS WATCHTOWER REPORT* 🛡️\n\n*Status:* {{$json.status}}\n\n*Vulnerability Scan:*\n- Python Backend: {{$json.pyCount}} issues\n- Astro Frontend: {{$json.nodeCount}} issues\n\n*Perimeter Check:*\n- Security Headers Grade: {{$json.headerScore}}\n\n_System running automated weekly diagnostics._"
+            }
+          ]
+        }
+      },
+      "name": "Send CISO Briefing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Audit Trigger": {
+      "main": [
+        [
+          {
+            "node": "Scan Python Deps",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Scan Node Deps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Python Deps": {
+      "main": [
+        [
+          {
+            "node": "Check Security Headers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Node Deps": {
+      "main": [
+        [
+          {
+            "node": "Check Security Headers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Security Headers": {
+      "main": [
+        [
+          {
+            "node": "Synthesize Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Synthesize Report": {
+      "main": [
+        [
+          {
+            "node": "Send CISO Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

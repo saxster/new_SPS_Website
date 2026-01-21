@@ -26,6 +26,8 @@ services:
       - "5678:5678"
     volumes:
       - n8n_data:/home/node/.n8n
+      - ./website:/app/website
+      - ./agent_backend:/app/agent_backend
     environment:
       - N8N_HOST=localhost
       # PRIVACY SHIELDS: Disable tracking
