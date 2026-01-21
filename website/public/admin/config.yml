@@ -2,10 +2,19 @@ backend:
   name: git-gateway
   branch: main
 
+# OPTIMIZATION 2: Editorial Workflow (Draft -> Review -> Publish)
+publish_mode: editorial_workflow
+
 local_backend: true
 
 media_folder: "website/public/assets/uploads"
 public_folder: "/assets/uploads"
+
+# OPTIMIZATION 5: Slug Normalization
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
 
 site_url: https://sps-security.com
 display_url: https://sps-security.com
@@ -125,12 +134,12 @@ collections:
             fields:
               - {label: "Body", name: "body", widget: "markdown"}
 
-  # --- STANDARD COLLECTIONS ---
+  # --- 2. INTELLIGENCE ---
   - name: "intelligence"
     label: "🧠 Intelligence Briefings"
     folder: "website/src/content/intelligence"
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "pubDate", widget: "datetime"}
