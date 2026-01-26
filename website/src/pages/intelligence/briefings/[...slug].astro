@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
+import RelatedArticles from '../../../components/RelatedArticles.astro';
 
 export async function getStaticPaths() {
   const briefings = await getCollection('intelligence');
@@ -81,5 +82,16 @@ const severityColors = {
             </ul>
         </div>
 
+        <!-- Related Intelligence -->
+        <div class="max-w-4xl mx-auto px-6">
+            <RelatedArticles 
+                currentSlug={entry.slug}
+                tags={entry.data.tags || []}
+                sector={entry.data.sector}
+                collection="intelligence"
+            />
+        </div>
+
     </main>
 </Layout>
+

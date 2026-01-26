@@ -3,8 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import SideDrawer from '../../components/SideDrawer.astro';
 import { getCollection } from 'astro:content';
 
-const rawQna = (await getCollection('qna'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const rawQna = await getCollection('qna');
 
 // Pre-render content and extract plain text for FAQ schema
 const qna = await Promise.all(rawQna.map(async (item) => {
@@ -70,7 +69,7 @@ const breadcrumbs = [
                          {item.data.question}
                        </h3>
                        <div class="text-xs font-mono text-neutral-500 mt-2">
-                         ASKED BY: {item.data.role} • {item.data.date.toLocaleDateString('en-GB')}
+                         {item.data.role && `ASKED BY: ${item.data.role}`}
                        </div>
                     </div>
                     <span class="text-primary-accent text-2xl font-bold group-open:rotate-45 transition-transform duration-300">+</span>
@@ -80,9 +79,11 @@ const breadcrumbs = [
                     <div class="prose prose-invert max-w-none prose-p:text-neutral-400 prose-a:text-primary-accent border-t border-neutral-800 pt-6">
                       <item.Content />
                     </div>
-                    <div class="mt-6 flex items-center gap-2 text-xs font-mono text-success bg-neutral-950 inline-block px-3 py-1 border border-neutral-800">
-                       VERIFIED BY: {item.data.answeredBy}
-                    </div>
+                    {item.data.answeredBy && (
+                      <div class="mt-6 flex items-center gap-2 text-xs font-mono text-success bg-neutral-950 inline-block px-3 py-1 border border-neutral-800">
+                         VERIFIED BY: {item.data.answeredBy}
+                      </div>
+                    )}
                   </div>
                 </details>
               ))}

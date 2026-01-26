@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPS Newsroom Admin - Sources</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            min-height: 100vh;
+            color: #fff;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 20px; }
+        .header-stats {
+            display: flex;
+            gap: 24px;
+            color: #888;
+            font-size: 14px;
+        }
+        .header-stats span { color: #4dabf7; font-weight: 600; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4dabf7 0%, #228be6 100%);
+            color: #fff;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: #888;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .sources-grid {
+            display: grid;
+            gap: 16px;
+        }
+        .source-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .source-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.15);
+        }
+        .source-card.disabled {
+            opacity: 0.5;
+        }
+        .source-info { flex: 1; }
+        .source-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .source-url {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .source-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #888;
+        }
+        .meta-value { color: #4dabf7; font-weight: 600; }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-success { background: rgba(64,192,87,0.15); color: #40c057; }
+        .badge-warning { background: rgba(255,193,7,0.15); color: #ffc107; }
+        .badge-danger { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+        .source-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        .empty-state h3 { margin-bottom: 12px; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗞️ Authoritative Sources</h1>
+        <div class="header-stats">
+            <div>Sources: <span>{{ sources|length }}</span></div>
+            <div>Exemplars: <span>{{ total_exemplars }}</span></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="actions">
+            <h2 style="font-size: 16px; color: #888;">Manage Premium News Sources</h2>
+            <a href="/admin/sources/add" class="btn btn-primary">+ Add Source</a>
+        </div>
+        
+        <div class="sources-grid">
+            {% if sources %}
+                {% for item in sources %}
+                <div class="source-card {% if not item.source.enabled %}disabled{% endif %}">
+                    <div class="source-info">
+                        <div class="source-name">
+                            {{ item.source.name }}
+                            {% if item.has_credentials %}
+                                <span class="badge badge-success">🔐 Credentials</span>
+                            {% else %}
+                                <span class="badge badge-warning">⚠️ No Credentials</span>
+                            {% endif %}
+                            {% if not item.source.enabled %}
+                                <span class="badge badge-danger">Disabled</span>
+                            {% endif %}
+                        </div>
+                        <div class="source-url">{{ item.source.base_url }}</div>
+                        <div class="source-meta">
+                            <div class="meta-item">
+                                Credibility: <span class="meta-value">{{ item.source.credibility_weight }}/10</span>
+                            </div>
+                            <div class="meta-item">
+                                Exemplars: <span class="meta-value">{{ item.exemplar_count }}</span>
+                            </div>
+                            <div class="meta-item">
+                                Sync: <span class="meta-value">every {{ item.source.sync_frequency_hours }}h</span>
+                            </div>
+                            {% if item.source.last_sync %}
+                            <div class="meta-item">
+                                Last: <span class="meta-value">{{ item.source.last_sync.strftime('%d %b %H:%M') }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="source-actions">
+                        <a href="/admin/sources/{{ item.source.id }}" class="icon-btn" title="Edit">✏️</a>
+                        <form method="POST" action="/admin/sources/{{ item.source.id }}/toggle" style="display:inline;">
+                            <button type="submit" class="icon-btn" title="Toggle">
+                                {% if item.source.enabled %}⏸️{% else %}▶️{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <h3>No sources configured</h3>
+                    <p>Add your first authoritative source to start developing editorial taste.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

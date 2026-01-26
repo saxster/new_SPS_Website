@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  currentSlug: string;
+  tags?: string[];
+  sector?: string;
+  collection: 'blog' | 'intelligence';
+  maxItems?: number;
+}
+
+const { currentSlug, tags = [], sector, collection, maxItems = 3 } = Astro.props;
+
+// Fetch all entries from the same collection
+const allEntries = await getCollection(collection, ({ data }) => {
+  // For intelligence, filter out drafts
+  if ('draft' in data) return !data.draft;
+  return true;
+});
+
+// Score and rank by relevance
+const scoredEntries = allEntries
+  .filter(entry => entry.slug !== currentSlug)
+  .map(entry => {
+    let score = 0;
+    
+    // Tag matching: 2 points per matching tag
+    const entryTags = entry.data.tags || [];
+    tags.forEach(tag => {
+      if (entryTags.includes(tag)) score += 2;
+    });
+    
+    // Sector matching: 3 points (for intelligence collection)
+    if (sector && 'sector' in entry.data && entry.data.sector === sector) {
+      score += 3;
+    }
+    
+    // Recency bonus: 1 point if published within last 30 days
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    if (entry.data.pubDate > thirtyDaysAgo) score += 1;
+    
+    return { entry, score };
+  })
+  .filter(item => item.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, maxItems);
+
+// Fallback to recent entries if no matches
+const relatedEntries = scoredEntries.length > 0 
+  ? scoredEntries.map(s => s.entry)
+  : allEntries
+      .filter(entry => entry.slug !== currentSlug)
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, maxItems);
+
+// Determine link prefix based on collection
+const linkPrefix = collection === 'intelligence' ? '/intelligence/briefings' : '/articles';
+
+// Severity colors for intelligence briefings
+const severityColors: Record<string, string> = {
+  Critical: 'bg-red-600 text-white',
+  High: 'bg-orange-600 text-white',
+  Medium: 'bg-yellow-600 text-black',
+  Low: 'bg-blue-600 text-white',
+};
+---
+
+{relatedEntries.length > 0 && (
+  <aside class="related-articles border-t border-neutral-800 pt-8 mt-12">
+    <h3 class="text-xs font-black text-neutral-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+      <span class="w-2 h-2 bg-primary-accent rounded-full"></span>
+      Related Intelligence
+    </h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {relatedEntries.map(entry => (
+        <a 
+          href={`${linkPrefix}/${entry.slug}/`}
+          class="group block bg-neutral-900 border border-neutral-800 p-4 hover:border-primary-accent transition-colors"
+        >
+          <div class="flex items-center justify-between mb-3">
+            {'severity' in entry.data && entry.data.severity && (
+              <span class={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${severityColors[entry.data.severity] || 'bg-neutral-700 text-white'}`}>
+                {entry.data.severity}
+              </span>
+            )}
+            <span class="text-[10px] font-mono text-neutral-500">
+              {entry.data.pubDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+            </span>
+          </div>
+          
+          <h4 class="text-sm font-bold text-neutral-200 leading-snug group-hover:text-primary-accent transition-colors line-clamp-2">
+            {entry.data.title}
+          </h4>
+          
+          {'sector' in entry.data && entry.data.sector && (
+            <p class="text-[10px] font-mono text-neutral-500 mt-2 uppercase">
+              {entry.data.sector}
+            </p>
+          )}
+        </a>
+      ))}
+    </div>
+  </aside>
+)}

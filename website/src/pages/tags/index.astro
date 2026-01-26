@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Gather all unique tags from blog and intelligence collections
+const blogPosts = await getCollection('blog');
+const intelligenceBriefings = await getCollection('intelligence', ({ data }) => !data.draft);
+
+// Build tag frequency map
+const tagCounts = new Map<string, number>();
+
+[...blogPosts, ...intelligenceBriefings].forEach(entry => {
+  const tags = entry.data.tags || [];
+  tags.forEach((tag: string) => {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  });
+});
+
+// Sort by frequency descending
+const sortedTags = Array.from(tagCounts.entries())
+  .sort((a, b) => b[1] - a[1]);
+
+const title = "All Tags | SPS Intelligence";
+const description = "Browse intelligence articles and briefings by topic tags.";
+---
+
+<Layout title={title} description={description}>
+  <main class="bg-neutral-950 min-h-screen text-neutral-300 pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-6">
+      
+      <a href="/articles" class="text-primary-accent text-xs font-bold uppercase tracking-widest mb-8 inline-block hover:underline">
+        ← Back to Articles
+      </a>
+      
+      <h1 class="text-4xl font-black text-white tracking-tight mb-4">
+        INTELLIGENCE TAGS
+      </h1>
+      
+      <p class="text-neutral-500 text-lg mb-12">
+        Browse {tagCounts.size} topics across {blogPosts.length + intelligenceBriefings.length} articles and briefings.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        {sortedTags.map(([tag, count]) => (
+          <a 
+            href={`/tags/${encodeURIComponent(tag.toLowerCase().replace(/\s+/g, '-'))}`}
+            class="group flex items-center gap-2 bg-neutral-900 border border-neutral-800 px-4 py-2 hover:border-primary-accent transition-colors"
+          >
+            <span class="text-sm font-bold text-neutral-200 group-hover:text-primary-accent transition-colors">
+              {tag}
+            </span>
+            <span class="text-[10px] font-mono text-neutral-600 bg-neutral-800 px-1.5 py-0.5 rounded">
+              {count}
+            </span>
+          </a>
+        ))}
+      </div>
+
+      {sortedTags.length === 0 && (
+        <div class="text-neutral-500 text-center py-12">
+          No tags found. Content may not have been tagged yet.
+        </div>
+      )}
+      
+    </div>
+  </main>
+</Layout>

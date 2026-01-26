@@ -26,6 +26,7 @@ class Claim:
     domains: List[str]
     numbers: List[str]
     issues: List[str]
+    confidence_score: float = 0.0  # Weighted confidence based on source credibility
 
 
 class ClaimLedger:
@@ -62,7 +63,7 @@ class ClaimLedger:
                     continue
                 claim_id = f"C{len(claims)+1:03d}"
                 para_claims.append(claim_id)
-                sources, domains = self._resolve_sources(citations, evidence_map)
+                sources, domains, confidence = self._resolve_sources(citations, evidence_map)
                 claim_issues = []
                 if self.require_citations and not citations:
                     claim_issues.append("Claim lacks citation.")
@@ -83,7 +84,8 @@ class ClaimLedger:
                     sources=sources,
                     domains=domains,
                     numbers=numbers,
-                    issues=claim_issues
+                    issues=claim_issues,
+                    confidence_score=confidence
                 ))
 
                 if len(claims) >= self.max_claims:
@@ -103,6 +105,10 @@ class ClaimLedger:
         for c in contradictions:
             issues.append(f"Contradiction: {c}")
 
+        # Calculate overall confidence
+        avg_confidence = sum(c.confidence_score for c in claims) / len(claims) if claims else 0.0
+        low_confidence_claims = [c for c in claims if c.confidence_score < 5.0]
+
         return {
             "claims": [c.__dict__ for c in claims],
             "paragraph_map": paragraph_map,
@@ -112,7 +118,9 @@ class ClaimLedger:
                 "claim_count": len(claims),
                 "numeric_claims": len([c for c in claims if c.claim_type == "numeric"]),
                 "regulatory_claims": len([c for c in claims if c.claim_type == "regulatory"]),
-                "contradictions": len(contradictions)
+                "contradictions": len(contradictions),
+                "average_confidence": round(avg_confidence, 2),
+                "low_confidence_count": len(low_confidence_claims)
             }
         }
 
@@ -124,7 +132,7 @@ class ClaimLedger:
 
     def _classify_claim(self, sentence: str, regulations: List[str]) -> Tuple[Optional[str], List[str]]:
         s = sentence.lower()
-        numbers = re.findall(r"(?:\d+[\\d,\\.]*\\s?%?|\\d+[\\d,\\.]*)", s)
+        numbers = re.findall(r"(?:\d+[\d,\.]*\s?%?|\d+[\d,\.]*)", s)
         if numbers:
             return "numeric", numbers
         for reg in regulations:
@@ -135,16 +143,22 @@ class ClaimLedger:
             return "policy", []
         return None, []
 
-    def _resolve_sources(self, citations: List[str], evidence_map: Dict[str, Dict]) -> Tuple[List[str], List[str]]:
+    def _resolve_sources(self, citations: List[str], evidence_map: Dict[str, Dict]) -> Tuple[List[str], List[str], float]:
+        """Resolve sources and calculate weighted confidence score."""
         sources = []
         domains = []
+        total_weight = 0
         for cid in citations:
             sources.append(cid)
             ev = evidence_map.get(cid) or {}
             domain = ev.get("domain") or ""
+            weight = ev.get("credibility_weight", 5)  # Default weight 5
+            total_weight += weight
             if domain:
                 domains.append(domain)
-        return sources, domains
+        # Calculate average confidence (1-10 scale)
+        confidence = total_weight / len(citations) if citations else 0.0
+        return sources, domains, confidence
 
     def _detect_contradictions(self, numeric_claims: List[Claim]) -> List[str]:
         groups: Dict[str, List[Claim]] = {}
@@ -164,9 +178,9 @@ class ClaimLedger:
         return contradictions
 
     def _normalize_subject(self, text: str) -> str:
-        s = re.sub(r"\\d+[\\d,\\.]*\\s?%?", " ", text.lower())
-        s = re.sub(r"[^a-z\\s]", " ", s)
-        s = re.sub(r"\\s+", " ", s).strip()
+        s = re.sub(r"\d+[\d,\.]*\s?%?", " ", text.lower())
+        s = re.sub(r"[^a-z\s]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
         # Shorten to reduce noise
         words = s.split()
         return " ".join(words[:8])

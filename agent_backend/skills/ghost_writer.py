@@ -29,6 +29,7 @@ from skills.agents.editor import EditorAgent
 from skills.quality_scorer import QualityScorer
 from skills.citation_validator import CitationValidator
 from skills.claim_ledger import ClaimLedger
+from skills.miners.miner_factory import create_available_miners
 from shared.models import ArticleDraft, ArticleSource, ArticleImage
 
 # Initialize Logging
@@ -47,8 +48,13 @@ class GhostWriterV2:
         self.brain = brain or ContentBrain()
         self.art = art_director or ArtDirector()
         
-        # Instantiate Sub-Agents
-        self.researcher = ResearchAgent(self.client)
+        # Initialize multi-source miners from config
+        self.miners = create_available_miners()
+        logger.info("miners_initialized", count=len(self.miners), 
+                   types=[m.source_type for m in self.miners])
+        
+        # Instantiate Sub-Agents with miners
+        self.researcher = ResearchAgent(self.client, miners=self.miners)
         self.outliner = OutlinerAgent(self.client)
         self.writer = WriterAgent(self.client)
         self.editor = EditorAgent(self.client)
@@ -238,6 +244,48 @@ class GhostWriterV2:
                     draft_obj.body = self._ensure_sources_section(draft_obj.body, sources, evidence)
                     draft_obj.wordCount = self._compute_word_count(draft_obj.body)
                     claim_ledger = self.claims.build(draft_obj.model_dump(mode="json"), evidence)
+
+            # 3e. Trust layer: Enforce "No Single Point of Truth" principle
+            low_confidence_count = claim_ledger.get("metrics", {}).get("low_confidence_count", 0)
+            avg_confidence = claim_ledger.get("metrics", {}).get("average_confidence", 0)
+            min_confidence = config.get("trust.min_confidence_score", 5.0)
+            
+            # Log trust metrics for observability
+            logger.info("trust_metrics", 
+                       claim_count=claim_ledger.get("metrics", {}).get("claim_count", 0),
+                       avg_confidence=avg_confidence,
+                       low_confidence=low_confidence_count,
+                       min_required=min_confidence,
+                       miners_used=len(self.miners))
+            
+            # Check for trust violations
+            trust_violation = False
+            trust_reasons = []
+            
+            if low_confidence_count > 0:
+                trust_reasons.append(f"{low_confidence_count} claims with single-source or low-credibility evidence")
+                if config.get("trust.warn_on_single_source", True):
+                    logger.warning("low_confidence_claims_detected", 
+                                 count=low_confidence_count,
+                                 avg_confidence=avg_confidence,
+                                 hint="Claims found with single-source or low-credibility evidence")
+                    self._record_hint(f"Found {low_confidence_count} claims with low confidence. Add more sources.")
+            
+            if avg_confidence < min_confidence and avg_confidence > 0:
+                trust_reasons.append(f"Average confidence {avg_confidence:.1f} below threshold {min_confidence}")
+                trust_violation = True
+            
+            # ENFORCEMENT: Block publication if trust policy requires it
+            if trust_violation and config.get("trust.block_on_low_confidence", True):
+                logger.error("publication_blocked_trust_violation",
+                           reasons=trust_reasons,
+                           avg_confidence=avg_confidence,
+                           low_confidence_count=low_confidence_count,
+                           hint="Article blocked due to insufficient source credibility. Add more high-quality sources.")
+                self._record_hint("BLOCKED: Article has insufficient source credibility. Add authoritative sources (govt, academic, major news).")
+                total_s = round(time.monotonic() - pipeline_start, 2)
+                logger.info("pipeline_summary", status="blocked", reason="trust_violation", total_s=total_s, stages=self.stage_timings)
+                return None
 
             # 4. Art Direction (Inject Image)
             try:

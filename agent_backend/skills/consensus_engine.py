@@ -4,8 +4,16 @@ import re
 import json
 import argparse
 import sys
-import boto3
-from botocore.exceptions import NoCredentialsError
+
+# boto3 is optional - only needed for R2 upload
+try:
+    import boto3
+    from botocore.exceptions import NoCredentialsError
+    BOTO3_AVAILABLE = True
+except ImportError:
+    boto3 = None
+    NoCredentialsError = Exception
+    BOTO3_AVAILABLE = False
 
 class ConsensusEngine:
     def __init__(self):
@@ -18,7 +26,7 @@ class ConsensusEngine:
         
         # R2 Configuration
         self.r2_client = None
-        if os.getenv("R2_ACCESS_KEY"):
+        if BOTO3_AVAILABLE and os.getenv("R2_ACCESS_KEY"):
             self.r2_client = boto3.client(
                 's3',
                 endpoint_url=os.getenv("R2_ENDPOINT"),

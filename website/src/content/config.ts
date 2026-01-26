@@ -31,9 +31,13 @@ const intelligenceCollection = defineCollection({
 const caseStudiesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
-    pubDate: z.date(),
     location: z.string().optional(),
-    outcome: z.string().optional(),
+    date: z.string().optional(), // String format for flexible date display
+    summary: z.string().optional(),
+    challenge: z.string().optional(),
+    solution: z.string().optional(),
+    outcome: z.array(z.string()).optional(), // Array of outcome points
+    tags: z.array(z.string()).optional(),
     image: z.string().optional()
   })
 });
@@ -49,16 +53,16 @@ const sectorsCollection = defineCollection({
 const qnaCollection = defineCollection({
   schema: z.object({
     question: z.string(),
-    category: z.string(),
+    category: z.string().optional(), // Made optional - some entries may lack this
     featured: z.boolean().default(false)
   })
 });
 
-// NEW: Dynamic Pages Collection
+// Dynamic Pages Collection
 const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
+    slug: z.string().optional(), // Optional - can be inferred from filename
     description: z.string().optional(),
     sections: z.array(z.any()).optional() // Flexible JSON structure for blocks
   })

@@ -46,6 +46,23 @@ class Settings(BaseSettings):
     publish_policy: Dict[str, Any] = Field(default_factory=dict)
     updates: Dict[str, Any] = Field(default_factory=dict)
     
+    # Multi-source miner configuration
+    miners: Dict[str, Any] = Field(default_factory=lambda: {
+        "enabled": True,
+        "youtube": {"enabled": False},
+        "article": {"enabled": False},
+        "paper": {"enabled": True}
+    })
+    
+    # Trust layer configuration
+    trust: Dict[str, Any] = Field(default_factory=lambda: {
+        "block_on_low_confidence": True,
+        "min_confidence_score": 5.0,
+        "require_multi_source_for_numeric": True,
+        "min_sources_per_claim": 2,
+        "warn_on_single_source": True
+    })
+    
     # Secrets (Loaded from env)
     GOOGLE_API_KEY: Optional[str] = Field(None, validation_alias="GOOGLE_API_KEY")
 

@@ -169,3 +169,146 @@ paths:
   rules_dir: ".agent/rules"
   website_content_dir: "website/src/content/blog"
   output_dir: "website/src/content/blog"
+
+# =============================================================================
+# Multi-Source Content Intelligence Configuration
+# =============================================================================
+
+# Pluggable miners for evidence gathering
+miners:
+  enabled: true
+  youtube:
+    enabled: true   # Now available: youtube-transcript-api installed
+    rate_limit_delay: 2.0
+  article:
+    enabled: true   # Now available: trafilatura installed
+  paper:
+    enabled: true   # arXiv API - always available, no deps required
+
+# Trust layer - enforces "No Single Point of Truth" principle
+trust:
+  block_on_low_confidence: true
+  min_confidence_score: 5.0
+  require_multi_source_for_numeric: true
+  min_sources_per_claim: 2
+  warn_on_single_source: true
+
+# =============================================================================
+# TopicProposer: The Editorial Brain
+# =============================================================================
+
+topic_proposer:
+  enabled: true
+  discovery_interval_hours: 6
+  max_proposals_per_run: 10
+  auto_queue_threshold: 0.8    # Auto-queue if score > 0.8
+  require_approval_below: 0.6  # Human review if score < 0.6
+  
+  # Multi-factor scoring weights (must sum to 1.0)
+  scoring:
+    timeliness: 0.25        # How recent/urgent
+    demand: 0.25            # Search demand
+    coverage_gap: 0.20      # Have we covered this?
+    source_availability: 0.15  # Can we find sources?
+    brand_fit: 0.15         # Matches our focus?
+  
+  # Editorial focus areas
+  focus_sectors:
+    - physical_security
+    - cybersecurity
+    - fire_safety
+    - compliance
+    - risk_management
+  
+  # Target content mix
+  content_mix:
+    News: 0.4
+    Guide: 0.35
+    Analysis: 0.25
+
+# =============================================================================
+# Autonomous Runner: The Autopoietic Loop
+# =============================================================================
+
+autonomous:
+  enabled: true
+  interval_minutes: 60              # Time between discovery cycles
+  max_articles_per_cycle: 3         # Max articles to write per cycle
+  reflection_interval_hours: 24     # How often to reflect on performance
+  memory_path: ".agent/taste_memory.db"
+  
+  # Learning parameters
+  learning_rate: 0.1                # How fast to adjust weights
+  exploration_rate: 0.2             # Try random topics 20% of time
+  max_weight_multiplier: 2.0        # Max boost for successful patterns
+  min_weight_multiplier: 0.5        # Max penalty for failures
+  
+  # Quality thresholds for learning
+  boost_on_quality_above: 75        # Boost weight if quality > 75
+  penalize_on_quality_below: 50     # Penalize if quality < 50
+
+# =============================================================================
+# Editorial Validation: Adversarial Topic Vetting
+# =============================================================================
+
+editorial:
+  enabled: true
+  
+  # Gatekeeper: Fast rule-based filtering (ConsensusEngine)
+  gatekeeper:
+    enabled: true
+    min_score: 50  # Reject topics scoring below this threshold
+  
+  # LLM Consensus: Multi-model voting (expensive, opt-in)
+  consensus:
+    enabled: false  # Off by default - each validation costs API calls
+    tier: "spot"    # spot (fast/cheap), standard (2 models), full (all 3)
+    min_level: "high"  # authoritative, high, disputed, untrusted
+  
+  # Red-Team: Adversarial challenge (why might this topic be bad?)
+  red_team:
+    enabled: true
+
+# =============================================================================
+# Premium Sources: Authoritative Journalism for Taste Development
+# =============================================================================
+
+premium_sources:
+  enabled: true
+  vault_path: ".agent/credential_vault.db"
+  anchors_path: ".agent/taste_anchors.db"
+  cookies_dir: ".agent/cookies"
+  
+  # Sync settings
+  sync_interval_hours: 24
+  max_articles_per_source: 50
+  human_speed_delay_seconds: 30  # Delay between article fetches
+  
+  # Pre-configured sources (add credentials via admin panel)
+  default_sources:
+    - id: "economist"
+      name: "The Economist"
+      base_url: "https://www.economist.com"
+      credibility_weight: 10
+    - id: "asis"
+      name: "ASIS Security Management"
+      base_url: "https://www.asisonline.org"
+      credibility_weight: 9
+    - id: "vox"
+      name: "Vox"
+      base_url: "https://www.vox.com"
+      credibility_weight: 8
+    - id: "time"
+      name: "Time"
+      base_url: "https://time.com"
+      credibility_weight: 8
+
+# =============================================================================
+# Admin Panel
+# =============================================================================
+
+admin:
+  port: 8080
+  # Auth token from environment: ADMIN_TOKEN
+
+

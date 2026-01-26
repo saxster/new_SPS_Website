@@ -63,6 +63,7 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={currentUrl} />
+		<link rel="alternate" type="application/rss+xml" title="SPS Intelligence Feed" href="/rss.xml" />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content={ogType} />

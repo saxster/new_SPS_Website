@@ -6,9 +6,8 @@ import { getCollection } from 'astro:content';
 const title = "Expert Forum | SPS";
 const description = "Community Q&A with SPS Security Experts. Real-world scenarios, authoritative answers.";
 
-// Fetch Q&A from the collection, sorted by date (newest first)
-const questions = (await getCollection('qna'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// Fetch Q&A from the collection (no date sorting - use order in collection)
+const questions = await getCollection('qna');
 ---
 
 <Layout title={title} description={description}>
@@ -31,24 +30,30 @@ const questions = (await getCollection('qna'))
         <div class="lg:col-span-2 space-y-8">
           {questions.map(q => (
             <div class="brutalist-card p-8 bg-neutral-900/50 border border-neutral-800 hover:border-primary-accent transition-colors">
-              <div class="flex gap-2 mb-4 flex-wrap">
-                {q.data.tags.map(t => (
-                  <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-neutral-800 text-neutral-400 border border-neutral-700">{t}</span>
-                ))}
-              </div>
+              {q.data.tags && q.data.tags.length > 0 && (
+                <div class="flex gap-2 mb-4 flex-wrap">
+                  {q.data.tags.map(t => (
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-neutral-800 text-neutral-400 border border-neutral-700">{t}</span>
+                  ))}
+                </div>
+              )}
               <h3 class="text-xl font-bold text-white mb-2">{q.data.question}</h3>
               <div class="text-xs font-mono text-neutral-500 mb-6">
-                ASKED BY {q.data.author.toUpperCase()}, {q.data.role.toUpperCase()} · {q.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                {q.data.author && `ASKED BY ${q.data.author.toUpperCase()}`}{q.data.role && `, ${q.data.role.toUpperCase()}`}
               </div>
               
-              <div class="pl-4 border-l-2 border-primary-accent">
-                <p class="text-sm text-neutral-300 leading-relaxed mb-2">
-                  "{q.data.answer}"
-                </p>
-                <div class="text-xs font-bold text-primary-accent uppercase tracking-wider">
-                  — {q.data.answeredBy}
+              {q.data.answer && (
+                <div class="pl-4 border-l-2 border-primary-accent">
+                  <p class="text-sm text-neutral-300 leading-relaxed mb-2">
+                    "{q.data.answer}"
+                  </p>
+                  {q.data.answeredBy && (
+                    <div class="text-xs font-bold text-primary-accent uppercase tracking-wider">
+                      — {q.data.answeredBy}
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>

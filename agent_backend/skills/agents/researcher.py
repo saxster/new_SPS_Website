@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 from shared.logger import get_logger
 from skills.gemini_client import GeminiAgent
 from config.manager import config
@@ -7,9 +7,16 @@ from skills.research_sources import ResearchFetcher
 logger = get_logger("Researcher")
 
 class ResearchAgent:
-    def __init__(self, client: GeminiAgent):
+    def __init__(self, client: GeminiAgent, miners: Optional[List] = None):
+        """
+        Initialize ResearchAgent with optional miners for multi-source evidence.
+        
+        Args:
+            client: GeminiAgent for LLM operations
+            miners: Optional list of BaseMiner instances for multi-source ingestion
+        """
         self.client = client
-        self.fetcher = ResearchFetcher()
+        self.fetcher = ResearchFetcher(miners=miners or [])
 
     def research(self, topic: Dict) -> Dict[str, Any]:
         """Conducts grounded research and returns an evidence pack with notes."""
@@ -48,7 +55,9 @@ class ResearchAgent:
                 "domain": item.domain,
                 "quality_score": item.quality_score,
                 "identifier": getattr(item, "identifier", ""),
-                "accessed_at": getattr(item, "accessed_at", "")
+                "accessed_at": getattr(item, "accessed_at", ""),
+                "credibility_weight": getattr(item, "credibility_weight", 5),
+                "raw_content": getattr(item, "raw_content", "")
             }
             for idx, item in enumerate(evidence_items)
         ]

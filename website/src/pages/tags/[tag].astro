@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  const intelligenceBriefings = await getCollection('intelligence', ({ data }) => !data.draft);
+  
+  // Gather all unique tags
+  const allTags = new Set<string>();
+  [...blogPosts, ...intelligenceBriefings].forEach(entry => {
+    const tags = entry.data.tags || [];
+    tags.forEach((tag: string) => allTags.add(tag));
+  });
+  
+  // Generate a path for each unique tag
+  return Array.from(allTags).map(tag => ({
+    params: { tag: tag.toLowerCase().replace(/\s+/g, '-') },
+    props: { originalTag: tag },
+  }));
+}
+
+interface Props {
+  originalTag: string;
+}
+
+const { originalTag } = Astro.props;
+const { tag } = Astro.params;
+
+// Fetch all entries with this tag
+const blogPosts = await getCollection('blog');
+const intelligenceBriefings = await getCollection('intelligence', ({ data }) => !data.draft);
+
+const taggedEntries = [...blogPosts, ...intelligenceBriefings]
+  .filter(entry => {
+    const tags = entry.data.tags || [];
+    return tags.some((t: string) => t.toLowerCase().replace(/\s+/g, '-') === tag);
+  })
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Determine link prefix based on collection
+function getLinkPrefix(entry: any): string {
+  // Check if it's an intelligence briefing by looking for severity field
+  if ('severity' in entry.data) {
+    return '/intelligence/briefings';
+  }
+  return '/articles';
+}
+
+const severityColors: Record<string, string> = {
+  Critical: 'bg-red-600 text-white',
+  High: 'bg-orange-600 text-white',
+  Medium: 'bg-yellow-600 text-black',
+  Low: 'bg-blue-600 text-white',
+};
+
+const title = `${originalTag} | SPS Intelligence Tags`;
+const description = `Browse ${taggedEntries.length} articles and briefings tagged with "${originalTag}".`;
+---
+
+<Layout title={title} description={description}>
+  <main class="bg-neutral-950 min-h-screen text-neutral-300 pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-6">
+      
+      <a href="/tags" class="text-primary-accent text-xs font-bold uppercase tracking-widest mb-8 inline-block hover:underline">
+        ← All Tags
+      </a>
+      
+      <div class="flex items-center gap-4 mb-4">
+        <span class="text-[10px] font-black text-black bg-primary-accent px-2 py-1 uppercase tracking-widest">
+          TAG
+        </span>
+        <h1 class="text-4xl font-black text-white tracking-tight">
+          {originalTag}
+        </h1>
+      </div>
+      
+      <p class="text-neutral-500 text-lg mb-12">
+        {taggedEntries.length} article{taggedEntries.length !== 1 ? 's' : ''} tagged with "{originalTag}"
+      </p>
+
+      <div class="space-y-6">
+        {taggedEntries.map(entry => (
+          <a 
+            href={`${getLinkPrefix(entry)}/${entry.slug}/`}
+            class="group block bg-neutral-900 border border-neutral-800 p-6 hover:border-primary-accent transition-colors"
+          >
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-3">
+                {'severity' in entry.data && entry.data.severity && (
+                  <span class={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${severityColors[entry.data.severity] || 'bg-neutral-700 text-white'}`}>
+                    {entry.data.severity}
+                  </span>
+                )}
+                {'sector' in entry.data && entry.data.sector && (
+                  <span class="text-[10px] font-mono text-neutral-500 uppercase">
+                    {entry.data.sector}
+                  </span>
+                )}
+              </div>
+              <span class="text-[10px] font-mono text-neutral-500">
+                {entry.data.pubDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+            </div>
+            
+            <h2 class="text-xl font-bold text-neutral-200 leading-snug group-hover:text-primary-accent transition-colors mb-2">
+              {entry.data.title}
+            </h2>
+            
+            {'description' in entry.data && entry.data.description && (
+              <p class="text-sm text-neutral-500 line-clamp-2">
+                {entry.data.description}
+              </p>
+            )}
+          </a>
+        ))}
+      </div>
+
+      {taggedEntries.length === 0 && (
+        <div class="text-neutral-500 text-center py-12">
+          No articles found with this tag.
+        </div>
+      )}
+      
+    </div>
+  </main>
+</Layout>

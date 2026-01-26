@@ -6,6 +6,7 @@ question: "Is drone surveillance legal for private security in India?"
 author: "SPS Legal Desk"
 role: "Aviation Compliance"
 sector: "Legal"
+category: "Legal Compliance"
 answeredBy: "Col. (Retd) Singh"
 tags:
   - "Drones"

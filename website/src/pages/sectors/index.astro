@@ -26,13 +26,15 @@ const sectors = await getCollection('sectors');
             <p class="text-body text-sm mb-6 line-clamp-3">
               {sector.data.description}
             </p>
-            <div class="flex flex-wrap gap-2">
-              {sector.data.regulations.slice(0, 2).map(reg => (
-                <span class="text-xs bg-neutral-800 text-compliance px-2 py-1 rounded">
-                  {reg.split(' ')[0]}
-                </span>
-              ))}
-            </div>
+            {sector.data.regulations && sector.data.regulations.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {sector.data.regulations.slice(0, 2).map(reg => (
+                  <span class="text-xs bg-neutral-800 text-compliance px-2 py-1 rounded">
+                    {reg.split(' ')[0]}
+                  </span>
+                ))}
+              </div>
+            )}
           </a>
         ))}
       </div>

@@ -38,10 +38,19 @@ class SourceItem:
     domain: str
     identifier: str
     accessed_at: str
+    credibility_weight: int = 5  # 1-10 scale for trust layer
+    raw_content: str = ""  # Full content for miners that provide it
 
 
 class ResearchFetcher:
-    def __init__(self):
+    def __init__(self, miners: Optional[List] = None):
+        """
+        Initialize ResearchFetcher with optional pluggable miners.
+        
+        Args:
+            miners: List of BaseMiner instances for multi-source ingestion
+        """
+        self.miners = miners or []  # Pluggable miners (YouTubeMiner, ArticleMiner, etc.)
         self.timeout = config.get("research.request_timeout", 15)
         self.max_sources = config.get("research.max_sources", 12)
         self.serpapi_key = os.getenv("SERPAPI_API_KEY")
@@ -70,6 +79,49 @@ class ResearchFetcher:
 
         # 3) RSS feeds (optional)
         items.extend(self._rss_search(query))
+
+        # 4) Pluggable miners (YouTube, Articles, Papers, etc.)
+        # Some miners search (PaperMiner), others extract from URLs (ArticleMiner)
+        discovered_urls = [item.url for item in items if item.url]
+        
+        for miner in self.miners:
+            if not miner.is_available():
+                continue
+            try:
+                if miner.source_type == "article":
+                    # ArticleMiner: Extract full content from discovered URLs
+                    # Pass top URLs as comma-separated string
+                    if discovered_urls:
+                        url_batch = ",".join(discovered_urls[:5])  # Top 5 URLs
+                        miner_results = miner.fetch(url_batch, limit=5)
+                        logger.info("article_miner_enhanced", urls_processed=min(5, len(discovered_urls)), results=len(miner_results))
+                    else:
+                        miner_results = []
+                else:
+                    # Other miners: Search with query
+                    miner_results = miner.fetch(query, limit=self.max_sources // 2)
+                
+                # Convert EvidenceItem to SourceItem
+                for evidence in miner_results:
+                    items.append(SourceItem(
+                        id=evidence.id,
+                        title=evidence.title,
+                        url=evidence.url,
+                        publisher=evidence.publisher,
+                        published=evidence.published.isoformat() if evidence.published else None,
+                        source_type=evidence.source_type,
+                        snippet=evidence.snippet,
+                        quality_score=evidence.credibility_weight * 10,  # Convert 1-10 to 10-100
+                        domain=evidence.domain,
+                        identifier=evidence.identifier,
+                        accessed_at=evidence.accessed_at,
+                        credibility_weight=evidence.credibility_weight,
+                        raw_content=evidence.raw_content
+                    ))
+                if miner_results:
+                    logger.info("miner_fetch_complete", miner=miner.source_type, count=len(miner_results))
+            except Exception as e:
+                logger.warning("miner_fetch_failed", miner=miner.source_type, error=str(e))
 
         # Deduplicate by URL and apply quality/domain filters
         deduped: Dict[str, SourceItem] = {}
