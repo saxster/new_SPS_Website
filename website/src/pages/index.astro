@@ -119,7 +119,29 @@ const description = "India's definitive security intelligence platform. Authorit
 
       <div class="brutalist-grid brutalist-grid--3">
         {
-          (await getCollection('sectors')).map((sector, index) => (
+          (() => {
+            // Priority order: Universal/relatable sectors first, technical/niche last
+            const sectorPriority = [
+              'residential',   // Everyone has a home
+              'logistics',     // Universal (e-commerce, deliveries)
+              'jewellery',     // High-value, attention-grabbing
+              'finance',       // SME relatable
+              'healthcare',    // Universal concern
+              'education',     // Parents/institutions
+              'industrial',    // B2B manufacturing
+              'hospitality',   // Service industry
+              'petrol',        // Infrastructure
+              'cyber'          // Technical/niche
+            ];
+            
+            const allSectors = await getCollection('sectors');
+            return allSectors.sort((a, b) => {
+              const indexA = sectorPriority.indexOf(a.slug);
+              const indexB = sectorPriority.indexOf(b.slug);
+              // If not in priority list, push to end (999)
+              return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+            });
+          })().map((sector, index) => (
             <a
               href={`/sectors/${sector.slug}`}
               class={`brutalist-card hover:border-compliance transition-all group h-full flex flex-col justify-between hover-lift fade-in-up delay-${(index % 6) + 1} ${index === 0 ? 'md:col-span-2 md:row-span-1' : ''}`}
