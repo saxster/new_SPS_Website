@@ -13,6 +13,12 @@ interface Message {
 export default function AskExpertWidget() {
     const { preferredSector } = useSectorPreference();
     const [isOpen, setIsOpen] = useState(false);
+
+    // Expose global function for Command Palette >ask action
+    useEffect(() => {
+        (window as any).openAskExpert = () => setIsOpen(true);
+        return () => { delete (window as any).openAskExpert; };
+    }, []);
     const [query, setQuery] = useState('');
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -95,10 +101,10 @@ export default function AskExpertWidget() {
                 <button
                     class="expert-trigger"
                     onClick={toggleOpen}
-                    aria-label="Open AI Expert Chat"
+                    aria-label="Open SPS AI Expert Chat"
                     aria-expanded="false"
                 >
-                    <span class="status-dot"></span> ASK COMMANDER
+                    <span class="status-dot"></span> ASK SPS
                 </button>
             )}
 
@@ -111,7 +117,7 @@ export default function AskExpertWidget() {
                 >
                     <div class="expert-header">
                         <div class="header-title">
-                            <span class="icon">🛡️</span> COMMANDER
+                            <span class="icon">🛡️</span> SPS EXPERT
                             <span class="ai-badge">AI</span>
                         </div>
                         <button

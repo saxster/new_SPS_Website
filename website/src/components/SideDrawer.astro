@@ -3,10 +3,10 @@
 import { SignedIn, SignedOut, UserButton } from '@clerk/astro/components';
 ---
 
-<!-- Hamburger Button - Fixed Left Edge -->
+<!-- Hamburger Button - Fixed Left Edge (Hidden on desktop where NavBar is shown) -->
 <button
   id="drawer-toggle"
-  class="absolute top-16 left-6 z-50 bg-neutral-900 border-2 border-primary-accent p-3 hover:bg-primary-accent hover:text-black transition-all"
+  class="lg:hidden absolute top-16 left-6 z-50 bg-neutral-900 border-2 border-primary-accent p-3 hover:bg-primary-accent hover:text-black transition-all"
   aria-label="Open navigation menu"
   aria-expanded="false"
   aria-controls="side-drawer"
@@ -52,6 +52,19 @@ import { SignedIn, SignedOut, UserButton } from '@clerk/astro/components';
         </svg>
       </button>
     </div>
+
+    <!-- Search Button -->
+    <button
+      id="drawer-search-btn"
+      class="w-full flex items-center gap-3 py-3 px-4 bg-neutral-800/50 border-2 border-neutral-700 hover:border-primary-accent hover:bg-neutral-800 transition-all group"
+      aria-label="Search database (Cmd+K)"
+    >
+      <svg class="w-5 h-5 text-neutral-400 group-hover:text-primary-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <span class="flex-1 text-left text-sm text-neutral-400 group-hover:text-neutral-200 font-mono uppercase tracking-wide">Search Database</span>
+      <span class="text-[10px] font-mono px-2 py-0.5 bg-neutral-900 text-neutral-500 border border-neutral-700 group-hover:border-primary-accent group-hover:text-primary-accent">⌘K</span>
+    </button>
   </div>
 
   <!-- Navigation Links -->
@@ -209,6 +222,7 @@ import { SignedIn, SignedOut, UserButton } from '@clerk/astro/components';
   const closeButton = document.getElementById('drawer-close');
   const drawer = document.getElementById('side-drawer');
   const overlay = document.getElementById('drawer-overlay');
+  const searchButton = document.getElementById('drawer-search-btn');
 
   // Get all focusable elements in the drawer for focus trapping
   const getFocusableElements = () => {
@@ -246,6 +260,17 @@ import { SignedIn, SignedOut, UserButton } from '@clerk/astro/components';
   toggleButton?.addEventListener('click', openDrawer);
   closeButton?.addEventListener('click', closeDrawer);
   overlay?.addEventListener('click', closeDrawer);
+
+  // Search button: close drawer and open search modal
+  searchButton?.addEventListener('click', () => {
+    closeDrawer();
+    // Call the global openSPSSearch function exposed by CommandPalette
+    setTimeout(() => {
+      if ((window as any).openSPSSearch) {
+        (window as any).openSPSSearch();
+      }
+    }, 150); // Small delay for drawer close animation
+  });
 
   // Close drawer when clicking nav links (smooth UX)
   const navLinks = drawer?.querySelectorAll('a');

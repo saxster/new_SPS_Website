@@ -274,6 +274,173 @@ curl https://api.sukhi.in/health
 # {"status":"operational","version":"2.0.0"}
 ```
 
+### Comprehensive Security Test Suite
+
+**Save this as `test-security.sh` for repeated testing**:
+
+```bash
+#!/bin/bash
+# Security Test Suite for SPS API
+# Usage: bash test-security.sh
+
+echo "================================================"
+echo "   SPS API Security Test Suite"
+echo "================================================"
+echo ""
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Test 1: Public endpoint (no auth)
+echo "Test 1: Public endpoint (no authentication required)"
+echo "---------------------------------------------------"
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://api.sukhi.in/health)
+if [ "$RESPONSE" = "200" ]; then
+    echo -e "${GREEN}✓ PASS${NC}: Public endpoint accessible (HTTP $RESPONSE)"
+else
+    echo -e "${RED}✗ FAIL${NC}: Public endpoint failed (HTTP $RESPONSE)"
+fi
+echo ""
+
+# Test 2: Protected endpoint without API key
+echo "Test 2: Protected endpoint WITHOUT API key"
+echo "---------------------------------------------------"
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.sukhi.in/assess-risk \
+  -H "Content-Type: application/json" \
+  -d '{"sector":"retail","data":{}}')
+if [ "$RESPONSE" = "403" ]; then
+    echo -e "${GREEN}✓ PASS${NC}: Correctly blocked (HTTP $RESPONSE)"
+else
+    echo -e "${RED}✗ FAIL${NC}: Should block without key (HTTP $RESPONSE)"
+fi
+echo ""
+
+# Test 3: Protected endpoint with wrong API key
+echo "Test 3: Protected endpoint WITH WRONG API key"
+echo "---------------------------------------------------"
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.sukhi.in/assess-risk \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: wrong-key-12345" \
+  -d '{"sector":"retail","data":{}}')
+if [ "$RESPONSE" = "403" ]; then
+    echo -e "${GREEN}✓ PASS${NC}: Correctly blocked wrong key (HTTP $RESPONSE)"
+else
+    echo -e "${RED}✗ FAIL${NC}: Should block wrong key (HTTP $RESPONSE)"
+fi
+echo ""
+
+# Test 4: Protected endpoint with correct API key
+echo "Test 4: Protected endpoint WITH CORRECT API key"
+echo "---------------------------------------------------"
+if [ -z "$SPS_API_KEY" ]; then
+    echo -e "${YELLOW}⚠ SKIP${NC}: SPS_API_KEY environment variable not set"
+    echo "      Set it with: export SPS_API_KEY='your-key-here'"
+else
+    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://api.sukhi.in/assess-risk \
+      -H "Content-Type: application/json" \
+      -H "X-API-Key: $SPS_API_KEY" \
+      -d '{"sector":"retail","data":{}}')
+    if [ "$RESPONSE" = "200" ]; then
+        echo -e "${GREEN}✓ PASS${NC}: Correctly accepted (HTTP $RESPONSE)"
+    else
+        echo -e "${RED}✗ FAIL${NC}: Should accept valid key (HTTP $RESPONSE)"
+    fi
+fi
+echo ""
+
+# Test 5: Cloudflare Access protection
+echo "Test 5: Cloudflare Access on n8n (automator.sukhi.in)"
+echo "---------------------------------------------------"
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -L https://automator.sukhi.in)
+if [ "$RESPONSE" = "302" ] || [ "$RESPONSE" = "200" ]; then
+    echo -e "${YELLOW}⚠ INFO${NC}: HTTP $RESPONSE (expected: 302 redirect or 200 with CF Access)"
+    echo "      Open https://automator.sukhi.in in private browser to verify CF Access"
+else
+    echo -e "${RED}✗ FAIL${NC}: Unexpected response (HTTP $RESPONSE)"
+fi
+echo ""
+
+# Test 6: CORS check (browser simulation)
+echo "Test 6: CORS protection (unauthorized origin)"
+echo "---------------------------------------------------"
+RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X OPTIONS https://api.sukhi.in/assess-risk \
+  -H "Origin: https://malicious-site.com" \
+  -H "Access-Control-Request-Method: POST")
+# Note: CORS errors are usually handled by browser, server returns normal response
+echo -e "${YELLOW}⚠ INFO${NC}: CORS is enforced by browsers, not curl"
+echo "      Test CORS manually in browser console from different domain"
+echo ""
+
+echo "================================================"
+echo "   Test Suite Complete"
+echo "================================================"
+echo ""
+echo "Manual Tests Required:"
+echo "1. Open https://automator.sukhi.in in private browser"
+echo "   → Should see Cloudflare Access login screen"
+echo "2. Try API call from browser console on non-allowed domain"
+echo "   → Should see CORS error"
+echo ""
+```
+
+**Usage**:
+```bash
+# Set API key first
+export SPS_API_KEY='y71ztOnBIXsFjeLGDYQK1y7M_KiU9x5RRTL9fX-NNVs'
+
+# Run test suite
+bash test-security.sh
+```
+
+### Expected vs Actual Results Matrix
+
+| Test | Expected Result | Common Issue | Fix |
+|------|----------------|--------------|-----|
+| Public endpoint | 200 OK | Container not running | `docker compose restart sps-brain` |
+| No API key | 403 Forbidden | Security not enabled | Check api.py has `Depends(verify_api_key)` |
+| Wrong API key | 403 Forbidden | Key validation broken | Verify .env has correct SPS_API_KEY |
+| Correct API key | 200 OK | CORS blocking | Add origin to allowed_origins in api.py |
+| Cloudflare Access | 302 Redirect | Policy not assigned | Follow Step 3.5 manual assignment |
+| CORS test | Browser blocks | Wrong CORS config | Update allowed_origins list |
+
+### Debugging Failed Tests
+
+**Test 1 Fails (Public endpoint)**:
+```bash
+# Check if container is running
+docker ps | grep sps-brain
+
+# Check container logs
+docker compose -f docker-compose.prod.yml logs sps-brain --tail=50
+
+# Restart if needed
+docker compose -f docker-compose.prod.yml restart sps-brain
+```
+
+**Test 2/3 Fail (Not blocking)**:
+```bash
+# Verify security is enabled in code
+cat agent_backend/api.py | grep "verify_api_key"
+
+# Should see: Depends(verify_api_key) on protected endpoints
+# If missing, security is not enabled
+```
+
+**Test 4 Fails (Valid key rejected)**:
+```bash
+# On server, check .env has correct key
+grep "SPS_API_KEY=" /root/sps-platform/.env
+
+# Restart to reload environment
+docker compose -f docker-compose.prod.yml restart sps-brain
+
+# Check logs for security messages
+docker compose -f docker-compose.prod.yml logs sps-brain | grep -i "api"
+```
+
 ---
 
 ## 📝 Frontend Integration
@@ -391,6 +558,48 @@ OR
 Include:
 - IP ranges: 103.x.x.x (your office IP)
 ```
+
+### Step 3.5: Assign Policy to Application (Manual Method)
+
+**If policy doesn't auto-assign, follow these steps**:
+
+1. **Navigate to Application**:
+   - Zero Trust → Access → Applications
+   - Click your application (e.g., "n8n Admin Dashboard")
+
+2. **Go to Policies Tab**:
+   - Click "Policies" tab at top of application page
+   - Look for "Access policies" section
+
+3. **Add Existing Policy**:
+   - Click "Select existing policies" button
+   - Find and check the box next to your policy (e.g., "Only Me" or "Only Authorized Users")
+   - Click "Add" or "Save" button
+
+4. **Verify Assignment**:
+   - Policy should now appear in the list with:
+     * Order: 1
+     * Action: ALLOW
+     * Rules: 1 (showing your email rule)
+     * Status: Active
+     * Policy ID: (long UUID string)
+
+5. **Test Protection Immediately**:
+   ```bash
+   # Open private/incognito window
+   # Navigate to: https://automator.sukhi.in
+   
+   # Expected Behavior:
+   # 1. Cloudflare Access blue login screen appears
+   # 2. Enter your email address
+   # 3. Receive verification code via email
+   # 4. Enter code
+   # 5. Then see n8n login screen (second layer)
+   ```
+
+**Result**: Two-layer security
+- Layer 1: Cloudflare Access (email verification)
+- Layer 2: n8n login (username + password)
 
 ### Step 4: Test
 

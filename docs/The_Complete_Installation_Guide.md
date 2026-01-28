@@ -594,6 +594,184 @@ docker compose -f docker-compose.prod.yml logs -f
 
 ---
 
+## Part 6.5: Understanding Internal vs External Architecture
+
+### Critical Concept: Two Communication Patterns
+
+Your SPS Platform has **two distinct ways containers communicate**:
+
+#### Pattern 1: Internal Communication (Docker Network)
+
+**Used by**:
+- Website server-side code → API
+- n8n workflows → Python scripts
+- Container-to-container communication
+
+**Example**:
+```javascript
+// website/src/pages/api/assess-risk.ts
+export async function post({ request }) {
+  // Internal Docker network call
+  const response = await fetch('http://sps-brain:8000/assess-risk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+    // NO X-API-Key header needed!
+  });
+}
+```
+
+**Characteristics**:
+- ✅ Uses container hostnames (`sps-brain:8000`)
+- ✅ No API key required
+- ✅ No Cloudflare tunnel involved
+- ✅ Fast, direct communication
+- ✅ More secure (network isolated)
+
+**Network Path**:
+```
+sps-website container
+    ↓ (Docker bridge network)
+sps-brain container :8000
+    ↓
+Response back to sps-website
+```
+
+#### Pattern 2: External Communication (Public API)
+
+**Used by**:
+- External applications
+- Client-side browser code
+- Third-party integrations
+- Mobile apps
+
+**Example**:
+```javascript
+// External JavaScript application
+const response = await fetch('https://api.sukhi.in/assess-risk', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'your-api-key-here'  // REQUIRED!
+  }
+});
+```
+
+**Characteristics**:
+- ⚠️ Uses public URL (`https://api.sukhi.in`)
+- ⚠️ Requires X-API-Key header
+- ⚠️ Goes through Cloudflare tunnel
+- ⚠️ Subject to CORS restrictions
+- ⚠️ Slower (encryption overhead)
+
+**Network Path**:
+```
+Browser/External Client
+    ↓ HTTPS
+Cloudflare CDN/Security
+    ↓ Tunnel (encrypted)
+cloudflared container
+    ↓ Docker network
+sps-brain container :8000
+    ↓
+Response flows back
+```
+
+### Decision Tree: Which Pattern to Use?
+
+```
+Where is your code running?
+
+├─ Inside Docker container? (server-side)
+│  └─ Use INTERNAL: http://sps-brain:8000
+│     No API key needed
+│
+├─ In browser? (client-side JavaScript)
+│  └─ Use EXTERNAL: https://api.sukhi.in
+│     API key required (via proxy recommended)
+│
+├─ In n8n workflow?
+│  └─ Use INTERNAL: http://sps-brain:8000
+│     OR execute Python scripts directly
+│
+└─ External service/mobile app?
+   └─ Use EXTERNAL: https://api.sukhi.in
+      API key required
+```
+
+### Common Mistake to Avoid
+
+**❌ WRONG: Website server using external API**
+
+```javascript
+// website/src/pages/api/risk.ts (SERVER-SIDE CODE)
+export async function post({ request }) {
+  // BAD: Using external URL from server
+  const response = await fetch('https://api.sukhi.in/assess-risk', {
+    headers: { 'X-API-Key': process.env.SPS_API_KEY }
+  });
+}
+```
+
+**Problems**:
+- Unnecessary: Server can talk directly to sps-brain
+- Slower: Goes through Cloudflare tunnel
+- Wastes tunnel bandwidth
+- Exposes API key in server environment
+
+**✅ CORRECT: Use internal Docker network**
+
+```javascript
+// website/src/pages/api/risk.ts (SERVER-SIDE CODE)
+export async function post({ request }) {
+  // GOOD: Direct internal communication
+  const response = await fetch('http://sps-brain:8000/assess-risk');
+  // No API key needed - internal call!
+}
+```
+
+### Why This Matters
+
+**Current Setup (Optimal)**:
+- Website uses `http://sps-brain:8000` internally ✅
+- n8n executes Python scripts directly ✅
+- External clients use `https://api.sukhi.in` with API key ✅
+
+**If Misconfigured**:
+- Website using `https://api.sukhi.in` = Slower, unnecessary ❌
+- External clients missing API key = Blocked ❌
+- Using wrong pattern = Security/performance issues ❌
+
+### Verifying Your Setup
+
+```bash
+# SSH into server
+ssh root@195.35.8.113
+
+# Test internal communication
+docker exec sps-website curl http://sps-brain:8000/health
+# Expected: {"status":"healthy",...}
+
+# Check website code uses internal URLs
+cd /root/sps-platform/website
+grep -r "api.sukhi.in" src/pages/api/
+# Expected: Nothing (server should use internal)
+
+grep -r "sps-brain" src/pages/api/
+# Expected: Shows internal API calls
+```
+
+### Key Takeaways
+
+1. **Server-side code** = Use internal Docker hostnames (no API key)
+2. **Client-side code** = Use public URLs (needs API key via proxy)
+3. **n8n workflows** = Use internal or direct Python scripts
+4. **External apps** = Use public URLs (needs API key)
+5. **Never** use public API from server-side code
+
+**Reference**: See `/docs/Development_Best_Practices.md` for detailed examples and patterns.
+
+---
+
 ## Part 7: Verification & Testing
 
 ### Step 7.1: Test Main Website

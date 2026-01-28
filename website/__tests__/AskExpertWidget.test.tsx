@@ -71,6 +71,14 @@ describe('AskExpertWidget', () => {
     global.EventSource = MockEventSource;
     // Mock scrollIntoView for jsdom
     Element.prototype.scrollIntoView = vi.fn();
+    // Mock localStorage
+    const localStorageMock = {
+      getItem: vi.fn(() => null),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+      clear: vi.fn(),
+    };
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true });
   });
 
   afterEach(() => {
@@ -78,18 +86,36 @@ describe('AskExpertWidget', () => {
   });
 
   describe('Basic Rendering', () => {
-    it('should render the trigger button when closed', () => {
+    it('should render the trigger button with ASK SPS label when closed', () => {
       render(<AskExpertWidget />);
-      expect(screen.getByText('ASK AI EXPERT')).toBeDefined();
+      expect(screen.getByText('ASK SPS')).toBeDefined();
     });
 
     it('should open panel when trigger is clicked', async () => {
       render(<AskExpertWidget />);
-      const trigger = screen.getByText('ASK AI EXPERT');
+      const trigger = screen.getByText('ASK SPS');
       fireEvent.click(trigger);
 
       await waitFor(() => {
-        expect(screen.getByText('SPS ORACLE v2.0')).toBeDefined();
+        expect(screen.getByRole('dialog')).toBeDefined();
+      });
+    });
+
+    it('should expose global openAskExpert function', () => {
+      render(<AskExpertWidget />);
+      expect(typeof (window as any).openAskExpert).toBe('function');
+    });
+
+    it('should open panel when global openAskExpert is called', async () => {
+      render(<AskExpertWidget />);
+      // Panel should be closed initially
+      expect(screen.queryByRole('dialog')).toBeNull();
+
+      // Call global function
+      (window as any).openAskExpert();
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeDefined();
       });
     });
   });
@@ -99,7 +125,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open the widget
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
 
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
@@ -125,7 +151,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });
@@ -160,7 +186,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });
@@ -188,7 +214,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });
@@ -225,7 +251,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });
@@ -264,7 +290,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });
@@ -298,7 +324,7 @@ describe('AskExpertWidget', () => {
       render(<AskExpertWidget />);
 
       // Open and submit
-      fireEvent.click(screen.getByText('ASK AI EXPERT'));
+      fireEvent.click(screen.getByText('ASK SPS'));
       await waitFor(() => {
         expect(screen.getByPlaceholderText('Ask a security question...')).toBeDefined();
       });

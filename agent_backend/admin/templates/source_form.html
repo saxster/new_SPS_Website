@@ -136,6 +136,22 @@
             <div class="form-card">
                 <div class="section-title">Basic Information</div>
                 
+                {% if not source %}
+                <div class="form-group full-width" style="background: rgba(77, 171, 247, 0.1); padding: 16px; border-radius: 8px; border: 1px solid rgba(77, 171, 247, 0.2); margin-bottom: 24px;">
+                    <label for="preset_selector" style="color: #4dabf7; font-weight: 600;">🚀 Quick Add Preset</label>
+                    <select id="preset_selector" onchange="applyPreset(this.value)">
+                        <option value="">-- Select a popular source to auto-fill --</option>
+                        <option value="nyt">The New York Times</option>
+                        <option value="foreign_affairs">Foreign Affairs</option>
+                        <option value="asis">ASIS Online</option>
+                        <option value="economist">The Economist</option>
+                        <option value="hbr">Harvard Business Review</option>
+                        <option value="wsj">Wall Street Journal</option>
+                    </select>
+                    <div class="help-text" style="color: #888;">Selecting a preset will auto-fill URLs and technical selectors. You just need to add your login info.</div>
+                </div>
+                {% endif %}
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name">Source Name *</label>
@@ -160,47 +176,6 @@
                 </div>
                 
                 <hr class="section-divider">
-                <div class="section-title">Login Configuration</div>
-                
-                <div class="form-group">
-                    <label for="login_url">Login URL</label>
-                    <input type="url" id="login_url" name="login_url" 
-                           value="{{ source.login_url if source else '' }}"
-                           placeholder="https://www.economist.com/login">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="username_selector">Username Field Selector</label>
-                        <input type="text" id="username_selector" name="username_selector" 
-                               value="{{ source.username_selector if source else '' }}"
-                               placeholder="input[name='email']">
-                        <div class="help-text">CSS selector for the username/email field</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password_selector">Password Field Selector</label>
-                        <input type="text" id="password_selector" name="password_selector" 
-                               value="{{ source.password_selector if source else '' }}"
-                               placeholder="input[name='password']">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="submit_selector">Submit Button Selector</label>
-                        <input type="text" id="submit_selector" name="submit_selector" 
-                               value="{{ source.submit_selector if source else '' }}"
-                               placeholder="button[type='submit']">
-                    </div>
-                    <div class="form-group">
-                        <label for="article_selector">Article Content Selector</label>
-                        <input type="text" id="article_selector" name="article_selector" 
-                               value="{{ source.article_selector if source else '' }}"
-                               placeholder="article.article-body">
-                    </div>
-                </div>
-                
-                <hr class="section-divider">
                 <div class="section-title">Credentials 🔐</div>
                 
                 {% if source and has_credentials %}
@@ -221,6 +196,51 @@
                                placeholder="••••••••" autocomplete="new-password">
                     </div>
                 </div>
+
+                <hr class="section-divider">
+                
+                <details>
+                    <summary style="cursor: pointer; color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; padding: 12px 0; outline: none;">Advanced Configuration (Selectors)</summary>
+                    <div style="padding-top: 20px;">
+                        <div class="form-group">
+                            <label for="login_url">Login URL</label>
+                            <input type="url" id="login_url" name="login_url" 
+                                   value="{{ source.login_url if source else '' }}"
+                                   placeholder="https://www.economist.com/login">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="username_selector">Username Field Selector</label>
+                                <input type="text" id="username_selector" name="username_selector" 
+                                       value="{{ source.username_selector if source else '' }}"
+                                       placeholder="input[name='email']">
+                                <div class="help-text">CSS selector for the username/email field</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_selector">Password Field Selector</label>
+                                <input type="text" id="password_selector" name="password_selector" 
+                                       value="{{ source.password_selector if source else '' }}"
+                                       placeholder="input[name='password']">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="submit_selector">Submit Button Selector</label>
+                                <input type="text" id="submit_selector" name="submit_selector" 
+                                       value="{{ source.submit_selector if source else '' }}"
+                                       placeholder="button[type='submit']">
+                            </div>
+                            <div class="form-group">
+                                <label for="article_selector">Article Content Selector</label>
+                                <input type="text" id="article_selector" name="article_selector" 
+                                       value="{{ source.article_selector if source else '' }}"
+                                       placeholder="article.article-body">
+                            </div>
+                        </div>
+                    </div>
+                </details>
                 
                 <hr class="section-divider">
                 <div class="section-title">Sync Settings</div>
@@ -268,5 +288,84 @@
             </div>
         </form>
     </div>
+
+    <script>
+        const PRESETS = {
+            'nyt': {
+                name: "The New York Times",
+                base_url: "https://www.nytimes.com",
+                login_url: "https://myaccount.nytimes.com/auth/login",
+                username_selector: "#email",
+                password_selector: "#password",
+                submit_selector: "button[type='submit']",
+                article_selector: "section[name='articleBody']",
+                weight: 10
+            },
+            'foreign_affairs': {
+                name: "Foreign Affairs",
+                base_url: "https://www.foreignaffairs.com",
+                login_url: "https://www.foreignaffairs.com/user",
+                username_selector: "#edit-name",
+                password_selector: "#edit-pass",
+                submit_selector: "#edit-submit",
+                article_selector: "article.article",
+                weight: 10
+            },
+            'asis': {
+                name: "ASIS Online",
+                base_url: "https://www.asisonline.org",
+                login_url: "https://www.asisonline.org/security-management/",
+                username_selector: "input[id*='Username']",
+                password_selector: "input[id*='Password']",
+                submit_selector: "input[type='submit']",
+                article_selector: ".article-content",
+                weight: 9
+            },
+            'economist': {
+                name: "The Economist",
+                base_url: "https://www.economist.com",
+                login_url: "https://www.economist.com/login",
+                username_selector: "input[name='email']",
+                password_selector: "input[name='password']",
+                submit_selector: "button[type='submit']",
+                article_selector: "article.article-body",
+                weight: 10
+            },
+            'hbr': {
+                name: "Harvard Business Review",
+                base_url: "https://hbr.org",
+                login_url: "https://hbr.org/login",
+                username_selector: "input[name='email']",
+                password_selector: "input[name='password']",
+                submit_selector: "button[name='login']",
+                article_selector: ".article-body",
+                weight: 10
+            },
+            'wsj': {
+                name: "Wall Street Journal",
+                base_url: "https://www.wsj.com",
+                login_url: "https://accounts.wsj.com/login",
+                username_selector: "input#username",
+                password_selector: "input#password",
+                submit_selector: "button[type='submit']",
+                article_selector: ".article-content",
+                weight: 10
+            }
+        };
+
+        function applyPreset(key) {
+            if (!key || !PRESETS[key]) return;
+            
+            const p = PRESETS[key];
+            document.getElementById('name').value = p.name;
+            document.getElementById('base_url').value = p.base_url;
+            document.getElementById('login_url').value = p.login_url;
+            document.getElementById('username_selector').value = p.username_selector;
+            document.getElementById('password_selector').value = p.password_selector;
+            document.getElementById('submit_selector').value = p.submit_selector;
+            document.getElementById('article_selector').value = p.article_selector;
+            document.getElementById('credibility_weight').value = p.weight;
+        }
+    </script>
 </body>
 </html>

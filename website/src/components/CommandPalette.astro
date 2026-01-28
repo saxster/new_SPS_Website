@@ -1,34 +1,24 @@
 ---
-// SPS Neural Search Interface
+// SPS Neural Search Interface v3.0
+// Enhanced Command Palette with scoped filters and action commands
+// Triggered via Cmd+K keyboard shortcut or drawer button
 ---
-
-<!-- Trigger Button (Fixed Bottom Right) -->
-<button
-  id="cmd-trigger"
-  class="fixed bottom-8 right-8 z-[90] bg-primary-accent text-black p-4 shadow-lg hover:scale-110 transition-transform group border-2 border-transparent hover:border-black"
-  aria-label="Open search (Cmd+K)"
-  aria-expanded="false"
-  aria-controls="cmd-overlay"
-  aria-haspopup="dialog"
->
-  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-  </svg>
-  <span class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-black text-primary-accent text-xs font-mono py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" aria-hidden="true">
-    CMD + K
-  </span>
-</button>
 
 <!-- Modal Overlay -->
 <div
   id="cmd-overlay"
-  class="fixed inset-0 bg-black/90 z-[100] hidden backdrop-blur-sm flex items-start justify-center pt-24"
+  class="fixed inset-0 bg-black/90 z-[100] hidden backdrop-blur-sm flex items-start justify-center pt-16 md:pt-24"
   role="dialog"
   aria-modal="true"
   aria-label="Search intelligence database"
   aria-hidden="true"
 >
-  <div class="w-full max-w-2xl bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex flex-col max-h-[70vh] relative" role="search">
+  <div class="w-full max-w-2xl bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex flex-col max-h-[80vh] relative mx-4" role="search">
+
+    <!-- Active Filters Row -->
+    <div id="cmd-filters" class="hidden border-b border-neutral-800 px-4 py-2 flex flex-wrap gap-2">
+      <!-- Filter chips injected here -->
+    </div>
 
     <!-- Header / Input -->
     <div class="border-b border-neutral-700 p-4 flex items-center gap-4">
@@ -37,19 +27,25 @@
         type="search"
         id="cmd-input"
         class="w-full bg-transparent text-white text-xl font-mono focus:outline-none placeholder-neutral-600 uppercase"
-        placeholder="SEARCH DATABASE..."
+        placeholder="SEARCH OR TYPE > FOR COMMANDS..."
         autocomplete="off"
         aria-label="Search intelligence database"
         aria-autocomplete="list"
         aria-controls="cmd-results"
+        aria-activedescendant=""
       />
-      <span class="text-xs text-neutral-500 font-mono border border-neutral-700 px-2 py-1" aria-hidden="true">ESC</span>
+      <span class="text-xs text-neutral-500 font-mono border border-neutral-700 px-2 py-1 hidden md:inline" aria-hidden="true">ESC</span>
+    </div>
+
+    <!-- Filter Hints Dropdown -->
+    <div id="cmd-hints" class="hidden border-b border-neutral-800 px-4 py-2 bg-neutral-800/50">
+      <!-- Filter suggestions injected here -->
     </div>
 
     <!-- Results List -->
     <div
       id="cmd-results"
-      class="overflow-y-auto p-2 space-y-1"
+      class="overflow-y-auto p-2 space-y-1 flex-1"
       role="listbox"
       aria-label="Search results"
     >
@@ -59,106 +55,658 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="border-t border-neutral-800 p-2 text-center">
-      <span class="text-[10px] text-neutral-600 font-mono uppercase tracking-widest">
-        SPS INTELLIGENCE INDEX V2.0
-      </span>
+    <!-- Footer with Recent Searches -->
+    <div class="border-t border-neutral-800 px-4 py-2">
+      <div id="cmd-recent" class="hidden mb-2">
+        <span class="text-[10px] text-neutral-600 font-mono uppercase tracking-wider">RECENT:</span>
+        <div id="cmd-recent-items" class="flex flex-wrap gap-2 mt-1">
+          <!-- Recent searches injected here -->
+        </div>
+      </div>
+      <div class="text-center">
+        <span class="text-[10px] font-mono uppercase tracking-widest">
+          <span class="text-[#FFD700] tracking-[0.2em]">SPS</span><span class="text-neutral-600"> INTELLIGENCE INDEX V3.0 // in: sector: tag: severity: // >help</span>
+        </span>
+      </div>
     </div>
 
   </div>
 </div>
 
 <script>
+  // ============================================
+  // SPS Command Palette v3.0 - Enhanced Search
+  // ============================================
+
+  // Types
+  interface ParsedQuery {
+    type: 'action' | 'search';
+    action?: string;
+    filters: {
+      in?: string[];
+      sector?: string[];
+      tag?: string[];
+      severity?: string[];
+    };
+    searchTerm: string;
+  }
+
+  interface SearchIndexItem {
+    title: string;
+    type: string;
+    url: string;
+    description: string;
+    sector?: string;
+    tags?: string[];
+    severity?: string;
+    category?: string;
+  }
+
+  // Valid filter names
+  const VALID_FILTERS = ['in', 'sector', 'tag', 'severity', 'type'];
+
+  // Type mapping for in: filter
+  const TYPE_MAP: Record<string, string[]> = {
+    'intel': ['INTEL'],
+    'blog': ['ARTICLE'],
+    'article': ['ARTICLE'],
+    'sectors': ['SECTOR'],
+    'sector': ['SECTOR'],
+    'cases': ['CASE'],
+    'case': ['CASE'],
+    'qna': ['QNA'],
+    'tools': ['TOOL'],
+    'tool': ['TOOL'],
+    'pages': ['PAGE'],
+    'page': ['PAGE'],
+  };
+
+  // Filter suggestions
+  const FILTER_SUGGESTIONS: Record<string, string[]> = {
+    'in:': ['intel', 'blog', 'sectors', 'cases', 'qna', 'tools', 'pages'],
+    'sector:': ['healthcare', 'finance', 'industrial', 'cyber', 'logistics', 'residential', 'education', 'hospitality', 'jewellery', 'petrol'],
+    'tag:': ['compliance', 'legal', 'psara', 'analysis', 'strategy', 'report', 'guide', 'risk'],
+    'severity:': ['critical', 'high', 'medium', 'low'],
+  };
+
+  // Action commands
+  const ACTIONS: Record<string, { label: string; description: string; icon: string; handler: () => void }> = {
+    subscribe: { label: 'Subscribe', description: 'Open newsletter signup', icon: '📬', handler: () => window.location.href = '/contact#newsletter' },
+    contact: { label: 'Contact', description: 'Navigate to contact page', icon: '📞', handler: () => window.location.href = '/contact' },
+    calculator: { label: 'Compliance Calculator', description: 'Open compliance checker', icon: '📋', handler: () => window.location.href = '/tools/compliance-calculator' },
+    risk: { label: 'Risk Calculator', description: 'Open risk assessment tool', icon: '⚠️', handler: () => window.location.href = '/tools/risk-calculator' },
+    ask: { label: 'Ask SPS AI', description: 'Open AI expert chat', icon: '🤖', handler: () => { closeSearch(); (window as any).openAskExpert?.(); } },
+    help: { label: 'Help', description: 'Show available commands', icon: '❓', handler: () => showHelp() },
+  };
+
+  // State
   let isOpen = false;
-  let searchIndex: any[] = [];
+  let searchIndex: SearchIndexItem[] = [];
+  let selectedIndex = -1;
+  let currentResults: (SearchIndexItem | { isAction: true; name: string })[] = [];
+  let activeFilters: ParsedQuery['filters'] = {};
+
+  // DOM Elements
   const overlay = document.getElementById('cmd-overlay');
   const input = document.getElementById('cmd-input') as HTMLInputElement;
   const results = document.getElementById('cmd-results');
-  const trigger = document.getElementById('cmd-trigger');
+  const filtersRow = document.getElementById('cmd-filters');
+  const hintsRow = document.getElementById('cmd-hints');
+  const recentSection = document.getElementById('cmd-recent');
+  const recentItems = document.getElementById('cmd-recent-items');
 
-  // 1. Fetch Data Once
+  // Recent searches (localStorage)
+  const RECENT_KEY = 'sps-recent-searches';
+  const MAX_RECENT = 5;
+
+  function getRecentSearches(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRecentSearch(query: string) {
+    if (!query.trim() || query.startsWith('>')) return;
+    const recent = getRecentSearches().filter(r => r !== query);
+    recent.unshift(query);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
+  }
+
+  function renderRecentSearches() {
+    const recent = getRecentSearches();
+    if (recent.length === 0 || !recentSection || !recentItems) {
+      recentSection?.classList.add('hidden');
+      return;
+    }
+    recentSection.classList.remove('hidden');
+    recentItems.innerHTML = recent.map(q => `
+      <button type="button" class="text-xs font-mono text-neutral-400 hover:text-primary-accent px-2 py-1 bg-neutral-800 hover:bg-neutral-700 transition-colors" data-recent="${encodeURIComponent(q)}">
+        ${q.length > 20 ? q.slice(0, 20) + '...' : q}
+      </button>
+    `).join('');
+
+    recentItems.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = decodeURIComponent(btn.getAttribute('data-recent') || '');
+        if (input) input.value = q;
+        processInput();
+      });
+    });
+  }
+
+  // Query Parser
+  function parseQuery(inputStr: string): ParsedQuery {
+    const trimmed = inputStr.trim();
+
+    // Check for action command
+    if (trimmed.startsWith('>')) {
+      const action = trimmed.slice(1).trim().toLowerCase();
+      return { type: 'action', action, filters: {}, searchTerm: '' };
+    }
+
+    // Parse filters and search term
+    const filters: ParsedQuery['filters'] = {};
+    const searchTermParts: string[] = [];
+    const tokens = trimmed.split(/\s+/);
+
+    for (const token of tokens) {
+      const colonIndex = token.indexOf(':');
+      if (colonIndex > 0 && colonIndex < token.length - 1) {
+        const filterName = token.slice(0, colonIndex).toLowerCase();
+        const filterValue = token.slice(colonIndex + 1).toLowerCase();
+
+        if (VALID_FILTERS.includes(filterName)) {
+          const key = filterName as keyof ParsedQuery['filters'];
+          if (!filters[key]) filters[key] = [];
+          filters[key]!.push(filterValue);
+          continue;
+        }
+      }
+      if (token) searchTermParts.push(token);
+    }
+
+    return { type: 'search', filters, searchTerm: searchTermParts.join(' ').trim() };
+  }
+
+  // Filter Results
+  function filterResults(items: SearchIndexItem[], query: ParsedQuery): SearchIndexItem[] {
+    if (query.type === 'action') return [];
+    let results = [...items];
+
+    // Apply in: filter
+    if (query.filters.in && query.filters.in.length > 0) {
+      const allowedTypes = new Set<string>();
+      for (const inValue of query.filters.in) {
+        const mappedTypes = TYPE_MAP[inValue];
+        if (mappedTypes) mappedTypes.forEach(t => allowedTypes.add(t));
+      }
+      if (allowedTypes.size > 0) {
+        results = results.filter(item => allowedTypes.has(item.type));
+      } else {
+        results = [];
+      }
+    }
+
+    // Apply sector: filter
+    if (query.filters.sector && query.filters.sector.length > 0) {
+      const sectors = new Set(query.filters.sector);
+      results = results.filter(item => item.sector && sectors.has(item.sector.toLowerCase()));
+    }
+
+    // Apply tag: filter
+    if (query.filters.tag && query.filters.tag.length > 0) {
+      const filterTags = new Set(query.filters.tag);
+      results = results.filter(item => item.tags?.some(tag => filterTags.has(tag.toLowerCase())));
+    }
+
+    // Apply severity: filter
+    if (query.filters.severity && query.filters.severity.length > 0) {
+      const severities = new Set(query.filters.severity);
+      results = results.filter(item => item.severity && severities.has(item.severity.toLowerCase()));
+    }
+
+    // Apply search term
+    if (query.searchTerm) {
+      const term = query.searchTerm.toLowerCase();
+      results = results.filter(item =>
+        item.title.toLowerCase().includes(term) ||
+        item.description.toLowerCase().includes(term)
+      );
+    }
+
+    return results;
+  }
+
+  // Render filter chips
+  function renderFilterChips(filters: ParsedQuery['filters']) {
+    if (!filtersRow) return;
+
+    const hasFilters = Object.values(filters).some(arr => arr && arr.length > 0);
+    if (!hasFilters) {
+      filtersRow.classList.add('hidden');
+      return;
+    }
+
+    filtersRow.classList.remove('hidden');
+    let html = '';
+
+    for (const [key, values] of Object.entries(filters)) {
+      if (!values || values.length === 0) continue;
+      for (const value of values) {
+        html += `
+          <span class="inline-flex items-center gap-1 text-xs font-mono px-2 py-1 bg-primary-accent/20 text-primary-accent border border-primary-accent/30">
+            ${key}:${value}
+            <button type="button" class="hover:text-white" data-remove-filter="${key}:${value}" aria-label="Remove filter">×</button>
+          </span>
+        `;
+      }
+    }
+
+    filtersRow.innerHTML = html;
+
+    // Add remove handlers
+    filtersRow.querySelectorAll('button[data-remove-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-remove-filter') || '';
+        const [key, value] = filter.split(':');
+        removeFilter(key, value);
+      });
+    });
+  }
+
+  function removeFilter(key: string, value: string) {
+    // Remove from input
+    if (input) {
+      const currentValue = input.value;
+      const filterPattern = new RegExp(`${key}:${value}\\s*`, 'gi');
+      input.value = currentValue.replace(filterPattern, '').trim();
+      processInput();
+    }
+  }
+
+  // Render filter hints
+  function renderFilterHints(inputStr: string) {
+    if (!hintsRow) return;
+
+    // Check if user is typing a filter prefix
+    const tokens = inputStr.split(/\s+/);
+    const lastToken = tokens[tokens.length - 1] || '';
+
+    let suggestions: string[] = [];
+
+    for (const [prefix, values] of Object.entries(FILTER_SUGGESTIONS)) {
+      if (prefix.startsWith(lastToken.toLowerCase()) && lastToken.length > 0 && !lastToken.includes(':')) {
+        // User typing filter name
+        suggestions = [prefix + values[0]];
+        break;
+      }
+      if (lastToken.toLowerCase().startsWith(prefix)) {
+        // User typing filter value
+        const partial = lastToken.slice(prefix.length).toLowerCase();
+        suggestions = values.filter(v => v.startsWith(partial)).slice(0, 4).map(v => prefix + v);
+        break;
+      }
+    }
+
+    if (suggestions.length === 0) {
+      hintsRow.classList.add('hidden');
+      return;
+    }
+
+    hintsRow.classList.remove('hidden');
+    hintsRow.innerHTML = `
+      <span class="text-[10px] text-neutral-500 font-mono mr-2">TAB:</span>
+      ${suggestions.map(s => `<button type="button" class="text-xs font-mono text-neutral-400 hover:text-primary-accent mr-2" data-hint="${s}">${s}</button>`).join('')}
+    `;
+
+    hintsRow.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyHint(btn.getAttribute('data-hint') || '');
+      });
+    });
+  }
+
+  function applyHint(hint: string) {
+    if (!input) return;
+    const tokens = input.value.split(/\s+/);
+    tokens[tokens.length - 1] = hint;
+    input.value = tokens.join(' ') + ' ';
+    input.focus();
+    processInput();
+  }
+
+  // Render actions list
+  function renderActions(actionQuery: string) {
+    if (!results) return;
+
+    const query = actionQuery.toLowerCase();
+    const matchingActions = Object.entries(ACTIONS).filter(([name, action]) =>
+      name.includes(query) || action.label.toLowerCase().includes(query)
+    );
+
+    if (matchingActions.length === 0) {
+      results.innerHTML = `<div class="p-8 text-center text-neutral-500 font-mono text-sm">UNKNOWN COMMAND. TRY >help</div>`;
+      currentResults = [];
+      return;
+    }
+
+    currentResults = matchingActions.map(([name]) => ({ isAction: true, name }));
+
+    results.innerHTML = matchingActions.map(([name, action], idx) => `
+      <div
+        role="option"
+        id="cmd-result-${idx}"
+        data-action="${name}"
+        class="p-3 hover:bg-neutral-800 group border-l-2 ${idx === selectedIndex ? 'border-primary-accent bg-neutral-800' : 'border-transparent'} transition-all cursor-pointer"
+        aria-selected="${idx === selectedIndex}"
+      >
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-bold text-white group-hover:text-primary-accent transition-colors">
+            <span class="mr-2">${action.icon}</span>${action.label}
+          </span>
+          <span class="text-[10px] font-mono px-2 py-0.5 bg-neutral-800 text-neutral-400 group-hover:bg-primary-accent group-hover:text-black uppercase tracking-wider">
+            ACTION
+          </span>
+        </div>
+        <div class="text-xs text-neutral-500 font-mono">
+          >${name} // ${action.description}
+        </div>
+      </div>
+    `).join('');
+
+    // Add click handlers
+    results.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', () => {
+        const actionName = el.getAttribute('data-action');
+        if (actionName && ACTIONS[actionName]) {
+          closeSearch();
+          ACTIONS[actionName].handler();
+        }
+      });
+    });
+  }
+
+  // Show help
+  function showHelp() {
+    if (!results) return;
+
+    results.innerHTML = `
+      <div class="p-4 space-y-4 text-sm font-mono">
+        <div class="text-primary-accent font-bold">// COMMAND PALETTE HELP</div>
+
+        <div>
+          <div class="text-neutral-400 mb-2">SCOPED SEARCH FILTERS:</div>
+          <div class="text-neutral-500 space-y-1 ml-4">
+            <div><span class="text-primary-accent">in:</span>intel|blog|sectors|cases|qna|tools|pages</div>
+            <div><span class="text-primary-accent">sector:</span>healthcare|finance|industrial|cyber|logistics...</div>
+            <div><span class="text-primary-accent">tag:</span>compliance|legal|psara|analysis|strategy...</div>
+            <div><span class="text-primary-accent">severity:</span>critical|high|medium|low</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-neutral-400 mb-2">EXAMPLES:</div>
+          <div class="text-neutral-500 space-y-1 ml-4">
+            <div>in:intel ransomware</div>
+            <div>sector:healthcare tag:compliance</div>
+            <div>severity:critical</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-neutral-400 mb-2">ACTION COMMANDS:</div>
+          <div class="text-neutral-500 space-y-1 ml-4">
+            ${Object.entries(ACTIONS).map(([name, a]) => `<div><span class="text-primary-accent">>${name}</span> - ${a.description}</div>`).join('')}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-neutral-400 mb-2">KEYBOARD:</div>
+          <div class="text-neutral-500 space-y-1 ml-4">
+            <div>↑↓ Navigate | Enter Select | Tab Autocomplete | Esc Close</div>
+          </div>
+        </div>
+      </div>
+    `;
+    currentResults = [];
+  }
+
+  // Group and render search results
+  function renderSearchResults(items: SearchIndexItem[], searchTerm: string) {
+    if (!results) return;
+
+    if (items.length === 0) {
+      const hasFilters = Object.values(activeFilters).some(arr => arr && arr.length > 0);
+      results.innerHTML = `
+        <div class="p-8 text-center text-neutral-500 font-mono text-sm">
+          NO RECORDS FOUND${hasFilters ? '<br><span class="text-xs">TRY REMOVING FILTERS?</span>' : ''}
+        </div>
+      `;
+      currentResults = [];
+      return;
+    }
+
+    // Group by type
+    const groups = new Map<string, SearchIndexItem[]>();
+    const typeOrder = ['INTEL', 'ARTICLE', 'SECTOR', 'CASE', 'QNA', 'TOOL', 'PAGE'];
+
+    for (const item of items) {
+      const existing = groups.get(item.type) || [];
+      existing.push(item);
+      groups.set(item.type, existing);
+    }
+
+    currentResults = items.slice(0, 12);
+    let html = '';
+    let globalIdx = 0;
+
+    for (const type of typeOrder) {
+      const groupItems = groups.get(type);
+      if (!groupItems || groupItems.length === 0) continue;
+
+      html += `<div class="text-[10px] font-mono text-neutral-600 uppercase tracking-wider px-3 py-1 mt-2 first:mt-0">${type}</div>`;
+
+      for (const item of groupItems.slice(0, 4)) {
+        const isSelected = globalIdx === selectedIndex;
+        const highlightedTitle = searchTerm
+          ? item.title.replace(new RegExp(`(${escapeRegex(searchTerm)})`, 'gi'), '<mark class="bg-primary-accent/30 text-white">$1</mark>')
+          : item.title;
+
+        html += `
+          <a
+            href="${item.url}"
+            role="option"
+            id="cmd-result-${globalIdx}"
+            class="block p-3 hover:bg-neutral-800 group border-l-2 ${isSelected ? 'border-primary-accent bg-neutral-800' : 'border-transparent'} transition-all"
+            aria-selected="${isSelected}"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-white group-hover:text-primary-accent transition-colors">${highlightedTitle}</span>
+              ${item.severity ? `<span class="text-[10px] font-mono px-2 py-0.5 ${item.severity === 'critical' ? 'bg-red-900/50 text-red-400' : 'bg-yellow-900/50 text-yellow-400'} uppercase tracking-wider mr-1">${item.severity}</span>` : ''}
+              ${item.sector ? `<span class="text-[10px] font-mono px-2 py-0.5 bg-neutral-800 text-neutral-400 uppercase tracking-wider">${item.sector}</span>` : ''}
+            </div>
+            <div class="text-xs text-neutral-500 line-clamp-1 font-mono">
+              ${item.description || '// NO DATA'}
+            </div>
+          </a>
+        `;
+        globalIdx++;
+      }
+    }
+
+    results.innerHTML = html;
+  }
+
+  function escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Main processing function
+  function processInput() {
+    const inputValue = input?.value || '';
+    const parsed = parseQuery(inputValue);
+
+    activeFilters = parsed.filters;
+    renderFilterChips(parsed.filters);
+    renderFilterHints(inputValue);
+
+    if (parsed.type === 'action') {
+      renderActions(parsed.action || '');
+    } else {
+      const filtered = filterResults(searchIndex, parsed);
+      renderSearchResults(filtered.slice(0, 12), parsed.searchTerm);
+    }
+
+    // Reset selection
+    selectedIndex = -1;
+    updateSelection();
+  }
+
+  // Keyboard navigation
+  function updateSelection() {
+    results?.querySelectorAll('[role="option"]').forEach((el, idx) => {
+      const isSelected = idx === selectedIndex;
+      el.classList.toggle('border-primary-accent', isSelected);
+      el.classList.toggle('bg-neutral-800', isSelected);
+      el.classList.toggle('border-transparent', !isSelected);
+      el.setAttribute('aria-selected', String(isSelected));
+    });
+
+    if (selectedIndex >= 0) {
+      input?.setAttribute('aria-activedescendant', `cmd-result-${selectedIndex}`);
+    } else {
+      input?.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function navigateResults(direction: 'up' | 'down') {
+    const maxIndex = currentResults.length - 1;
+    if (maxIndex < 0) return;
+
+    if (direction === 'down') {
+      selectedIndex = selectedIndex < maxIndex ? selectedIndex + 1 : 0;
+    } else {
+      selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : maxIndex;
+    }
+
+    updateSelection();
+
+    // Scroll into view
+    const selected = results?.querySelector(`#cmd-result-${selectedIndex}`);
+    selected?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function executeSelected() {
+    if (selectedIndex < 0 || selectedIndex >= currentResults.length) {
+      // If nothing selected but there are results, select first
+      if (currentResults.length > 0) {
+        selectedIndex = 0;
+      } else {
+        return;
+      }
+    }
+
+    const item = currentResults[selectedIndex];
+
+    if ('isAction' in item && item.isAction) {
+      const action = ACTIONS[item.name];
+      if (action) {
+        closeSearch();
+        action.handler();
+      }
+    } else {
+      // Navigate to URL
+      const searchItem = item as SearchIndexItem;
+      saveRecentSearch(input?.value || '');
+      window.location.href = searchItem.url;
+    }
+  }
+
+  // Fetch Data Once
   async function loadIndex() {
     try {
       const res = await fetch('/api/search-index.json');
       searchIndex = await res.json();
-      renderResults(''); // Render all/recent initially
+      processInput();
     } catch (e) {
       console.error("Neural Link Failed", e);
     }
   }
 
-  // 2. Toggle Logic
+  // Open Search Modal
+  function openSearch() {
+    if (isOpen) return;
+    isOpen = true;
+    overlay?.classList.remove('hidden');
+    overlay?.setAttribute('aria-hidden', 'false');
+    input?.focus();
+    document.body.style.overflow = 'hidden';
+    renderRecentSearches();
+    if (searchIndex.length === 0) loadIndex();
+    else processInput();
+  }
+
+  // Close Search Modal
+  function closeSearch() {
+    if (!isOpen) return;
+    isOpen = false;
+    overlay?.classList.add('hidden');
+    overlay?.setAttribute('aria-hidden', 'true');
+    if (input) input.value = '';
+    document.body.style.overflow = '';
+    selectedIndex = -1;
+    activeFilters = {};
+    filtersRow?.classList.add('hidden');
+    hintsRow?.classList.add('hidden');
+  }
+
+  // Toggle Logic
   function toggleCmd() {
-    isOpen = !isOpen;
-    if (isOpen) {
-      overlay?.classList.remove('hidden');
-      overlay?.setAttribute('aria-hidden', 'false');
-      trigger?.setAttribute('aria-expanded', 'true');
-      input?.focus();
-      document.body.style.overflow = 'hidden';
-      if (searchIndex.length === 0) loadIndex();
-    } else {
-      overlay?.classList.add('hidden');
-      overlay?.setAttribute('aria-hidden', 'true');
-      trigger?.setAttribute('aria-expanded', 'false');
-      input.value = '';
-      document.body.style.overflow = '';
-      trigger?.focus(); // Return focus to trigger
-    }
+    if (isOpen) closeSearch();
+    else openSearch();
   }
 
-  // 3. Render Logic
-  function renderResults(query: string) {
-    if (!results) return;
-    
-    const q = query.toLowerCase();
-    const filtered = searchIndex.filter(item => 
-      item.title.toLowerCase().includes(q) || 
-      item.description?.toLowerCase().includes(q)
-    ).slice(0, 8); // Max 8 results
+  // Expose globally
+  (window as any).openSPSSearch = openSearch;
 
-    if (filtered.length === 0) {
-      results.innerHTML = `<div class="p-8 text-center text-neutral-500 font-mono text-sm">NO RECORDS FOUND</div>`;
-      return;
-    }
-
-    results.innerHTML = filtered.map((item, idx) => `
-      <a href="${item.url}" class="block p-3 hover:bg-neutral-800 group border-l-2 border-transparent hover:border-primary-accent transition-all">
-        <div class="flex items-center justify-between mb-1">
-          <span class="font-bold text-white group-hover:text-primary-accent transition-colors">${item.title}</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 bg-neutral-800 text-neutral-400 group-hover:bg-primary-accent group-hover:text-black uppercase tracking-wider">
-            ${item.type}
-          </span>
-        </div>
-        <div class="text-xs text-neutral-500 line-clamp-1 font-mono">
-          ${item.description || '// NO DATA'}
-        </div>
-      </a>
-    `).join('');
-  }
-
-  // 4. Event Listeners
-  trigger?.addEventListener('click', toggleCmd);
-  
-  // Close on overlay click
+  // Event Listeners
   overlay?.addEventListener('click', (e) => {
-    if (e.target === overlay) toggleCmd();
+    if (e.target === overlay) closeSearch();
   });
 
-  // Keydown (Global)
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       toggleCmd();
     }
     if (e.key === 'Escape' && isOpen) {
-      toggleCmd();
+      closeSearch();
     }
   });
 
-  // Input Filter
-  input?.addEventListener('input', (e) => {
-    renderResults((e.target as HTMLInputElement).value);
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      navigateResults('down');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigateResults('up');
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      executeSelected();
+    } else if (e.key === 'Tab' && !e.shiftKey) {
+      // Autocomplete from hints
+      const hintBtn = hintsRow?.querySelector('button');
+      if (hintBtn && !hintsRow?.classList.contains('hidden')) {
+        e.preventDefault();
+        applyHint(hintBtn.getAttribute('data-hint') || '');
+      }
+    }
+  });
+
+  input?.addEventListener('input', () => {
+    processInput();
   });
 </script>

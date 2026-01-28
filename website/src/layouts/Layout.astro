@@ -7,7 +7,7 @@ import Ticker from '../components/RealTimeTicker';
 import Schema from '../components/Schema.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import AskExpertWidget from '../components/widgets/AskExpertWidget';
-import CommandSearch from '../components/CommandSearch';
+import NavBar from '../components/NavBar.astro';
 
 interface BreadcrumbItem {
   name: string;
@@ -127,13 +127,15 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site
             <Ticker client:only="preact" />
         </div>
 
-        <!-- Main Content (Padded for Ticker) -->
-        <main id="main-content" class="pt-10" tabindex="-1">
+        <!-- Desktop Navigation Bar (below ticker, desktop only) -->
+        <NavBar />
+
+        <!-- Main Content (Padded for Ticker + NavBar on desktop) -->
+        <main id="main-content" class="pt-10 lg:pt-24" tabindex="-1">
 		    <slot />
         </main>
 
         <CommandPalette />
-        <CommandSearch client:idle />
         <AskExpertWidget client:idle />
 	</body>
 </html>

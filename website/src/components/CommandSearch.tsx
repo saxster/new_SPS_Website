@@ -63,14 +63,14 @@ export default function CommandSearch() {
                             
                             {loading && (
                                 <div class="text-primary-accent animate-pulse">
-                                    > ANALYZING VECTOR EMBEDDINGS...<br/>
-                                    > SYNTHESIZING INTELLIGENCE...
+                                    {'>'} ANALYZING VECTOR EMBEDDINGS...<br/>
+                                    {'>'} SYNTHESIZING INTELLIGENCE...
                                 </div>
                             )}
 
                             {answer && (
                                 <div class="prose prose-invert prose-sm max-w-none">
-                                    <p class="text-primary-accent mb-2">> RESPONSE RECEIVED:</p>
+                                    <p class="text-primary-accent mb-2">{'>'} RESPONSE RECEIVED:</p>
                                     <div class="text-gray-300 leading-relaxed whitespace-pre-wrap">{answer}</div>
                                 </div>
                             )}

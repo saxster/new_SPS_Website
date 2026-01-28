@@ -989,3 +989,142 @@ body {
     padding: var(--space-6);
   }
 }
+
+/* =====================================================
+   DESKTOP NAVIGATION BAR & MEGA MENU
+   ===================================================== */
+
+/* Desktop Navbar */
+.desktop-navbar {
+  background-color: rgba(10, 12, 16, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: var(--border-width-medium) solid var(--color-border-light);
+}
+
+.desktop-navbar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.desktop-navbar-link:hover,
+.desktop-navbar-link--active {
+  color: var(--color-primary-accent);
+}
+
+/* Mega Menu */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--color-surface-dark);
+  border: var(--border-width-medium) solid var(--color-border-accent);
+  border-top: var(--border-width-thick) solid var(--color-primary-accent);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all var(--transition-fast);
+  z-index: 100;
+}
+
+.mega-menu--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-menu-column {
+  min-width: 160px;
+}
+
+.mega-menu-heading {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.mega-menu-link {
+  display: block;
+  padding: var(--space-2) 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.mega-menu-link:hover {
+  color: var(--color-primary-accent);
+  transform: translateX(4px);
+}
+
+/* Mega Menu Featured Card */
+.mega-menu-featured {
+  padding: var(--space-4);
+  background-color: rgba(255, 77, 0, 0.05);
+  border: var(--border-width-thin) solid rgba(255, 77, 0, 0.2);
+  transition: border-color var(--transition-fast);
+}
+
+.mega-menu-featured:hover {
+  border-color: var(--color-primary-accent);
+}
+
+/* Navbar Search Button */
+.navbar-search-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  transition: all var(--transition-fast);
+}
+
+.navbar-search-btn:hover {
+  color: var(--color-primary-accent);
+  border-color: var(--color-primary-accent);
+}
+
+.navbar-search-shortcut {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-surface-dark);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.navbar-search-btn:hover .navbar-search-shortcut {
+  border-color: var(--color-primary-accent);
+  color: var(--color-primary-accent);
+}
+
+/* Dropdown chevron animation */
+.dropdown-chevron {
+  transition: transform var(--transition-fast);
+}
+
+.dropdown-open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+/* Keyboard shortcut indicator */
+.nav-shortcut {
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-left: var(--space-1);
+}
