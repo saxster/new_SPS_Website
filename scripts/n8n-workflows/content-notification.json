@@ -1,0 +1,91 @@
+{
+  "name": "SPS Content Published Notification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "content-published",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Content Published Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "content-published"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=📝 *NEW ARTICLE PUBLISHED*\n\n*Title:* {{ $json.body.content.title }}\n*Type:* {{ $json.body.content.type }}\n*Quality Score:* {{ $json.body.content.quality_score }}/100\n*Word Count:* {{ $json.body.content.word_count }}\n\n🔗 {{ $json.body.content.url }}\n\n⚡ *Action:* Review within 24hrs",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-notify",
+      "name": "Notify Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [500, 250],
+      "credentials": {
+        "telegramApi": {
+          "id": "telegram-bot",
+          "name": "SPS Alert Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "content@sps-security.com",
+        "toEmail": "={{ $env.ALERT_EMAIL }}",
+        "subject": "=📝 New Article: {{ $json.body.content.title }}",
+        "html": "=<h2>New Content Published</h2>\n<table style='border-collapse: collapse; width: 100%;'>\n<tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Title</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.title }}</td></tr>\n<tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Type</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.type }}</td></tr>\n<tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Quality Score</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.quality_score }}/100</td></tr>\n<tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Word Count</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.word_count }}</td></tr>\n<tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>URL</strong></td><td style='padding: 8px; border: 1px solid #ddd;'><a href='{{ $json.body.content.url }}'>View Article</a></td></tr>\n</table>\n<p style='margin-top: 20px; color: #666;'>Please review within 24 hours.</p>"
+      },
+      "id": "email-notify",
+      "name": "Notify Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [500, 400]
+    },
+    {
+      "parameters": {
+        "command": "=/app/scripts/recover.sh sps-website 3"
+      },
+      "id": "rebuild-website",
+      "name": "Rebuild Website",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🔄 *WEBSITE REBUILT*\n\nNew content is now live:\n{{ $json.body.content.title }}\n\n✅ Rebuild successful",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-rebuild-done",
+      "name": "Notify Rebuild Complete",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1000, 300],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    }
+  ],
+  "connections": {
+    "Content Published Webhook": {
+      "main": [
+        [
+          { "node": "Notify Telegram", "type": "main", "index": 0 },
+          { "node": "Notify Email", "type": "main", "index": 0 },
+          { "node": "Rebuild Website", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Rebuild Website": {
+      "main": [[{ "node": "Notify Rebuild Complete", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

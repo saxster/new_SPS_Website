@@ -40,16 +40,20 @@ services:
     networks:
       - sps-network
 
-  # 3. The Orchestrator (n8n)
+  # 3. The Orchestrator (n8n) - Self-healing & Notifications
   n8n:
     image: docker.n8n.io/n8nio/n8n
     container_name: n8n
+    user: root  # Required for Docker socket access
     expose:
       - "5678" # Internal Only
     volumes:
       - n8n_data:/home/node/.n8n
       - ./website:/app/website
       - ./agent_backend:/app/agent_backend
+      - ./scripts:/app/scripts                    # Recovery & notification scripts
+      - /var/run/docker.sock:/var/run/docker.sock # Docker control for self-healing
+      - /var/log:/app/logs                        # Access to system logs
     environment:
       - N8N_HOST=automator.sukhi.in
       - N8N_PORT=5678
@@ -59,6 +63,14 @@ services:
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_PERSONALIZATION_ENABLED=false
       - N8N_TELEMETRY_DISABLED=true
+      # TELEGRAM BOT (configure these)
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      # NOTIFICATION EMAIL
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - ALERT_EMAIL=${ALERT_EMAIL}
     restart: unless-stopped
     networks:
       - sps-network

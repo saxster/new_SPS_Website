@@ -1,0 +1,302 @@
+{
+  "name": "SPS Self-Healing Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "minutes", "minutesInterval": 5 }]
+        }
+      },
+      "id": "cron-trigger",
+      "name": "Every 5 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://sps-security.com",
+        "options": {
+          "timeout": 15000,
+          "allowUnauthorizedCerts": false
+        }
+      },
+      "id": "health-check-website",
+      "name": "Check Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "check-status",
+      "name": "Site OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "seconds"
+      },
+      "id": "wait-before-retry",
+      "name": "Wait 30s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [850, 450]
+    },
+    {
+      "parameters": {
+        "url": "https://sps-security.com",
+        "options": { "timeout": 15000 }
+      },
+      "id": "retry-check",
+      "name": "Retry Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1050, 450],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "retry-ok",
+      "name": "Retry OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 450]
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/recover.sh sps-website 1"
+      },
+      "id": "level1-recovery",
+      "name": "Level 1: Restart Container",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1450, 600]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "id": "wait-3-min",
+      "name": "Wait 3 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1650, 600]
+    },
+    {
+      "parameters": {
+        "url": "https://sps-security.com",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-after-l1",
+      "name": "Check After L1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1850, 600],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "l1-ok",
+      "name": "L1 Fixed It?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2050, 600]
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/recover.sh sps-website 2"
+      },
+      "id": "level2-recovery",
+      "name": "Level 2: Stack Restart",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [2250, 750]
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "minutes"
+      },
+      "id": "wait-5-min",
+      "name": "Wait 5 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [2450, 750]
+    },
+    {
+      "parameters": {
+        "url": "https://sps-security.com",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-after-l2",
+      "name": "Check After L2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2650, 750],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "l2-ok",
+      "name": "L2 Fixed It?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2850, 750]
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/diagnostics.sh"
+      },
+      "id": "gather-diagnostics",
+      "name": "Gather Diagnostics",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [3050, 900]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🚨 *ESCALATION: Auto-recovery Failed*\n\n*Service:* sps-website\n*Attempts:* 2 (all failed)\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\n📋 *DIAGNOSTICS:*\n```\n{{ $json.stdout }}\n```\n\n💡 *MANUAL INTERVENTION REQUIRED*\nSSH into VPS and investigate.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "escalate-telegram",
+      "name": "Escalate to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3250, 900],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@sps-security.com",
+        "toEmail": "={{ $env.ALERT_EMAIL }}",
+        "subject": "🚨 SPS SITE DOWN - Manual Intervention Required",
+        "text": "Auto-recovery has failed after 2 attempts.\n\nPlease SSH into the VPS immediately.\n\nDiagnostics:\n{{ $json.stdout }}"
+      },
+      "id": "escalate-email",
+      "name": "Escalate via Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [3250, 1050]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=✅ *AUTO-HEALED*\n\n*Service:* sps-website\n*Recovery Level:* {{ $node['Level 1: Restart Container'].data ? '1 (Container Restart)' : '2 (Stack Restart)' }}\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\nSite is back online.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-recovered",
+      "name": "Notify: Auto-Healed",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2250, 450],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=✅ *L2 RECOVERY SUCCESS*\n\n*Service:* Full Stack\n*Recovery Level:* 2 (Stack Restart)\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\nAll services back online after stack restart.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-l2-recovered",
+      "name": "Notify: L2 Recovered",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3050, 600],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    }
+  ],
+  "connections": {
+    "Every 5 Minutes": { "main": [[{ "node": "Check Website", "type": "main", "index": 0 }]] },
+    "Check Website": { "main": [[{ "node": "Site OK?", "type": "main", "index": 0 }]] },
+    "Site OK?": {
+      "main": [
+        [],
+        [{ "node": "Wait 30s", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait 30s": { "main": [[{ "node": "Retry Check", "type": "main", "index": 0 }]] },
+    "Retry Check": { "main": [[{ "node": "Retry OK?", "type": "main", "index": 0 }]] },
+    "Retry OK?": {
+      "main": [
+        [],
+        [{ "node": "Level 1: Restart Container", "type": "main", "index": 0 }]
+      ]
+    },
+    "Level 1: Restart Container": { "main": [[{ "node": "Wait 3 Minutes", "type": "main", "index": 0 }]] },
+    "Wait 3 Minutes": { "main": [[{ "node": "Check After L1", "type": "main", "index": 0 }]] },
+    "Check After L1": { "main": [[{ "node": "L1 Fixed It?", "type": "main", "index": 0 }]] },
+    "L1 Fixed It?": {
+      "main": [
+        [{ "node": "Notify: Auto-Healed", "type": "main", "index": 0 }],
+        [{ "node": "Level 2: Stack Restart", "type": "main", "index": 0 }]
+      ]
+    },
+    "Level 2: Stack Restart": { "main": [[{ "node": "Wait 5 Minutes", "type": "main", "index": 0 }]] },
+    "Wait 5 Minutes": { "main": [[{ "node": "Check After L2", "type": "main", "index": 0 }]] },
+    "Check After L2": { "main": [[{ "node": "L2 Fixed It?", "type": "main", "index": 0 }]] },
+    "L2 Fixed It?": {
+      "main": [
+        [{ "node": "Notify: L2 Recovered", "type": "main", "index": 0 }],
+        [{ "node": "Gather Diagnostics", "type": "main", "index": 0 }]
+      ]
+    },
+    "Gather Diagnostics": {
+      "main": [
+        [
+          { "node": "Escalate to Telegram", "type": "main", "index": 0 },
+          { "node": "Escalate via Email", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
