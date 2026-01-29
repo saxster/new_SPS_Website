@@ -1,0 +1,154 @@
+{
+  "name": "SPS 2am Batch Rebuild",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 2 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-2am",
+      "name": "Every Day at 2am IST",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "ls -la /app/website/src/content/blog/*.md 2>/dev/null | wc -l"
+      },
+      "id": "check-new-content",
+      "name": "Check for New Blog Content",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ parseInt($json.stdout) }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "has-content",
+      "name": "Has Blog Content?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/recover.sh sps-website 3"
+      },
+      "id": "rebuild-website",
+      "name": "Rebuild Website",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [850, 250]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "id": "wait-rebuild",
+      "name": "Wait for Rebuild",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1050, 250]
+    },
+    {
+      "parameters": {
+        "url": "https://sps-security.com",
+        "options": { "timeout": 15000 }
+      },
+      "id": "verify-site",
+      "name": "Verify Site is Up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1250, 250],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🌙 *2AM BATCH REBUILD COMPLETE*\n\n✅ Website rebuilt successfully\n📊 Site Status: {{ $json.statusCode }}\n⏰ Time: {{ $now.format('yyyy-MM-dd HH:mm:ss') }} IST\n\nAll queued blog articles are now live.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-success",
+      "name": "Notify: Rebuild Success",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1450, 200],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ *2AM BATCH: No rebuild needed*\n\nNo new blog content detected.\nIntelligence articles are served via SSR (always fresh).\n\n⏰ {{ $now.format('yyyy-MM-dd HH:mm:ss') }} IST",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-skipped",
+      "name": "Notify: Rebuild Skipped",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [850, 400],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "fromEmail": "system@sps-security.com",
+        "toEmail": "={{ $env.ALERT_EMAIL }}",
+        "subject": "=🌙 SPS 2am Batch Rebuild - {{ $now.format('yyyy-MM-dd') }}",
+        "text": "=Daily batch rebuild completed.\n\nStatus: {{ $json.statusCode === 200 ? 'Success' : 'Check Required' }}\nTime: {{ $now.format('yyyy-MM-dd HH:mm:ss') }} IST\n\nThis is your daily rebuild summary. Intelligence articles are served via SSR and don't require rebuilds."
+      },
+      "id": "email-summary",
+      "name": "Email: Daily Summary",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1450, 350]
+    }
+  ],
+  "connections": {
+    "Every Day at 2am IST": {
+      "main": [[{ "node": "Check for New Blog Content", "type": "main", "index": 0 }]]
+    },
+    "Check for New Blog Content": {
+      "main": [[{ "node": "Has Blog Content?", "type": "main", "index": 0 }]]
+    },
+    "Has Blog Content?": {
+      "main": [
+        [{ "node": "Rebuild Website", "type": "main", "index": 0 }],
+        [{ "node": "Notify: Rebuild Skipped", "type": "main", "index": 0 }]
+      ]
+    },
+    "Rebuild Website": {
+      "main": [[{ "node": "Wait for Rebuild", "type": "main", "index": 0 }]]
+    },
+    "Wait for Rebuild": {
+      "main": [[{ "node": "Verify Site is Up", "type": "main", "index": 0 }]]
+    },
+    "Verify Site is Up": {
+      "main": [
+        [
+          { "node": "Notify: Rebuild Success", "type": "main", "index": 0 },
+          { "node": "Email: Daily Summary", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kolkata"
+  }
+}

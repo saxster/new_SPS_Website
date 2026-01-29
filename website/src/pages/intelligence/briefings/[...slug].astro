@@ -1,16 +1,23 @@
 ---
+// SSR: Renders on-demand so new briefings appear instantly without rebuild
+export const prerender = false;
+
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import RelatedArticles from '../../../components/RelatedArticles.astro';
 
-export async function getStaticPaths() {
-  const briefings = await getCollection('intelligence');
-  return briefings.map(entry => ({
-    params: { slug: entry.slug }, props: { entry },
-  }));
+// Get slug from URL params (SSR mode)
+const { slug } = Astro.params;
+
+// Find the entry by slug
+const briefings = await getCollection('intelligence');
+const entry = briefings.find(b => b.slug === slug);
+
+// 404 if not found
+if (!entry) {
+  return Astro.redirect('/404');
 }
 
-const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const severityColors = {

@@ -1,4 +1,8 @@
 ---
+// SSR: This page is rendered on-demand (not pre-built)
+// Breaking news appears instantly without site rebuild
+export const prerender = false;
+
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 

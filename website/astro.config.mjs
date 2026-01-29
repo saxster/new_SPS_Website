@@ -8,11 +8,13 @@ import clerk from '@clerk/astro';
 import rehypeCallouts from 'rehype-callouts';
 
 // https://astro.build/config
-// Note: In Astro 5.x, hybrid rendering is default behavior with `output: 'static'`
-// Pages use SSG by default; add `export const prerender = false` for SSR pages
-// Server Islands are now a stable feature (no longer experimental)
+// Hybrid rendering (Astro 5.x): Default is static, but pages with `prerender = false` are SSR
+// Static pages: homepage, about, services, blog, tools, sectors
+// Dynamic pages: /news, /intelligence (breaking news appears instantly without rebuild)
 export default defineConfig({
-  site: 'https://sps-security.com', // Placeholder domain for production build
+  site: 'https://sps-security.com',
+  // Note: Astro 5.x defaults to static with hybrid capability built-in
+  // Use `export const prerender = false` in individual pages for SSR
   adapter: node({
     mode: 'standalone'
   }),
