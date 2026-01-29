@@ -10,15 +10,45 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 /**
- * Clerk authentication middleware
+ * Public routes that don't need Clerk at all (bypass entirely)
+ * These routes skip Clerk initialization to avoid requiring API keys for SSR
  */
-const authMiddleware = clerkMiddleware((auth, context) => {
-  const { userId, redirectToSignIn } = auth();
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/about(.*)',
+  '/services(.*)',
+  '/sectors(.*)',
+  '/tools(.*)',
+  '/news(.*)',
+  '/intelligence(.*)',
+  '/articles(.*)',
+  '/blog(.*)',
+  '/contact(.*)',
+  '/privacy(.*)',
+  '/terms(.*)',
+  '/api/search-index.json',
+  '/api/health(.*)',
+]);
 
-  // Redirect to sign-in for protected routes if not authenticated
-  if (!userId && isProtectedRoute(context.request)) {
-    return redirectToSignIn();
+/**
+ * Clerk authentication middleware - only runs for non-public routes
+ * Public routes bypass Clerk entirely to avoid requiring API keys for SSR pages
+ */
+const authMiddleware = defineMiddleware(async (context, next) => {
+  // Skip Clerk entirely for public routes
+  if (isPublicRoute(context.request)) {
+    return next();
   }
+
+  // Apply Clerk middleware for potentially authenticated routes
+  return clerkMiddleware((auth, context) => {
+    const { userId, redirectToSignIn } = auth();
+
+    // Redirect to sign-in for protected routes if not authenticated
+    if (!userId && isProtectedRoute(context.request)) {
+      return redirectToSignIn();
+    }
+  })(context, next);
 });
 
 /**
