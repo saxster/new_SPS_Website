@@ -68,7 +68,8 @@ export async function fetchWithTimeout(
  * Includes production domain and localhost for development.
  */
 const isProd = process.env.NODE_ENV === 'production';
+const siteUrl = process.env.PUBLIC_SITE_URL || 'https://sukhi.in';
 
 export const DEFAULT_ALLOWED_ORIGINS = isProd
-  ? ['https://sps-security.com']
-  : ['https://sps-security.com', 'http://localhost:4321', 'http://localhost:3000'];
+  ? [siteUrl]
+  : [siteUrl, 'http://localhost:4321', 'http://localhost:3000'];

@@ -25,7 +25,7 @@ const navItems = [
 ];
 
 // Construct full URLs for SEO
-const siteUrl = 'https://sps-security.com';
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') || 'https://sukhi.in';
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
 ---

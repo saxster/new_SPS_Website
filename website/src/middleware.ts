@@ -79,7 +79,7 @@ const securityMiddleware = defineMiddleware(async (context, next) => {
     "style-src 'self' 'unsafe-inline' https://unpkg.com",
     "img-src 'self' data: https: blob:",
     "font-src 'self' https://fonts.gstatic.com",
-    `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.basemaps.cartocdn.com https://*.clerk.accounts.dev https://clerk.sps-security.com ${isDev ? 'ws://localhost:* http://localhost:* http://127.0.0.1:*' : ''}`,
+    `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.basemaps.cartocdn.com https://*.clerk.accounts.dev https://clerk.sukhi.in ${isDev ? 'ws://localhost:* http://localhost:* http://127.0.0.1:*' : ''}`,
     "frame-src 'self' https://*.clerk.accounts.dev",
     "frame-ancestors 'none'",
     "base-uri 'self'",

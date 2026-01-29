@@ -29,7 +29,7 @@ export const GET: APIRoute = async (context) => {
     // Channel metadata
     title: 'SPS Security Intelligence Feed',
     description: 'Authoritative security intelligence, compliance guidance, and threat analysis from India\'s trusted security platform. Trusted Since 1965.',
-    site: context.site || 'https://sps-security.com',
+    site: context.site || 'https://sukhi.in',
     
     // Items
     items: allItems,
@@ -37,8 +37,8 @@ export const GET: APIRoute = async (context) => {
     // Optional: Add custom XML
     customData: `<language>en-in</language>
 <copyright>© ${new Date().getFullYear()} SPS - A Sukhi Enterprise. All rights reserved.</copyright>
-<managingEditor>intelligence@sps-security.com (SPS Intelligence Team)</managingEditor>
-<webMaster>tech@sps-security.com (SPS Technical Team)</webMaster>
+<managingEditor>intelligence@sukhi.in (SPS Intelligence Team)</managingEditor>
+<webMaster>tech@sukhi.in (SPS Technical Team)</webMaster>
 <category>Security</category>
 <category>Compliance</category>
 <category>Threat Intelligence</category>`,

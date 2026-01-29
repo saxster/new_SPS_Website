@@ -16,9 +16,9 @@ slug:
   clean_accents: true
   sanitize_replacement: "-"
 
-site_url: https://sps-security.com
-display_url: https://sps-security.com
-logo_url: https://sps-security.com/sps-logo.png
+site_url: https://sukhi.in
+display_url: https://sukhi.in
+logo_url: https://sukhi.in/sps-logo.png
 
 # The "God Mode" Configuration
 collections:

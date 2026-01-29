@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sps-security.com/sitemap-index.xml
+Sitemap: https://sukhi.in/sitemap-index.xml
 
 # Block Admin/Private Routes
 Disallow: /dashboard

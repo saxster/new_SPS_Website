@@ -46,7 +46,7 @@ const {
 } = Astro.props;
 
 // Construct full URLs
-const siteUrl = Astro.site ? Astro.site.href : 'https://sps-security.com';
+const siteUrl = Astro.site ? Astro.site.href : 'https://sukhi.in';
 const currentUrl = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteUrl).href;
 ---
@@ -103,7 +103,7 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site
         />
 
         <!-- Analytics (Plausible - Privacy-first, no cookies) -->
-        <script defer data-domain="sps-security.com" src="https://plausible.io/js/script.js"></script>
+        <script defer data-domain="sukhi.in" src="https://plausible.io/js/script.js"></script>
 
         <!-- View Transitions for SPA-like navigation -->
         <ClientRouter />

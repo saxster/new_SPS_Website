@@ -20,18 +20,19 @@ export interface Props {
   faqItems?: FAQItem[];
 }
 
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') || 'https://sukhi.in';
+
 const {
   type = 'Organization',
   title = 'SPS | The Security Intelligence Platform',
   description = "India's definitive security intelligence platform. Authoritative compliance guidance, real-time threat intelligence, and actionable protocols.",
-  image = 'https://sps-security.com/sps-logo.png',
+  image = `${siteUrl}/sps-logo.png`,
   publishDate,
   author = 'SPS Intelligence Team',
   breadcrumbs = [],
   faqItems = []
 } = Astro.props;
 
-const siteUrl = 'https://sps-security.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 
 let schema: any = {};

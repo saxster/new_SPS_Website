@@ -12,7 +12,7 @@ import rehypeCallouts from 'rehype-callouts';
 // Static pages: homepage, about, services, blog, tools, sectors
 // Dynamic pages: /news, /intelligence (breaking news appears instantly without rebuild)
 export default defineConfig({
-  site: 'https://sps-security.com',
+  site: process.env.PUBLIC_SITE_URL || 'https://sukhi.in',
   // Note: Astro 5.x defaults to static with hybrid capability built-in
   // Use `export const prerender = false` in individual pages for SSR
   adapter: node({
