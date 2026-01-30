@@ -9,15 +9,18 @@ from dotenv import load_dotenv
 # Load .env explicitly
 load_dotenv()
 
+
 class DatabaseConfig(BaseModel):
     path: str = ".agent/content_brain.db"
     backup_path: str = ".agent/content_brain_backup.db"
 
+
 class LLMConfig(BaseModel):
-    model: str = "gemini-2.0-flash-exp"
+    model: str = "gemini-2.0-flash"
     temperature: float = 0.7
     max_retries: int = 3
     timeout: int = 60
+
 
 class ContentSpec(BaseModel):
     min_words: int
@@ -25,11 +28,13 @@ class ContentSpec(BaseModel):
     min_sources: int
     min_regulations: int
 
+
 class PathsConfig(BaseModel):
     drafts_dir: str = "drafts"
     output_dir: str = "output"
     rules_dir: str = ".agent/rules"
     website_content_dir: str = "website/src/content/blog"
+
 
 class Settings(BaseSettings):
     database: DatabaseConfig = Field(default_factory=DatabaseConfig)
@@ -45,42 +50,45 @@ class Settings(BaseSettings):
     claims: Dict[str, Any] = Field(default_factory=dict)
     publish_policy: Dict[str, Any] = Field(default_factory=dict)
     updates: Dict[str, Any] = Field(default_factory=dict)
-    
+
     # Multi-source miner configuration
-    miners: Dict[str, Any] = Field(default_factory=lambda: {
-        "enabled": True,
-        "youtube": {"enabled": False},
-        "article": {"enabled": False},
-        "paper": {"enabled": True}
-    })
-    
+    miners: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "enabled": True,
+            "youtube": {"enabled": False},
+            "article": {"enabled": False},
+            "paper": {"enabled": True},
+        }
+    )
+
     # Trust layer configuration
-    trust: Dict[str, Any] = Field(default_factory=lambda: {
-        "block_on_low_confidence": True,
-        "min_confidence_score": 5.0,
-        "require_multi_source_for_numeric": True,
-        "min_sources_per_claim": 2,
-        "warn_on_single_source": True
-    })
-    
+    trust: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "block_on_low_confidence": True,
+            "min_confidence_score": 5.0,
+            "require_multi_source_for_numeric": True,
+            "min_sources_per_claim": 2,
+            "warn_on_single_source": True,
+        }
+    )
+
     # Secrets (Loaded from env)
     GOOGLE_API_KEY: Optional[str] = Field(None, validation_alias="GOOGLE_API_KEY")
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_nested_delimiter="__",
-        extra="ignore"
+        env_file=".env", env_nested_delimiter="__", extra="ignore"
     )
 
     @classmethod
     def load_from_yaml(cls, yaml_path: Path) -> "Settings":
         if not yaml_path.exists():
             raise FileNotFoundError(f"Config file not found at {yaml_path}")
-            
+
         with open(yaml_path, "r") as f:
             yaml_data = yaml.safe_load(f)
-            
+
         return cls(**yaml_data)
+
 
 class ConfigManager:
     _instance = None
@@ -103,10 +111,13 @@ class ConfigManager:
 
     def _validate_secrets(self):
         if not self._settings.GOOGLE_API_KEY:
-            # We log a warning or raise depending on strictness. 
+            # We log a warning or raise depending on strictness.
             # For now, let's warn but not crash until the key is actually needed.
             import logging
-            logging.getLogger("Config").warning("GOOGLE_API_KEY is not set in environment.")
+
+            logging.getLogger("Config").warning(
+                "GOOGLE_API_KEY is not set in environment."
+            )
 
     @property
     def settings(self) -> Settings:
@@ -117,7 +128,7 @@ class ConfigManager:
         Dot notation access to config (e.g., 'llm.model').
         Backward compatibility wrapper.
         """
-        keys = key.split('.')
+        keys = key.split(".")
         value = self._settings
         try:
             for k in keys:
@@ -130,6 +141,7 @@ class ConfigManager:
             return value
         except (AttributeError, KeyError):
             return default
+
 
 # Global Accessor
 config = ConfigManager()
