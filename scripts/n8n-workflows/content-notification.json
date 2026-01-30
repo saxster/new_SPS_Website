@@ -16,10 +16,21 @@
     },
     {
       "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse and enrich content metadata\nconst content = $json.body?.content || $json.content || {};\nconst files = $json.body?.files || $json.files || '';\n\n// Determine content type from file path or explicit type\nlet contentType = content.type || 'unknown';\nif (files.includes('/intelligence/')) contentType = 'intelligence';\nelse if (files.includes('/blog/')) contentType = 'blog';\nelse if (files.includes('/news/')) contentType = 'news';\n\n// Severity emoji mapping\nconst severityEmoji = {\n  'Critical': '🔴',\n  'High': '🟠',\n  'Medium': '🟡',\n  'Low': '🟢',\n  'Optimized': '✅'\n};\n\n// Sector icon mapping\nconst sectorIcon = {\n  'Banking': '🏦',\n  'Healthcare': '🏥',\n  'Government': '🏛️',\n  'Technology': '💻',\n  'Retail': '🛒',\n  'Manufacturing': '🏭',\n  'Energy': '⚡',\n  'General': '📋'\n};\n\nconst severity = content.severity || 'Medium';\nconst sector = content.sector || 'General';\nconst siteUrl = $env.SITE_URL || 'https://sukhi.in';\n\n// Build the URL\nlet articleUrl = content.url || '';\nif (!articleUrl && content.slug) {\n  const basePath = contentType === 'intelligence' ? '/intelligence/' : '/blog/';\n  articleUrl = siteUrl + basePath + content.slug;\n}\n\nreturn {\n  json: {\n    timestamp: $json.body?.timestamp || $json.timestamp || new Date().toISOString(),\n    contentType,\n    title: content.title || 'Untitled',\n    severity,\n    severityEmoji: severityEmoji[severity] || '⚪',\n    sector,\n    sectorIcon: sectorIcon[sector] || '📋',\n    tags: content.tags || [],\n    qualityScore: content.quality_score || content.qualityScore || null,\n    wordCount: content.word_count || content.wordCount || null,\n    consensusScore: content.consensus_score || null,\n    url: articleUrl,\n    slug: content.slug || '',\n    files: files,\n    isLive: contentType === 'intelligence' || contentType === 'news', // SSR = live immediately\n    needsRebuild: contentType === 'blog' // Blog needs rebuild\n  }\n};"
+      },
+      "id": "parse-content",
+      "name": "Parse Content Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
         "conditions": {
           "string": [
             {
-              "value1": "={{ $json.body.content.type }}",
+              "value1": "={{ $json.contentType }}",
               "operation": "equals",
               "value2": "intelligence"
             }
@@ -27,63 +38,121 @@
         }
       },
       "id": "check-content-type",
-      "name": "Is Intelligence/News?",
+      "name": "Is Intelligence?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [500, 300]
+      "position": [750, 300]
     },
     {
       "parameters": {
         "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
-        "text": "=🔴 *BREAKING INTELLIGENCE*\n\n*Title:* {{ $json.body.content.title }}\n*Severity:* {{ $json.body.content.severity || 'Medium' }}\n*Sector:* {{ $json.body.content.sector || 'General' }}\n*Quality Score:* {{ $json.body.content.quality_score }}/100\n\n🔗 {{ $json.body.content.url }}\n\n✅ *LIVE NOW* (SSR - no rebuild needed)\n⚡ Review within 2 hours",
+        "text": "={{ $json.severityEmoji }} *BREAKING INTELLIGENCE*\n\n📰 *{{ $json.title }}*\n\n{{ $json.sectorIcon }} *Sector:* {{ $json.sector }}\n🎯 *Severity:* {{ $json.severity }}\n{{ $json.qualityScore ? '📊 *Quality:* ' + $json.qualityScore + '/100\\n' : '' }}{{ $json.consensusScore ? '🤝 *Consensus:* ' + $json.consensusScore + '%\\n' : '' }}{{ $json.tags.length > 0 ? '🏷️ *Tags:* ' + $json.tags.join(', ') + '\\n' : '' }}\n🔗 *Read Now:* {{ $json.url }}\n\n✅ *LIVE NOW* (SSR - no rebuild needed)\n⚡ Please review within 2 hours",
         "additionalFields": { "parse_mode": "Markdown" }
       },
       "id": "telegram-breaking",
-      "name": "Notify: Breaking News",
+      "name": "Notify: Breaking Intelligence",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
-      "position": [750, 200],
+      "position": [1000, 150],
       "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
     },
     {
       "parameters": {
         "fromEmail": "alerts@sps-security.com",
         "toEmail": "={{ $env.ALERT_EMAIL }}",
-        "subject": "=🔴 BREAKING: {{ $json.body.content.title }}",
-        "html": "=<h2 style='color: #dc2626;'>Breaking Intelligence Published</h2><p><strong>This content is LIVE NOW</strong> - SSR serves it instantly without rebuild.</p><table style='border-collapse: collapse; width: 100%;'><tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Title</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.title }}</td></tr><tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Type</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>Intelligence (SSR)</td></tr><tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Quality Score</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>{{ $json.body.content.quality_score }}/100</td></tr><tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>URL</strong></td><td style='padding: 8px; border: 1px solid #ddd;'><a href='{{ $json.body.content.url }}'>View Article</a></td></tr></table><p style='margin-top: 20px; color: #666;'>Please review within 2 hours.</p>"
+        "subject": "={{ $json.severityEmoji }} BREAKING: {{ $json.title }}",
+        "html": "=<div style='font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto;'>\n  <div style='background: {{ $json.severity === 'Critical' ? '#dc2626' : $json.severity === 'High' ? '#ea580c' : $json.severity === 'Medium' ? '#ca8a04' : '#16a34a' }}; color: white; padding: 20px; border-radius: 8px 8px 0 0;'>\n    <h1 style='margin: 0; font-size: 24px;'>{{ $json.severityEmoji }} Breaking Intelligence</h1>\n    <p style='margin: 8px 0 0 0; opacity: 0.9;'>This content is LIVE NOW - SSR serves it instantly</p>\n  </div>\n  \n  <div style='border: 1px solid #e5e7eb; border-top: none; padding: 20px; border-radius: 0 0 8px 8px;'>\n    <h2 style='margin: 0 0 16px 0; color: #1f2937;'>{{ $json.title }}</h2>\n    \n    <table style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>\n      <tr>\n        <td style='padding: 8px; border-bottom: 1px solid #e5e7eb; color: #6b7280;'>Sector</td>\n        <td style='padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 600;'>{{ $json.sectorIcon }} {{ $json.sector }}</td>\n      </tr>\n      <tr>\n        <td style='padding: 8px; border-bottom: 1px solid #e5e7eb; color: #6b7280;'>Severity</td>\n        <td style='padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 600;'>{{ $json.severity }}</td>\n      </tr>\n      {{ $json.qualityScore ? '<tr><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb; color: #6b7280;\">Quality Score</td><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 600;\">' + $json.qualityScore + '/100</td></tr>' : '' }}\n      {{ $json.consensusScore ? '<tr><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb; color: #6b7280;\">Consensus</td><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 600;\">' + $json.consensusScore + '%</td></tr>' : '' }}\n      {{ $json.tags.length > 0 ? '<tr><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb; color: #6b7280;\">Tags</td><td style=\"padding: 8px; border-bottom: 1px solid #e5e7eb;\">' + $json.tags.join(', ') + '</td></tr>' : '' }}\n    </table>\n    \n    <a href='{{ $json.url }}' style='display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;'>Read Full Article →</a>\n    \n    <p style='margin: 20px 0 0 0; color: #6b7280; font-size: 14px;'>Please review within 2 hours to ensure accuracy.</p>\n  </div>\n</div>"
       },
       "id": "email-breaking",
-      "name": "Email: Breaking News",
+      "name": "Email: Breaking Intelligence",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2,
-      "position": [750, 350]
+      "position": [1000, 350]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.contentType }}",
+              "operation": "equals",
+              "value2": "news"
+            }
+          ]
+        }
+      },
+      "id": "check-news",
+      "name": "Is News?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1000, 500]
     },
     {
       "parameters": {
         "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
-        "text": "=📝 *NEW BLOG ARTICLE QUEUED*\n\n*Title:* {{ $json.body.content.title }}\n*Type:* {{ $json.body.content.type }}\n*Quality Score:* {{ $json.body.content.quality_score }}/100\n\n📅 *Scheduled for 2am batch rebuild*\n\n🔗 Will be live at: {{ $json.body.content.url }}",
+        "text": "=📰 *NEWS PUBLISHED*\n\n*{{ $json.title }}*\n\n{{ $json.sectorIcon }} *Sector:* {{ $json.sector }}\n{{ $json.qualityScore ? '📊 *Quality:* ' + $json.qualityScore + '/100\\n' : '' }}{{ $json.tags.length > 0 ? '🏷️ *Tags:* ' + $json.tags.join(', ') + '\\n' : '' }}\n🔗 {{ $json.url }}\n\n✅ *LIVE NOW* (SSR enabled)",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "telegram-news",
+      "name": "Notify: News Published",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1250, 450],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=📝 *BLOG ARTICLE QUEUED*\n\n*{{ $json.title }}*\n\n{{ $json.qualityScore ? '📊 *Quality:* ' + $json.qualityScore + '/100\\n' : '' }}{{ $json.wordCount ? '📖 *Words:* ' + $json.wordCount + '\\n' : '' }}{{ $json.tags.length > 0 ? '🏷️ *Tags:* ' + $json.tags.join(', ') + '\\n' : '' }}\n📅 *Scheduled:* 2am batch rebuild\n🔗 *Will be live at:* {{ $json.url }}\n\n⏳ Content will go live after the next scheduled build.",
         "additionalFields": { "parse_mode": "Markdown" }
       },
       "id": "telegram-scheduled",
       "name": "Notify: Scheduled Content",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
-      "position": [750, 500],
+      "position": [1250, 650],
       "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Log content publication for audit trail\nconst log = {\n  timestamp: $json.timestamp,\n  type: $json.contentType,\n  title: $json.title,\n  severity: $json.severity,\n  sector: $json.sector,\n  url: $json.url,\n  isLive: $json.isLive,\n  files: $json.files\n};\n\nconsole.log('Content Published:', JSON.stringify(log));\n\nreturn { json: log };"
+      },
+      "id": "audit-log",
+      "name": "Audit Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300]
     }
   ],
   "connections": {
     "Content Published Webhook": {
-      "main": [[{ "node": "Is Intelligence/News?", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Parse Content Metadata", "type": "main", "index": 0 }]]
     },
-    "Is Intelligence/News?": {
+    "Parse Content Metadata": {
+      "main": [[{ "node": "Is Intelligence?", "type": "main", "index": 0 }]]
+    },
+    "Is Intelligence?": {
       "main": [
         [
-          { "node": "Notify: Breaking News", "type": "main", "index": 0 },
-          { "node": "Email: Breaking News", "type": "main", "index": 0 }
+          { "node": "Notify: Breaking Intelligence", "type": "main", "index": 0 },
+          { "node": "Email: Breaking Intelligence", "type": "main", "index": 0 },
+          { "node": "Audit Log", "type": "main", "index": 0 }
         ],
         [
-          { "node": "Notify: Scheduled Content", "type": "main", "index": 0 }
+          { "node": "Is News?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Is News?": {
+      "main": [
+        [
+          { "node": "Notify: News Published", "type": "main", "index": 0 },
+          { "node": "Audit Log", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "Notify: Scheduled Content", "type": "main", "index": 0 },
+          { "node": "Audit Log", "type": "main", "index": 0 }
         ]
       ]
     }

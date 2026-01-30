@@ -1,0 +1,460 @@
+{
+  "name": "SPS Multi-Endpoint Intelligent Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "minutes", "minutesInterval": 5 }]
+        }
+      },
+      "id": "cron-trigger",
+      "name": "Every 5 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-homepage",
+      "name": "Check Homepage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/news",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-news",
+      "name": "Check /news (SSR)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 350],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/intelligence",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-intelligence",
+      "name": "Check /intelligence (SSR)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 500],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/api/health",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-health-api",
+      "name": "Check /api/health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 650],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "http://sps-brain:8000/health",
+        "options": { "timeout": 10000 }
+      },
+      "id": "check-backend",
+      "name": "Check Backend API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 800],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Aggregate all endpoint check results\nconst homepage = $input.all()[0]?.json || {};\nconst news = $input.all()[1]?.json || {};\nconst intelligence = $input.all()[2]?.json || {};\nconst healthApi = $input.all()[3]?.json || {};\nconst backend = $input.all()[4]?.json || {};\n\n// Parse health API diagnostics if available\nlet diagnostics = {};\ntry {\n  if (healthApi.status === 200 && typeof healthApi.data === 'object') {\n    diagnostics = healthApi.data.diagnostics || {};\n  }\n} catch (e) { /* ignore parse errors */ }\n\nconst checks = {\n  homepage: { status: homepage.statusCode || 0, ok: homepage.statusCode === 200 },\n  news: { status: news.statusCode || 0, ok: news.statusCode === 200 },\n  intelligence: { status: intelligence.statusCode || 0, ok: intelligence.statusCode === 200 },\n  healthApi: { \n    status: healthApi.statusCode || 0, \n    ok: healthApi.statusCode === 200,\n    healthStatus: healthApi.data?.status || 'unknown'\n  },\n  backend: { status: backend.statusCode || 0, ok: backend.statusCode === 200 }\n};\n\nconst allOk = Object.values(checks).every(c => c.ok);\nconst criticalDown = !checks.homepage.ok && !checks.news.ok && !checks.intelligence.ok;\nconst ssrPagesDown = !checks.news.ok || !checks.intelligence.ok;\nconst onlyBackendDown = !checks.backend.ok && checks.homepage.ok && checks.news.ok && checks.intelligence.ok;\n\n// Determine failure type for decision tree\nlet failureType = 'none';\nlet recommendedAction = 'none';\n\nif (!allOk) {\n  // Check memory from diagnostics\n  const memoryPercent = diagnostics.memory?.percentUsed || 0;\n  const diskPercent = diagnostics.disk?.percent_used || 0;\n  \n  if (memoryPercent > 90) {\n    failureType = 'high_memory';\n    recommendedAction = 'wait'; // Let GC work, don't restart\n  } else if (diskPercent > 95) {\n    failureType = 'disk_full';\n    recommendedAction = 'escalate'; // Human intervention needed\n  } else if (criticalDown) {\n    failureType = 'critical_down';\n    recommendedAction = 'restart_container';\n  } else if (ssrPagesDown && checks.homepage.ok) {\n    failureType = 'ssr_pages_down';\n    recommendedAction = 'check_content';\n  } else if (onlyBackendDown) {\n    failureType = 'backend_only';\n    recommendedAction = 'restart_backend';\n  } else {\n    failureType = 'partial';\n    recommendedAction = 'monitor';\n  }\n}\n\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    allOk,\n    failureType,\n    recommendedAction,\n    checks,\n    diagnostics,\n    failedEndpoints: Object.entries(checks)\n      .filter(([_, c]) => !c.ok)\n      .map(([name, c]) => `${name}: ${c.status}`)\n  }\n}];"
+      },
+      "id": "aggregate-results",
+      "name": "Analyze Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.allOk }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "all-healthy",
+      "name": "All Healthy?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.recommendedAction }}",
+              "operation": "equals",
+              "value2": "wait"
+            }
+          ]
+        }
+      },
+      "id": "check-wait",
+      "name": "High Memory?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 550]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.recommendedAction }}",
+              "operation": "equals",
+              "value2": "escalate"
+            }
+          ]
+        }
+      },
+      "id": "check-escalate",
+      "name": "Disk Full?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 550]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ *MEMORY PRESSURE DETECTED*\n\n*Status:* Monitoring (no restart)\n*Time:* {{ $json.timestamp }}\n\n📊 *Diagnostics:*\n• Memory: {{ $json.diagnostics.memory?.percentUsed || 'N/A' }}%\n• Action: Waiting for GC\n\n❌ *Failed Checks:*\n{{ $json.failedEndpoints.join('\\n') || 'None' }}\n\n💡 Memory is high but restarting won't help. Watching for natural recovery.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "alert-memory",
+      "name": "Alert: Memory High",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1250, 750],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🚨 *DISK FULL - HUMAN INTERVENTION REQUIRED*\n\n*Status:* CRITICAL\n*Time:* {{ $json.timestamp }}\n\n📊 *Diagnostics:*\n• Disk: {{ $json.diagnostics.disk?.percent_used || 'N/A' }}%\n• Available: {{ $json.diagnostics.disk?.available || 'N/A' }}\n\n❌ *Failed Checks:*\n{{ $json.failedEndpoints.join('\\n') || 'None' }}\n\n🔧 *Required Action:*\nSSH to VPS and clear disk space. Auto-recovery disabled for this failure type.",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "alert-disk",
+      "name": "Alert: Disk Full",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1450, 750],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "seconds"
+      },
+      "id": "wait-before-retry",
+      "name": "Wait 30s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1650, 550]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/api/health",
+        "options": { "timeout": 15000 }
+      },
+      "id": "retry-health",
+      "name": "Retry Health Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1850, 550],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "retry-ok",
+      "name": "Retry OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2050, 550]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🚨 *SPS INCIDENT ALERT*\n\n*Status:* {{ $('Analyze Results').item.json.failureType.toUpperCase().replace('_', ' ') }}\n*Time:* {{ $('Analyze Results').item.json.timestamp }}\n\n❌ *Failed Checks:*\n{{ $('Analyze Results').item.json.failedEndpoints.map(e => '• ' + e).join('\\n') || 'None' }}\n\n📊 *Diagnostics:*\n• Memory: {{ $('Analyze Results').item.json.diagnostics.memory?.percentUsed || 'N/A' }}%\n• Load: {{ $('Analyze Results').item.json.diagnostics.system?.loadAvg?.[0] || 'N/A' }}\n• Uptime: {{ Math.round(($('Analyze Results').item.json.diagnostics.system?.uptime || 0) / 3600) }}h\n\n⚡ *Action:* Attempting container restart...",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "alert-incident",
+      "name": "Alert: Incident",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [2250, 700],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/recover.sh sps-website 1"
+      },
+      "id": "level1-recovery",
+      "name": "Level 1: Restart Container",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [2450, 700]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "id": "wait-3-min",
+      "name": "Wait 3 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [2650, 700]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/api/health",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-after-l1",
+      "name": "Check After L1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2850, 700],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "l1-ok",
+      "name": "L1 Fixed It?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3050, 700]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=✅ *AUTO-HEALED*\n\n*Service:* sps-website\n*Recovery Level:* 1 (Container Restart)\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\n🎉 Site is back online.\n\n📊 *Recovery Stats:*\n• Detection → Recovery: ~3.5 minutes\n• Method: Container restart",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-recovered",
+      "name": "Notify: Auto-Healed",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [3250, 550],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/recover.sh sps-website 2"
+      },
+      "id": "level2-recovery",
+      "name": "Level 2: Stack Restart",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [3250, 850]
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "minutes"
+      },
+      "id": "wait-5-min",
+      "name": "Wait 5 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [3450, 850]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SITE_URL || 'https://sukhi.in' }}/api/health",
+        "options": { "timeout": 15000 }
+      },
+      "id": "check-after-l2",
+      "name": "Check After L2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3650, 850],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "id": "l2-ok",
+      "name": "L2 Fixed It?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [3850, 850]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=✅ *L2 RECOVERY SUCCESS*\n\n*Service:* Full Stack\n*Recovery Level:* 2 (Stack Restart)\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\n🎉 All services back online after stack restart.\n\n📊 *Recovery Stats:*\n• Detection → Recovery: ~8.5 minutes\n• Method: Full stack restart",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "notify-l2-recovered",
+      "name": "Notify: L2 Recovered",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [4050, 700],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "command": "/app/scripts/diagnostics.sh"
+      },
+      "id": "gather-diagnostics",
+      "name": "Gather Diagnostics",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [4050, 1000]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🚨 *ESCALATION: Auto-recovery Failed*\n\n*Service:* sps-website\n*Attempts:* 2 (all failed)\n*Time:* {{ $now.format('yyyy-MM-dd HH:mm:ss') }}\n\n📋 *DIAGNOSTICS:*\n```\n{{ $json.stdout }}\n```\n\n💡 *MANUAL INTERVENTION REQUIRED*\n\n🔧 *Suggested Actions:*\n1. SSH into VPS: `ssh root@your-vps`\n2. Check logs: `docker logs sps-website --tail 100`\n3. Check disk: `df -h`\n4. Manual restart: `docker compose restart`",
+        "additionalFields": { "parse_mode": "Markdown" }
+      },
+      "id": "escalate-telegram",
+      "name": "Escalate to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [4250, 1000],
+      "credentials": { "telegramApi": { "id": "telegram-bot", "name": "SPS Alert Bot" } }
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@sps-security.com",
+        "toEmail": "={{ $env.ALERT_EMAIL }}",
+        "subject": "🚨 SPS SITE DOWN - Manual Intervention Required",
+        "text": "Auto-recovery has failed after 2 attempts.\n\nPlease SSH into the VPS immediately.\n\nDiagnostics:\n{{ $json.stdout }}"
+      },
+      "id": "escalate-email",
+      "name": "Escalate via Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [4250, 1150]
+    }
+  ],
+  "connections": {
+    "Every 5 Minutes": {
+      "main": [
+        [
+          { "node": "Check Homepage", "type": "main", "index": 0 },
+          { "node": "Check /news (SSR)", "type": "main", "index": 0 },
+          { "node": "Check /intelligence (SSR)", "type": "main", "index": 0 },
+          { "node": "Check /api/health", "type": "main", "index": 0 },
+          { "node": "Check Backend API", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Homepage": { "main": [[{ "node": "Analyze Results", "type": "main", "index": 0 }]] },
+    "Check /news (SSR)": { "main": [[{ "node": "Analyze Results", "type": "main", "index": 0 }]] },
+    "Check /intelligence (SSR)": { "main": [[{ "node": "Analyze Results", "type": "main", "index": 0 }]] },
+    "Check /api/health": { "main": [[{ "node": "Analyze Results", "type": "main", "index": 0 }]] },
+    "Check Backend API": { "main": [[{ "node": "Analyze Results", "type": "main", "index": 0 }]] },
+    "Analyze Results": { "main": [[{ "node": "All Healthy?", "type": "main", "index": 0 }]] },
+    "All Healthy?": {
+      "main": [
+        [],
+        [{ "node": "High Memory?", "type": "main", "index": 0 }]
+      ]
+    },
+    "High Memory?": {
+      "main": [
+        [{ "node": "Alert: Memory High", "type": "main", "index": 0 }],
+        [{ "node": "Disk Full?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Disk Full?": {
+      "main": [
+        [{ "node": "Alert: Disk Full", "type": "main", "index": 0 }],
+        [{ "node": "Wait 30s", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait 30s": { "main": [[{ "node": "Retry Health Check", "type": "main", "index": 0 }]] },
+    "Retry Health Check": { "main": [[{ "node": "Retry OK?", "type": "main", "index": 0 }]] },
+    "Retry OK?": {
+      "main": [
+        [],
+        [{ "node": "Alert: Incident", "type": "main", "index": 0 }]
+      ]
+    },
+    "Alert: Incident": { "main": [[{ "node": "Level 1: Restart Container", "type": "main", "index": 0 }]] },
+    "Level 1: Restart Container": { "main": [[{ "node": "Wait 3 Minutes", "type": "main", "index": 0 }]] },
+    "Wait 3 Minutes": { "main": [[{ "node": "Check After L1", "type": "main", "index": 0 }]] },
+    "Check After L1": { "main": [[{ "node": "L1 Fixed It?", "type": "main", "index": 0 }]] },
+    "L1 Fixed It?": {
+      "main": [
+        [{ "node": "Notify: Auto-Healed", "type": "main", "index": 0 }],
+        [{ "node": "Level 2: Stack Restart", "type": "main", "index": 0 }]
+      ]
+    },
+    "Level 2: Stack Restart": { "main": [[{ "node": "Wait 5 Minutes", "type": "main", "index": 0 }]] },
+    "Wait 5 Minutes": { "main": [[{ "node": "Check After L2", "type": "main", "index": 0 }]] },
+    "Check After L2": { "main": [[{ "node": "L2 Fixed It?", "type": "main", "index": 0 }]] },
+    "L2 Fixed It?": {
+      "main": [
+        [{ "node": "Notify: L2 Recovered", "type": "main", "index": 0 }],
+        [{ "node": "Gather Diagnostics", "type": "main", "index": 0 }]
+      ]
+    },
+    "Gather Diagnostics": {
+      "main": [
+        [
+          { "node": "Escalate to Telegram", "type": "main", "index": 0 },
+          { "node": "Escalate via Email", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
