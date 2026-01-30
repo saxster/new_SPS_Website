@@ -1,7 +1,7 @@
 # Core Configuration
 database:
-  path: ".agent/content_brain.db"
-  backup_path: ".agent/content_brain_backup.db"
+  path: "agent_backend/.agent/content_brain.db"
+  backup_path: "agent_backend/.agent/content_brain_backup.db"
 
 # LLM Configuration
 llm:
@@ -66,7 +66,7 @@ research:
     ncrb.gov.in: 30
     bis.gov.in: 25
   min_quality: 60
-  cache_path: ".agent/evidence_cache.json"
+  cache_path: "agent_backend/.agent/evidence_cache.json"
   rss_feeds:
     - "https://news.google.com/rss/search?q=physical+security+india&hl=en-IN&gl=IN&ceid=IN:en"
     - "https://news.google.com/rss/search?q=cyber+security+india&hl=en-IN&gl=IN&ceid=IN:en"
@@ -166,7 +166,7 @@ content_specs:
 # Paths
 paths:
   drafts_dir: "drafts"
-  rules_dir: ".agent/rules"
+  rules_dir: "agent_backend/.agent/rules"
   website_content_dir: "website/src/content/blog"
   output_dir: "website/src/content/blog"
 
@@ -235,7 +235,7 @@ autonomous:
   interval_minutes: 60              # Time between discovery cycles
   max_articles_per_cycle: 3         # Max articles to write per cycle
   reflection_interval_hours: 24     # How often to reflect on performance
-  memory_path: ".agent/taste_memory.db"
+  memory_path: "agent_backend/.agent/taste_memory.db"
   
   # Learning parameters
   learning_rate: 0.1                # How fast to adjust weights
@@ -275,9 +275,9 @@ editorial:
 
 premium_sources:
   enabled: true
-  vault_path: ".agent/credential_vault.db"
-  anchors_path: ".agent/taste_anchors.db"
-  cookies_dir: ".agent/cookies"
+  vault_path: "agent_backend/.agent/credential_vault.db"
+  anchors_path: "agent_backend/.agent/taste_anchors.db"
+  cookies_dir: "agent_backend/.agent/cookies"
   
   # Sync settings
   sync_interval_hours: 24
