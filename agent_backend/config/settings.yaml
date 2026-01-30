@@ -60,6 +60,7 @@ research:
   crossref_mailto: ""
   allowed_domains: []
   domain_weights:
+    # Government/Official (highest credibility)
     who.int: 30
     worldbank.org: 25
     un.org: 20
@@ -68,6 +69,26 @@ research:
     niti.gov.in: 20
     ncrb.gov.in: 30
     bis.gov.in: 25
+    pib.gov.in: 30
+    mha.gov.in: 30
+    cert-in.org.in: 30
+    nist.gov: 28
+    cisa.gov: 28
+    # Security Industry Associations (high credibility)
+    asisonline.org: 28
+    asis.org: 28
+    isaca.org: 28
+    isc2.org: 28
+    sans.org: 28
+    securityindustry.org: 25
+    # Security Publications
+    securityweek.com: 25
+    darkreading.com: 25
+    krebsonsecurity.com: 28
+    # Research & Analysis
+    gartner.com: 25
+    forrester.com: 25
+    mckinsey.com: 25
   min_quality: 60
   cache_path: "agent_backend/.agent/evidence_cache.json"
   rss_feeds:
@@ -192,6 +213,17 @@ miners:
     enabled: true   # Now available: trafilatura installed
   paper:
     enabled: true   # arXiv API - always available, no deps required
+  serp:
+    enabled: true   # SerpAPI for Google News/Search - requires SERPAPI_API_KEY
+    news_period: "1d"  # 1d, 1w, 1m
+    location: "India"
+    language: "en"
+    # Prioritize industry sources in search
+    preferred_domains:
+      - "asisonline.org"
+      - "securityweek.com"
+      - "rbi.org.in"
+      - "gov.in"
 
 # Trust layer - enforces "No Single Point of Truth" principle (relaxed)
 trust:

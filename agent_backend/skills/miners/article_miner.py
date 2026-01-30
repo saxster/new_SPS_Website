@@ -20,6 +20,7 @@ from .base_miner import BaseMiner, EvidenceItem
 try:
     import trafilatura
     from trafilatura.settings import use_config
+
     TRAFILATURA_AVAILABLE = True
 except ImportError:
     TRAFILATURA_AVAILABLE = False
@@ -27,6 +28,7 @@ except ImportError:
 
 try:
     import requests
+
     REQUESTS_AVAILABLE = True
 except ImportError:
     REQUESTS_AVAILABLE = False
@@ -41,7 +43,7 @@ logger = get_logger("ArticleMiner")
 class ArticleMiner(BaseMiner):
     """
     Web article content miner.
-    
+
     Credibility weights by domain type:
         9-10: Official government sources (.gov.in, .nic.in)
         8: Major news outlets (Reuters, Economic Times)
@@ -49,7 +51,7 @@ class ArticleMiner(BaseMiner):
         6: Expert blogs, vendor documentation
         5: General web content
     """
-    
+
     # High-credibility domains
     OFFICIAL_DOMAINS = {
         "rbi.org.in": 10,
@@ -62,7 +64,7 @@ class ArticleMiner(BaseMiner):
         "nist.gov": 9,
         "cisa.gov": 9,
     }
-    
+
     NEWS_DOMAINS = {
         "reuters.com": 8,
         "economictimes.com": 8,
@@ -77,39 +79,49 @@ class ArticleMiner(BaseMiner):
         "thehackernews.com": 7,
         "krebsonsecurity.com": 9,
     }
-    
+
     TRADE_DOMAINS = {
-        "asissecurity.org": 8,
-        "isc2.org": 8,
-        "sans.org": 8,
+        # Security Industry Associations (high credibility)
+        "asisonline.org": 9,
+        "asis.org": 9,
+        "isaca.org": 9,
+        "isc2.org": 9,
+        "sans.org": 9,
+        "securityindustry.org": 8,
+        # Security Publications
         "csoonline.com": 7,
         "infosecurity-magazine.com": 7,
+        "scmagazine.com": 7,
+        "helpnetsecurity.com": 7,
+        # Research & Analysis
+        "gartner.com": 8,
+        "forrester.com": 8,
     }
-    
+
     def __init__(self, timeout: int = 15):
         self.timeout = config.get("article.request_timeout", timeout)
         self._config = None
-        
+
         if TRAFILATURA_AVAILABLE:
             # Configure trafilatura for better extraction
             self._config = use_config()
             self._config.set("DEFAULT", "EXTRACTION_TIMEOUT", str(self.timeout))
-    
+
     @property
     def source_type(self) -> str:
         return "article"
-    
+
     @property
     def default_credibility(self) -> int:
         return 6
-    
+
     def is_available(self) -> bool:
         """Check if ArticleMiner is properly configured."""
         if not TRAFILATURA_AVAILABLE:
             logger.warning("trafilatura not installed")
             return False
         return True
-    
+
     def _get_domain(self, url: str) -> str:
         """Extract domain from URL."""
         try:
@@ -121,7 +133,7 @@ class ArticleMiner(BaseMiner):
             return domain
         except Exception:
             return ""
-    
+
     def _get_credibility_for_domain(self, domain: str) -> int:
         """
         Determine credibility weight based on domain.
@@ -130,62 +142,62 @@ class ArticleMiner(BaseMiner):
         for official, weight in self.OFFICIAL_DOMAINS.items():
             if official in domain:
                 return weight
-        
+
         # Check news domains
         for news, weight in self.NEWS_DOMAINS.items():
             if news in domain:
                 return weight
-        
+
         # Check trade publications
         for trade, weight in self.TRADE_DOMAINS.items():
             if trade in domain:
                 return weight
-        
+
         # Check for government domains
         if ".gov" in domain or ".nic.in" in domain:
             return 9
-        
+
         # Check for academic domains
         if ".edu" in domain or ".ac.in" in domain:
             return 8
-        
+
         return self.default_credibility
-    
+
     def _extract_article(self, url: str) -> Optional[dict]:
         """
         Extract article content and metadata from URL.
         """
         if not TRAFILATURA_AVAILABLE:
             return None
-        
+
         try:
             # Download the page
             downloaded = trafilatura.fetch_url(url)
             if not downloaded:
                 logger.debug("article_download_failed", url=url)
                 return None
-            
+
             # Extract content
             content = trafilatura.extract(
                 downloaded,
                 include_comments=False,
                 include_tables=True,
                 no_fallback=False,
-                config=self._config
+                config=self._config,
             )
-            
+
             if not content:
                 logger.debug("article_extraction_failed", url=url)
                 return None
-            
+
             # Extract metadata
             metadata = trafilatura.extract_metadata(downloaded)
-            
+
             title = ""
             author = ""
             date = None
             description = ""
-            
+
             if metadata:
                 title = metadata.title or ""
                 author = metadata.author or ""
@@ -195,79 +207,85 @@ class ArticleMiner(BaseMiner):
                         date = datetime.fromisoformat(metadata.date)
                     except Exception:
                         pass
-            
+
             return {
                 "content": content,
                 "title": title,
                 "author": author,
                 "date": date,
-                "description": description
+                "description": description,
             }
-            
+
         except Exception as e:
             logger.warning("article_extraction_error", url=url, error=str(e))
             return None
-    
+
     def fetch(self, query: str, limit: int = 5) -> List[EvidenceItem]:
         """
         Fetch article content from URLs.
-        
+
         Note: This method expects a list of URLs or uses web search.
         For query-based search, integrate with SerpAPI or Google Custom Search.
-        
+
         Args:
             query: Search query or comma-separated URLs
             limit: Maximum number of articles to return
-            
+
         Returns:
             List of EvidenceItem objects with article content
         """
         if not self.is_available():
             logger.error("article_miner_not_available")
             return []
-        
+
         logger.info("article_fetch_started", query=query[:100], limit=limit)
-        
+
         evidence_items = []
-        
+
         # Check if query is a list of URLs
         urls = []
         if "http" in query:
             # Split by comma, semicolon, or newline
-            urls = [u.strip() for u in re.split(r'[,;\n]', query) if u.strip().startswith("http")]
-        
+            urls = [
+                u.strip()
+                for u in re.split(r"[,;\n]", query)
+                if u.strip().startswith("http")
+            ]
+
         for idx, url in enumerate(urls[:limit]):
             article = self._extract_article(url)
-            
+
             if not article or not article.get("content"):
                 continue
-            
+
             domain = self._get_domain(url)
             credibility = self._get_credibility_for_domain(domain)
-            
+
             content = article["content"]
-            
-            evidence_items.append(EvidenceItem(
-                id=self._make_id(len(evidence_items)),
-                title=article.get("title") or f"Article from {domain}",
-                url=url,
-                raw_content=content,
-                source_type=self.source_type,
-                publisher=domain,
-                published=article.get("date"),
-                credibility_weight=credibility,
-                domain=domain,
-                snippet=content[:500] + "..." if len(content) > 500 else content,
-                identifier=url,
-                metadata={
-                    "author": article.get("author", ""),
-                    "description": article.get("description", "")
-                }
-            ))
-        
+
+            evidence_items.append(
+                EvidenceItem(
+                    id=self._make_id(len(evidence_items)),
+                    title=article.get("title") or f"Article from {domain}",
+                    url=url,
+                    raw_content=content,
+                    source_type=self.source_type,
+                    publisher=domain,
+                    published=article.get("date"),
+                    credibility_weight=credibility,
+                    domain=domain,
+                    snippet=content[:500] + "..." if len(content) > 500 else content,
+                    identifier=url,
+                    metadata={
+                        "author": article.get("author", ""),
+                        "description": article.get("description", ""),
+                    },
+                )
+            )
+
         logger.info("article_fetch_complete", count=len(evidence_items))
         return evidence_items
-    
+
     def fetch_url(self, url: str) -> Optional[EvidenceItem]:
         """
         Fetch content from a single URL.
@@ -280,14 +298,14 @@ class ArticleMiner(BaseMiner):
 # CLI testing
 if __name__ == "__main__":
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Article Miner CLI")
     parser.add_argument("--url", type=str, help="URL to extract")
     parser.add_argument("--urls", type=str, help="Comma-separated URLs")
     args = parser.parse_args()
-    
+
     miner = ArticleMiner()
-    
+
     if not miner.is_available():
         print("ArticleMiner not available. Install: pip install trafilatura")
     else:

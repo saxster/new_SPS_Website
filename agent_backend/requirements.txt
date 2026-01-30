@@ -28,3 +28,4 @@ uvicorn[standard]
 chromadb
 sentence-transformers
 boto3
+google-search-results  # SerpAPI for Google News/Search
