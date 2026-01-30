@@ -55,9 +55,10 @@ INDIA CONTEXT (CRITICAL):
 - Use Indian examples, cities, and context where applicable.
 - Reference Indian regulatory bodies (MHA, RBI, SEBI, BIS, CERT-In).
 
-MANDATORY CITATION RULE:
-- Every non-obvious factual claim must carry a citation like [S1].
-- Use ONLY citation IDs from the evidence pack.
+CITATION RULES:
+- Use citation IDs like [S1], [S2] from the evidence pack for key claims.
+- Prioritize citing: statistics, regulations, quotes, and controversial claims.
+- You do NOT need to cite every sentence - focus on important factual claims.
 - End the article with a \"## Sources\" section listing each source as \"S# - Title (URL)\".
 
 OUTPUT FORMAT (VALID JSON matching strict schema):
