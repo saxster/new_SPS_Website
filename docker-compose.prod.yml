@@ -12,7 +12,7 @@ services:
     volumes:
       - ./agent_backend:/app/agent_backend
       - ./website/src/content:/app/website/src/content
-      - ./.agent:/app/.agent  # SQLite databases for ContentBrain
+      - ./agent_backend/.agent:/app/agent_backend/.agent  # SQLite databases for ContentBrain
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
