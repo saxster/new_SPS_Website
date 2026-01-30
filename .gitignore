@@ -11,3 +11,5 @@ tmp/
 .gemini/
 dist/
 .astro/
+.agent/*.db
+.agent/*.db-journal
