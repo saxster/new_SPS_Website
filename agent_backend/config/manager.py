@@ -16,7 +16,7 @@ class DatabaseConfig(BaseModel):
 
 
 class LLMConfig(BaseModel):
-    model: str = "gemini-2.0-flash"
+    model: str = "gemini-3-pro-preview"
     temperature: float = 0.7
     max_retries: int = 3
     timeout: int = 60

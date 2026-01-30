@@ -33,7 +33,7 @@ class GeminiAgent:
             )
             # raise RuntimeError("GOOGLE_API_KEY not set") # Deferred to generate()
 
-        self.model_name = config.get("llm.model", "gemini-2.0-flash")
+        self.model_name = config.get("llm.model", "gemini-3-pro-preview")
         if self.api_key:
             self.client = genai.Client(api_key=self.api_key)
         else:
