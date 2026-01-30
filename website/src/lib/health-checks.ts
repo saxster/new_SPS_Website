@@ -86,13 +86,13 @@ export async function checkFilesystem(): Promise<HealthCheckResult> {
 }
 
 /**
- * Check memory usage
+ * Check memory usage (system memory, not Node.js heap)
  */
 export function checkMemory(): HealthCheckResult {
-  const memUsage = process.memoryUsage();
-  const heapUsedMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-  const heapTotalMB = Math.round(memUsage.heapTotal / 1024 / 1024);
-  const percentUsed = Math.round((memUsage.heapUsed / memUsage.heapTotal) * 100);
+  const freeMem = os.freemem();
+  const totalMem = os.totalmem();
+  const usedMem = totalMem - freeMem;
+  const percentUsed = Math.round((usedMem / totalMem) * 100);
 
   const healthy = percentUsed < MEMORY_THRESHOLD_PERCENT;
 
@@ -100,7 +100,7 @@ export function checkMemory(): HealthCheckResult {
     name: 'memory',
     healthy,
     message: healthy
-      ? `Memory usage normal: ${percentUsed}%`
+      ? `Memory usage normal: ${percentUsed}% (${Math.round(freeMem / 1024 / 1024)}MB free)`
       : `Memory usage HIGH: ${percentUsed}% (threshold: ${MEMORY_THRESHOLD_PERCENT}%)`,
     value: percentUsed,
     threshold: MEMORY_THRESHOLD_PERCENT,
