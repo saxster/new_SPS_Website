@@ -1,4 +1,6 @@
 google-genai
+google-api-core
+openai
 python-dotenv
 tenacity
 structlog
@@ -9,6 +11,12 @@ requests
 feedparser
 beautifulsoup4
 lxml
+trafilatura
+htmldate
+dateparser
+youtube-transcript-api
+langdetect
+aiohttp
 pytest>=7,<9
 alembic
 colorama
