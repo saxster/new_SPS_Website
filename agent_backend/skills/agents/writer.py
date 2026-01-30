@@ -6,18 +6,23 @@ from shared.models import ArticleDraft
 
 logger = get_logger("Writer")
 
+
 class WriterAgent:
     def __init__(self, client: GeminiAgent):
         self.client = client
 
-    def write_draft(self, topic: Dict, outline: str, research: Dict) -> Union[ArticleDraft, None]:
-        content_type = topic.get('content_type', 'Guide')
-        specs = config.get(f"content_specs.{content_type}", config.get("content_specs.General"))
-        
+    def write_draft(
+        self, topic: Dict, outline: str, research: Dict
+    ) -> Union[ArticleDraft, None]:
+        content_type = topic.get("content_type", "Guide")
+        specs = config.get(
+            f"content_specs.{content_type}", config.get("content_specs.General")
+        )
+
         logger.info("writing_draft", target_words=specs.min_words)
         research_notes = research.get("notes", {})
         evidence = research.get("evidence", [])
-        
+
         prompt = f"""
 You are a Senior Writer at The Economist. Write with precision, authority, and clarity.
 
@@ -57,17 +62,23 @@ MANDATORY CITATION RULE:
 
 OUTPUT FORMAT (VALID JSON matching strict schema):
 {{
-    "title": "Max 70 chars",
-    "description": "Max 160 chars",
-    "topic": "{topic['topic']}",
-    "category": "{topic.get('category', 'Security')}", 
-    "content_type": "{content_type}",
+    "title": "Max 70 chars - keep it short!",
+    "description": "Max 160 chars - one sentence summary",
+    "topic": "{topic["topic"]}",
+    "category": "MUST be EXACTLY one of: Jewellery, Education, Healthcare, Finance, Petrol, Cyber, Compliance, Intelligence, Security, Critical, Technology, Strategic Risk, News",
+    "content_type": "MUST be EXACTLY one of: Guide, Analysis, News, Review, General",
     "tags": ["tag1", "tag2"],
     "regulations": ["Reg 1", "Reg 2"],
     "wordCount": <int>,
     "sources": [{{"id": "S1", "title": "Title", "url": "url"}}],
     "body": "# Full Markdown Content..."
 }}
+
+CRITICAL CONSTRAINTS:
+- description MUST be under 160 characters
+- title MUST be under 70 characters
+- category MUST be exactly one of the listed values (no variations like "Technology & Security")
+- content_type MUST be exactly one of: Guide, Analysis, News, Review, General
 
 TARGET WORD COUNT: {specs.min_words} minimum
 TARGET SOURCES: {specs.min_sources} minimum
@@ -76,7 +87,7 @@ TARGET SOURCES: {specs.min_sources} minimum
             data = self.client.generate_json(prompt)
             if isinstance(data, list) and data:
                 data = data[0]
-            
+
             # Validate with Pydantic
             draft = ArticleDraft(**data)
             return draft
@@ -84,14 +95,18 @@ TARGET SOURCES: {specs.min_sources} minimum
             logger.error(
                 "draft_validation_failed",
                 error=str(e),
-                hint="Model output did not match schema. Ensure JSON keys + body are present."
+                hint="Model output did not match schema. Ensure JSON keys + body are present.",
             )
             return None
 
-    def revise_draft(self, topic: Dict, outline: str, research: Dict, issues: list, prior_body: str) -> Union[ArticleDraft, None]:
+    def revise_draft(
+        self, topic: Dict, outline: str, research: Dict, issues: list, prior_body: str
+    ) -> Union[ArticleDraft, None]:
         """Revise draft using explicit issues list."""
-        content_type = topic.get('content_type', 'Guide')
-        specs = config.get(f"content_specs.{content_type}", config.get("content_specs.General"))
+        content_type = topic.get("content_type", "Guide")
+        specs = config.get(
+            f"content_specs.{content_type}", config.get("content_specs.General")
+        )
         research_notes = research.get("notes", {})
         evidence = research.get("evidence", [])
 
@@ -118,17 +133,23 @@ MANDATORY:
 
 OUTPUT FORMAT (VALID JSON matching strict schema):
 {{
-  \"title\": \"Max 70 chars\",
-  \"description\": \"Max 160 chars\",
-  \"topic\": \"{topic['topic']}\",
-  \"category\": \"{topic.get('category', 'Security')}\",
-  \"content_type\": \"{content_type}\",
+  \"title\": \"Max 70 chars - keep it short!\",
+  \"description\": \"Max 160 chars - one sentence summary\",
+  \"topic\": \"{topic["topic"]}\",
+  \"category\": \"MUST be EXACTLY one of: Jewellery, Education, Healthcare, Finance, Petrol, Cyber, Compliance, Intelligence, Security, Critical, Technology, Strategic Risk, News\",
+  \"content_type\": \"MUST be EXACTLY one of: Guide, Analysis, News, Review, General\",
   \"tags\": [\"tag1\", \"tag2\"],
   \"regulations\": [\"Reg 1\", \"Reg 2\"],
   \"wordCount\": <int>,
   \"sources\": [{{\"id\": \"S1\", \"title\": \"Title\", \"url\": \"url\"}}],
   \"body\": \"# Full Markdown Content...\"
 }}
+
+CRITICAL CONSTRAINTS:
+- description MUST be under 160 characters
+- title MUST be under 70 characters
+- category MUST be exactly one of the listed values (no variations)
+- content_type MUST be exactly one of: Guide, Analysis, News, Review, General
 """
         try:
             data = self.client.generate_json(prompt)
@@ -140,6 +161,6 @@ OUTPUT FORMAT (VALID JSON matching strict schema):
             logger.error(
                 "draft_revision_failed",
                 error=str(e),
-                hint="Revision JSON invalid. Ensure the revision prompt includes the full schema."
+                hint="Revision JSON invalid. Ensure the revision prompt includes the full schema.",
             )
             return None
