@@ -110,6 +110,57 @@ def create_available_miners() -> List[BaseMiner]:
         except Exception as e:
             logger.warning("miner_load_failed", miner="serp", error=str(e))
 
+    # ThinkTankMiner - requires feedparser
+    if config.get("thinktank_miner.enabled", True):
+        try:
+            from .thinktank_miner import ThinkTankMiner, FEEDPARSER_AVAILABLE
+
+            if FEEDPARSER_AVAILABLE:
+                ttm = ThinkTankMiner()
+                if ttm.is_available():
+                    miners.append(ttm)
+                    logger.info(
+                        "miner_loaded",
+                        miner="thinktank",
+                        source="Think Tank RSS Feeds",
+                    )
+            else:
+                logger.info(
+                    "miner_skipped",
+                    miner="thinktank",
+                    reason="feedparser package not installed",
+                )
+        except ImportError:
+            logger.info(
+                "miner_skipped",
+                miner="thinktank",
+                reason="feedparser package not installed",
+            )
+        except Exception as e:
+            logger.warning("miner_load_failed", miner="thinktank", error=str(e))
+
+    # RegulatoryMiner - requires feedparser for RSS sources
+    if config.get("regulatory_miner.enabled", True):
+        try:
+            from .regulatory_miner import RegulatoryMiner
+
+            rm = RegulatoryMiner()
+            if rm.is_available():
+                miners.append(rm)
+                logger.info(
+                    "miner_loaded",
+                    miner="regulatory",
+                    source="Government/Regulatory Sources",
+                )
+        except ImportError:
+            logger.info(
+                "miner_skipped",
+                miner="regulatory",
+                reason="import error",
+            )
+        except Exception as e:
+            logger.warning("miner_load_failed", miner="regulatory", error=str(e))
+
     logger.info(
         "miners_initialized", count=len(miners), types=[m.source_type for m in miners]
     )
@@ -169,5 +220,37 @@ def get_miner_status() -> dict:
         }
     except Exception as e:
         status["article"] = {"enabled": False, "available": False, "error": str(e)}
+
+    # ThinkTankMiner
+    try:
+        from .thinktank_miner import ThinkTankMiner, FEEDPARSER_AVAILABLE
+
+        status["thinktank"] = {
+            "enabled": config.get("thinktank_miner.enabled", True),
+            "available": FEEDPARSER_AVAILABLE,
+            "source": "Think Tank RSS Feeds",
+            "deps_installed": FEEDPARSER_AVAILABLE,
+            "install_cmd": "pip install feedparser"
+            if not FEEDPARSER_AVAILABLE
+            else None,
+        }
+    except Exception as e:
+        status["thinktank"] = {"enabled": False, "available": False, "error": str(e)}
+
+    # RegulatoryMiner
+    try:
+        from .regulatory_miner import RegulatoryMiner, FEEDPARSER_AVAILABLE
+
+        status["regulatory"] = {
+            "enabled": config.get("regulatory_miner.enabled", True),
+            "available": True,  # Always available, may have reduced functionality
+            "source": "Government/Regulatory Sources",
+            "deps_installed": FEEDPARSER_AVAILABLE,
+            "install_cmd": "pip install feedparser"
+            if not FEEDPARSER_AVAILABLE
+            else None,
+        }
+    except Exception as e:
+        status["regulatory"] = {"enabled": False, "available": False, "error": str(e)}
 
     return status

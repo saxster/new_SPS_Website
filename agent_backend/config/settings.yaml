@@ -351,4 +351,850 @@ admin:
   port: 8080
   # Auth token from environment: ADMIN_TOKEN
 
+# =============================================================================
+# Adversarial Council Configuration
+# =============================================================================
+
+council:
+  enabled: true
+  require_unanimous: false  # 2/3 majority OK
+  min_advocate_score: 70
+  min_skeptic_score: 60
+  min_guardian_score: 70
+  kill_threshold: 50  # Below this = kill
+
+# =============================================================================
+# Editorial Brain v2 Configuration
+# =============================================================================
+
+editorial_brain:
+  enabled: true
+  fallback_to_cco: true  # Use old CCO if brain fails
+  news_sense_weight: 0.25
+  audience_fit_weight: 0.25
+  competitive_weight: 0.20
+  feasibility_weight: 0.15
+  timing_weight: 0.15
+
+# =============================================================================
+# Auto-Publishing Configuration
+# =============================================================================
+
+auto_publish:
+  enabled: true
+  write_markdown: true  # Also write markdown for SEO
+  notify_on_publish: true  # Telegram/email notification
+
+# =============================================================================
+# Learning Loop Configuration
+# =============================================================================
+
+learning:
+  enabled: true
+  reflection_interval_hours: 24
+  min_articles_for_learning: 10
+  weight_adjustment_rate: 0.1
+
+# =============================================================================
+# Content-Type Pipeline Profiles
+# =============================================================================
+
+pipeline_profiles:
+  news_breaking:
+    applies_to: ["News"]
+    trigger:
+      urgency: ["critical", "high"]
+      source_tier: ["tier_1", "tier_2"]
+    fast_track:
+      enabled: true
+      bypass_council: true
+      bypass_fact_check: true
+      max_publish_time_seconds: 300  # 5 minutes
+    quality:
+      min_score: 50
+      min_sources: 1
+    rollback:
+      window_hours: 24
+      auto_retract_on_contradiction: true
+    label: "DEVELOPING"  # Prepended to fast-tracked articles
+
+  news_standard:
+    applies_to: ["News"]
+    trigger:
+      default: true
+    council:
+      min_advocate: 65
+      min_skeptic: 55
+      min_guardian: 65
+    quality:
+      min_score: 55
+      min_sources: 2
+      min_citation_density: 0.3
+
+  views:
+    applies_to: ["Analysis", "Review"]
+    council:
+      min_advocate: 70
+      min_skeptic: 60
+      min_guardian: 75
+    quality:
+      min_score: 65
+      min_sources: 4
+      min_citation_density: 0.4
+    gates:
+      - opinion_balance
+      - brand_voice
+    deliberation:
+      min_hours: 2
+
+  research:
+    applies_to: ["Guide"]
+    council:
+      require_unanimous: true
+      min_advocate: 75
+      min_skeptic: 70
+      min_guardian: 75
+    quality:
+      min_score: 75
+      min_sources: 5
+      min_citation_density: 0.6
+      min_regulations: 2
+    gates:
+      - expert_citation
+      - depth_verification
+    deliberation:
+      min_hours: 24
+
+# =============================================================================
+# Trusted Sources for Breaking News Fast-Track
+# =============================================================================
+
+trusted_sources:
+  tier_1:  # Instant trust - no verification needed
+    - pib.gov.in
+    - mha.gov.in
+    - rbi.org.in
+    - cert-in.org.in
+    - isro.gov.in
+    - mea.gov.in
+    - pmindia.gov.in
+    - mof.gov.in
+  tier_2:  # High trust - bypass fact-check
+    - reuters.com
+    - apnews.com
+    - pti.in
+    - ani.in
+    - bbc.com
+    - aljazeera.com
+  tier_3:  # Trusted - lighter review
+    - economictimes.indiatimes.com
+    - livemint.com
+    - thehindu.com
+    - ndtv.com
+    - hindustantimes.com
+    - business-standard.com
+
+# =============================================================================
+# Content Pillars (Reader-Centric Organization)
+# =============================================================================
+
+content_pillars:
+  scam_watch:
+    name: "Scam Watch"
+    priority: 1
+    target_mix: 0.20  # 20%
+    sources: ["scam_miner", "regulatory_miner"]
+    target_personas: ["citizen", "senior"]
+    description: "Real-time fraud alerts, prevention, reporting"
+    icon: "shield-alert"
+
+  economic_security:
+    name: "Economic Security"
+    priority: 2
+    target_mix: 0.15  # 15%
+    sources: ["market_miner", "regulatory_miner"]
+    target_personas: ["citizen", "smb", "compliance"]
+    description: "Markets, investment fraud, corporate crime"
+    icon: "trending-up"
+
+  personal_security:
+    name: "Personal Security"
+    priority: 3
+    target_mix: 0.15  # 15%
+    sources: ["serp_miner", "thinktank_miner"]
+    target_personas: ["citizen"]
+    description: "Home, travel, digital, physical safety"
+    icon: "user-shield"
+
+  senior_safety:
+    name: "Senior Safety"
+    priority: 4
+    target_mix: 0.10  # 10%
+    sources: ["scam_miner", "serp_miner"]
+    target_personas: ["senior"]
+    description: "Elder-specific threats and protection"
+    icon: "heart"
+
+  business_security:
+    name: "Business Security"
+    priority: 5
+    target_mix: 0.20  # 20%
+    sources: ["regulatory_miner", "thinktank_miner", "serp_miner"]
+    target_personas: ["smb", "professional"]
+    description: "Practical SMB security guides"
+    icon: "building"
+
+  sector_intelligence:
+    name: "Sector Intelligence"
+    priority: 6
+    target_mix: 0.10  # 10%
+    sources: ["thinktank_miner", "regulatory_miner"]
+    target_personas: ["professional", "compliance"]
+    description: "Deep dives by industry (factories, malls, healthcare)"
+    icon: "layers"
+
+  product_reviews:
+    name: "Product Reviews"
+    priority: 7
+    target_mix: 0.10  # 10%
+    sources: ["consumer_miner"]
+    target_personas: ["smb", "professional"]
+    description: "Security products and services evaluated"
+    icon: "star"
+
+# =============================================================================
+# Audience Personas
+# =============================================================================
+
+personas:
+  citizen:
+    name: "General Citizen"
+    complexity_level: "basic"
+    actionability_weight: 0.9
+    preferred_pillars: ["scam_watch", "personal_security", "economic_security"]
+    description: "General public seeking actionable personal safety advice"
+
+  senior:
+    name: "Senior Citizen"
+    complexity_level: "basic"
+    actionability_weight: 1.0
+    preferred_pillars: ["scam_watch", "senior_safety", "personal_security"]
+    description: "60+ individuals needing simple, clear fraud prevention"
+
+  smb:
+    name: "SMB Owner"
+    complexity_level: "intermediate"
+    actionability_weight: 0.85
+    preferred_pillars: ["business_security", "scam_watch", "product_reviews"]
+    description: "Small business owners seeking budget-conscious, practical security"
+
+  professional:
+    name: "Security Professional"
+    complexity_level: "advanced"
+    actionability_weight: 0.6
+    preferred_pillars: ["sector_intelligence", "business_security", "product_reviews"]
+    description: "Security managers requiring technical depth and best practices"
+
+  compliance:
+    name: "Compliance Officer"
+    complexity_level: "advanced"
+    actionability_weight: 0.7
+    preferred_pillars: ["sector_intelligence", "business_security", "economic_security"]
+    description: "Regulatory officers tracking deadlines and policy updates"
+
+# =============================================================================
+# Intelligent Topic Sourcing Configuration
+# =============================================================================
+
+topic_sourcer:
+  enabled: true
+  sync_interval_hours: 6
+  scoring:
+    timeliness: 0.30
+    authority: 0.30
+    demand: 0.20
+    gap: 0.20
+  auto_queue_threshold: 70  # Auto-queue topics scoring above this
+  require_review_below: 50  # Require human review below this score
+
+# Think Tank Miner Configuration
+thinktank_miner:
+  enabled: true
+  sync_interval_hours: 24
+  max_items_per_source: 10
+  sources:
+    tier_1_india:
+      - id: idsa
+        name: "IDSA"
+        rss: "https://www.idsa.in/rss"
+        credibility: 9
+        focus: ["defence", "security", "strategic"]
+      - id: orf
+        name: "ORF"
+        rss: "https://www.orfonline.org/feed/"
+        credibility: 9
+        focus: ["technology", "cyber", "geopolitics"]
+      - id: carnegie_india
+        name: "Carnegie India"
+        rss: "https://carnegieindia.org/rss/solr.xml"
+        credibility: 9
+        focus: ["technology", "foreign_policy"]
+      - id: takshashila
+        name: "Takshashila"
+        rss: "https://takshashila.org.in/feed/"
+        credibility: 8
+        focus: ["policy", "cyber", "strategy"]
+      - id: gateway_house
+        name: "Gateway House"
+        rss: "https://www.gatewayhouse.in/feed/"
+        credibility: 8
+        focus: ["foreign_policy", "trade", "geopolitics"]
+    tier_2_international:
+      - id: csis
+        name: "CSIS"
+        rss: "https://www.csis.org/rss.xml"
+        credibility: 9
+        focus: ["cyber", "technology", "defence"]
+      - id: brookings
+        name: "Brookings"
+        rss: "https://www.brookings.edu/feed/"
+        credibility: 9
+        focus: ["technology", "governance", "policy"]
+      - id: rand
+        name: "RAND"
+        rss: "https://www.rand.org/feeds/research.xml"
+        credibility: 9
+        focus: ["cyber", "security", "defence"]
+      - id: chatham_house
+        name: "Chatham House"
+        rss: "https://www.chathamhouse.org/rss"
+        credibility: 9
+        focus: ["international", "security"]
+      - id: iiss
+        name: "IISS"
+        rss: "https://www.iiss.org/rss"
+        credibility: 9
+        focus: ["defence", "geopolitics", "cyber"]
+    tier_3_industry:
+      - id: dsci
+        name: "DSCI"
+        url: "https://www.dsci.in"
+        credibility: 8
+        focus: ["data_protection", "privacy", "compliance"]
+      - id: nasscom
+        name: "NASSCOM"
+        url: "https://nasscom.in"
+        credibility: 8
+        focus: ["technology", "cybersecurity", "industry"]
+      - id: ficci
+        name: "FICCI"
+        url: "https://www.ficci.in"
+        credibility: 7
+        focus: ["industry", "policy"]
+      - id: cii
+        name: "CII"
+        url: "https://www.cii.in"
+        credibility: 7
+        focus: ["industry", "analysis"]
+
+# Regulatory Miner Configuration
+regulatory_miner:
+  enabled: true
+  sync_interval_hours: 4
+  regulators:
+    - id: pib
+      name: "PIB"
+      rss: "https://pib.gov.in/RssMain.aspx"
+      priority: medium
+      credibility: 10
+      types: ["press_release"]
+    - id: cert_in
+      name: "CERT-IN"
+      url: "https://www.cert-in.org.in"
+      priority: critical
+      credibility: 10
+      types: ["advisory", "alert", "vulnerability"]
+    - id: meity
+      name: "MeitY"
+      url: "https://www.meity.gov.in"
+      priority: high
+      credibility: 10
+      types: ["notification", "policy", "circular"]
+    - id: rbi
+      name: "RBI"
+      rss: "https://www.rbi.org.in/rss/rss.aspx"
+      priority: high
+      credibility: 10
+      types: ["circular", "framework", "guideline"]
+    - id: sebi
+      name: "SEBI"
+      url: "https://www.sebi.gov.in"
+      priority: high
+      credibility: 10
+      types: ["circular", "regulation", "order"]
+    - id: trai
+      name: "TRAI"
+      rss: "https://www.trai.gov.in/rss"
+      priority: medium
+      credibility: 10
+      types: ["consultation", "order", "regulation"]
+    - id: bis
+      name: "BIS"
+      url: "https://www.bis.gov.in"
+      priority: medium
+      credibility: 10
+      types: ["standard", "notification"]
+
+# Calendar Engine Configuration
+calendar_engine:
+  enabled: true
+  check_interval_hours: 12
+  lead_times:
+    report: 7
+    deadline: 30
+    conference: 14
+    anniversary: 7
+  events:
+    # Annual Reports
+    - id: cert_in_annual
+      title: "CERT-IN Annual Report"
+      event_type: report
+      month: 3  # March
+      recurring: annual
+      source: "CERT-IN"
+      content_type: Analysis
+      priority: high
+      lead_days: 7
+      tags: ["cybersecurity", "government", "statistics"]
+    - id: ncrb_crime_report
+      title: "NCRB Crime in India Report"
+      event_type: report
+      month: 8  # August
+      recurring: annual
+      source: "NCRB"
+      content_type: Analysis
+      priority: high
+      lead_days: 7
+      tags: ["crime", "statistics", "security"]
+    # Policy Events
+    - id: union_budget
+      title: "Union Budget"
+      event_type: report
+      month: 2  # February
+      day: 1
+      recurring: annual
+      source: "Ministry of Finance"
+      content_type: Analysis
+      priority: critical
+      lead_days: 14
+      tags: ["budget", "policy", "economy"]
+    - id: rbi_monetary_policy
+      title: "RBI Monetary Policy"
+      event_type: report
+      recurring: bimonthly
+      source: "RBI"
+      content_type: News
+      priority: high
+      lead_days: 3
+      tags: ["finance", "policy", "rbi"]
+    # Conferences
+    - id: nullcon
+      title: "Nullcon Conference"
+      event_type: conference
+      month: 3  # March
+      recurring: annual
+      source: "Nullcon"
+      content_type: News
+      priority: medium
+      lead_days: 14
+      tags: ["cybersecurity", "conference", "hacking"]
+    - id: c0c0n
+      title: "c0c0n Conference"
+      event_type: conference
+      month: 9  # September
+      recurring: annual
+      source: "c0c0n"
+      content_type: News
+      priority: medium
+      lead_days: 14
+      tags: ["cybersecurity", "conference", "kerala"]
+    # Anniversaries
+    - id: dpdp_anniversary
+      title: "DPDP Act Anniversary"
+      event_type: anniversary
+      month: 8
+      day: 11
+      recurring: annual
+      source: "MeitY"
+      content_type: Analysis
+      priority: medium
+      lead_days: 14
+      tags: ["privacy", "data_protection", "compliance"]
+    - id: it_act_anniversary
+      title: "IT Act Anniversary"
+      event_type: anniversary
+      month: 10
+      day: 17
+      recurring: annual
+      source: "MeitY"
+      content_type: Analysis
+      priority: low
+      lead_days: 7
+      tags: ["cybersecurity", "law", "regulation"]
+    # Awareness Campaigns
+    - id: cybersecurity_awareness_month
+      title: "Cybersecurity Awareness Month"
+      event_type: anniversary
+      month: 10
+      day: 1
+      recurring: annual
+      source: "Global"
+      content_type: Guide
+      priority: high
+      lead_days: 30
+      tags: ["cybersecurity", "awareness", "education"]
+      pillar: "personal_security"
+
+    # New Reader-Centric Events
+    - id: cyber_jaagrookta_divas
+      title: "Cyber Jaagrookta Divas"
+      event_type: anniversary
+      month: 2
+      day: 1
+      recurring: annual
+      source: "MeitY"
+      content_type: Guide
+      priority: high
+      lead_days: 7
+      tags: ["cybersecurity", "awareness", "government"]
+      pillar: "scam_watch"
+
+    - id: safer_internet_day
+      title: "Safer Internet Day"
+      event_type: anniversary
+      month: 2
+      day: 8
+      recurring: annual
+      source: "Global"
+      content_type: Guide
+      priority: high
+      lead_days: 14
+      tags: ["internet_safety", "awareness", "global"]
+      pillar: "personal_security"
+
+    - id: world_elder_abuse_day
+      title: "World Elder Abuse Awareness Day"
+      event_type: anniversary
+      month: 6
+      day: 15
+      recurring: annual
+      source: "UN"
+      content_type: Guide
+      priority: high
+      lead_days: 14
+      tags: ["senior_safety", "elder_abuse", "awareness"]
+      pillar: "senior_safety"
+
+    - id: data_privacy_day
+      title: "Data Privacy Day"
+      event_type: anniversary
+      month: 1
+      day: 28
+      recurring: annual
+      source: "Global"
+      content_type: Guide
+      priority: medium
+      lead_days: 7
+      tags: ["privacy", "data_protection", "awareness"]
+      pillar: "personal_security"
+
+    - id: anti_ransomware_day
+      title: "Anti-Ransomware Day"
+      event_type: anniversary
+      month: 5
+      day: 12
+      recurring: annual
+      source: "Europol/INTERPOL"
+      content_type: Guide
+      priority: high
+      lead_days: 7
+      tags: ["cybersecurity", "ransomware", "prevention"]
+      pillar: "business_security"
+
+    - id: fire_safety_week
+      title: "National Fire Safety Week"
+      event_type: anniversary
+      month: 4
+      day: 14
+      recurring: annual
+      source: "Fire Services"
+      content_type: Guide
+      priority: medium
+      lead_days: 14
+      tags: ["fire_safety", "awareness", "prevention"]
+      pillar: "business_security"
+
+    # Recurring Deadlines
+    - id: gst_filing_deadline
+      title: "GST Filing Deadline"
+      event_type: deadline
+      day: 20
+      recurring: monthly
+      source: "GST Council"
+      content_type: Guide
+      priority: medium
+      lead_days: 7
+      tags: ["compliance", "taxation", "business"]
+      pillar: "business_security"
+
+    - id: sebi_board_meeting
+      title: "SEBI Board Meeting"
+      event_type: report
+      recurring: quarterly
+      source: "SEBI"
+      content_type: Analysis
+      priority: high
+      lead_days: 7
+      tags: ["finance", "regulation", "markets"]
+      pillar: "economic_security"
+
+    - id: rbi_policy_review
+      title: "RBI Monetary Policy Review"
+      event_type: report
+      recurring: bimonthly
+      source: "RBI"
+      content_type: Analysis
+      priority: high
+      lead_days: 3
+      tags: ["finance", "monetary_policy", "banking"]
+      pillar: "economic_security"
+
+    - id: dpdp_compliance
+      title: "DPDP Act Compliance Review"
+      event_type: deadline
+      month: 8
+      day: 11
+      recurring: annual
+      source: "MeitY"
+      content_type: Guide
+      priority: high
+      lead_days: 60
+      tags: ["privacy", "compliance", "data_protection"]
+      pillar: "business_security"
+
+    - id: psara_renewal
+      title: "PSARA License Renewal Deadline"
+      event_type: deadline
+      recurring: annual
+      source: "State Governments"
+      content_type: Guide
+      priority: medium
+      lead_days: 90
+      tags: ["compliance", "licensing", "security_industry"]
+      pillar: "sector_intelligence"
+
+    - id: world_password_day
+      title: "World Password Day"
+      event_type: anniversary
+      month: 5
+      day: 2
+      recurring: annual
+      source: "Global"
+      content_type: Guide
+      priority: medium
+      lead_days: 7
+      tags: ["cybersecurity", "passwords", "awareness"]
+      pillar: "personal_security"
+
+    - id: international_fraud_awareness_week
+      title: "International Fraud Awareness Week"
+      event_type: anniversary
+      month: 11
+      day: 17
+      recurring: annual
+      source: "ACFE"
+      content_type: Guide
+      priority: high
+      lead_days: 14
+      tags: ["fraud", "awareness", "prevention"]
+      pillar: "scam_watch"
+
+    - id: consumer_rights_day
+      title: "National Consumer Rights Day"
+      event_type: anniversary
+      month: 12
+      day: 24
+      recurring: annual
+      source: "Consumer Affairs"
+      content_type: Guide
+      priority: medium
+      lead_days: 14
+      tags: ["consumer_rights", "awareness", "protection"]
+      pillar: "scam_watch"
+
+# =============================================================================
+# Scam Miner Configuration (Highest Priority)
+# =============================================================================
+
+scam_miner:
+  enabled: true
+  sync_interval_hours: 1  # Very frequent for real-time alerts
+  sources:
+    # Tier 1: Official Government Sources (Credibility 10)
+    - id: cybercrime_gov
+      name: "National Cybercrime Reporting Portal"
+      url: "https://cybercrime.gov.in"
+      credibility: 10
+      types: ["alert", "advisory", "trend"]
+
+    - id: rbi_sachet
+      name: "RBI Sachet Portal"
+      url: "https://sachet.rbi.org.in"
+      credibility: 10
+      types: ["unauthorized_entity", "warning"]
+
+    - id: cert_in_alerts
+      name: "CERT-IN Advisories"
+      url: "https://www.cert-in.org.in"
+      credibility: 10
+      types: ["advisory", "vulnerability", "alert"]
+
+    # Tier 2: State Cyber Cells (Credibility 9)
+    - id: delhi_cyber_cell
+      name: "Delhi Police Cyber Cell"
+      url: "https://cybercelldelhipolice.nic.in"
+      credibility: 9
+      types: ["alert", "scam_warning"]
+
+    - id: mumbai_cyber_cell
+      name: "Mumbai Cyber Cell"
+      url: "https://mumbaipolice.gov.in/cyber_ps"
+      credibility: 9
+      types: ["alert", "scam_warning"]
+
+    - id: bangalore_cyber_cell
+      name: "Bangalore Cyber Crime"
+      url: "https://bcp.karnataka.gov.in"
+      credibility: 9
+      types: ["alert", "scam_warning"]
+
+    # Tier 3: Consumer Helplines (Credibility 9)
+    - id: consumer_helpline
+      name: "National Consumer Helpline"
+      url: "https://consumerhelpline.gov.in"
+      credibility: 9
+      types: ["complaint_pattern", "alert"]
+
+  # Scam taxonomy for classification
+  scam_types:
+    - phishing      # Fake emails, OTP fraud
+    - investment    # Ponzi, crypto, forex scams
+    - job           # Fake recruitment, work-from-home
+    - banking       # UPI fraud, card cloning, digital arrest
+    - impersonation # Fake police, KYC fraud
+    - ecommerce     # Fake websites, non-delivery
+    - loan          # Fake loan apps, illegal lending
+    - lottery       # Fake lottery, lucky draw scams
+
+# =============================================================================
+# Market Miner Configuration (Economic Security)
+# =============================================================================
+
+market_miner:
+  enabled: true
+  sync_interval_hours: 4
+  sources:
+    # Enforcement Actions
+    - id: sebi_orders
+      name: "SEBI Enforcement Orders"
+      url: "https://www.sebi.gov.in/enforcement/orders.html"
+      credibility: 10
+      types: ["penalty", "warning", "debarment"]
+
+    - id: rbi_enforcement
+      name: "RBI Enforcement Actions"
+      url: "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx"
+      credibility: 10
+      types: ["penalty", "license_cancellation"]
+
+    - id: ed_actions
+      name: "Enforcement Directorate"
+      url: "https://enforcementdirectorate.gov.in"
+      credibility: 10
+      types: ["arrest", "attachment", "prosecution"]
+
+    - id: mca_prosecutions
+      name: "MCA Prosecutions"
+      url: "https://www.mca.gov.in"
+      credibility: 10
+      types: ["shell_company", "fraud", "prosecution"]
+
+    # Financial News
+    - id: economic_times
+      name: "Economic Times Markets"
+      url: "https://economictimes.indiatimes.com/markets"
+      credibility: 8
+      types: ["news", "analysis"]
+
+    - id: livemint
+      name: "Livemint Finance"
+      url: "https://www.livemint.com/money"
+      credibility: 8
+      types: ["news", "analysis"]
+
+# =============================================================================
+# Consumer Miner Configuration (Product Reviews)
+# =============================================================================
+
+consumer_miner:
+  enabled: true
+  sync_interval_hours: 24
+  categories:
+    - cctv_systems
+    - access_control
+    - alarm_systems
+    - safes_lockers
+    - cybersecurity_tools
+    - security_services
+    - fire_safety_equipment
+    - personal_safety_devices
+
+  sources:
+    - id: bis_certification
+      name: "BIS Certification Database"
+      url: "https://www.bis.gov.in"
+      credibility: 10
+      types: ["certification", "standard"]
+
+    - id: industry_tests
+      name: "Industry Test Labs"
+      credibility: 8
+      types: ["test_result", "comparison"]
+
+  rating_criteria:
+    - certification_status
+    - build_quality
+    - reliability
+    - value_for_money
+    - after_sales_support
+    - india_availability
+
+# =============================================================================
+# Enhanced Topic Scoring Weights (Reader-Centric)
+# =============================================================================
+
+topic_scoring:
+  # Editorial Quality (40%)
+  news_sense: 0.15
+  audience_fit: 0.15
+  timing: 0.10
+
+  # Practical Value (40%)
+  actionability: 0.20      # Critical - readers need to act
+  india_specificity: 0.10
+  comprehensiveness: 0.10
+
+  # Feasibility (20%)
+  source_availability: 0.10
+  competitive_angle: 0.10
 

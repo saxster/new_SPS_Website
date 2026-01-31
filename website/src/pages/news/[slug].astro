@@ -1,0 +1,179 @@
+---
+/**
+ * SSR Page: Individual Article View
+ *
+ * Fetches article content from the SPS Brain API.
+ * Auto-published articles appear instantly without site rebuild.
+ */
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import { getArticleBySlug, getContentTypeStyle, getCategoryStyle } from '../../lib/articles-api';
+import { marked } from 'marked';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+    return Astro.redirect('/news');
+}
+
+const article = await getArticleBySlug(slug);
+
+if (!article) {
+    return Astro.redirect('/404');
+}
+
+// Parse markdown body to HTML
+const htmlContent = marked.parse(article.body || '');
+
+// Format publish date
+const pubDate = article.published_date ? new Date(article.published_date) : new Date();
+const formattedDate = pubDate.toLocaleDateString('en-IN', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+});
+
+// Council verdict display
+const verdict = article.council_verdict;
+const verdictColor = verdict?.decision === 'PUBLISH' ? 'text-green-500' :
+                     verdict?.decision === 'REVISE' ? 'text-yellow-500' : 'text-red-500';
+---
+
+<Layout title={article.title} description={article.description}>
+    <main class="bg-white min-h-screen text-neutral-900 font-sans">
+
+        <!-- Header -->
+        <header class="border-b border-neutral-200 py-6 sticky top-0 bg-white/95 backdrop-blur z-50">
+            <div class="max-w-4xl mx-auto px-6">
+                <a href="/news" class="text-sm font-mono text-neutral-500 hover:text-blue-600 flex items-center gap-2">
+                    <span>←</span>
+                    <span>Back to News</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Article Content -->
+        <article class="max-w-4xl mx-auto px-6 py-12">
+
+            <!-- Meta -->
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+                <span class={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded ${getContentTypeStyle(article.content_type)}`}>
+                    {article.content_type}
+                </span>
+                <span class={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded ${getCategoryStyle(article.category)}`}>
+                    {article.category}
+                </span>
+                {verdict && (
+                    <span class={`text-[10px] font-mono ${verdictColor}`} title={`Advocate: ${verdict.advocate_score} | Skeptic: ${verdict.skeptic_score} | Guardian: ${verdict.guardian_score}`}>
+                        AI Verified ({Math.round(verdict.confidence * 100)}%)
+                    </span>
+                )}
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl md:text-5xl font-black leading-tight mb-6 text-neutral-900">
+                {article.title}
+            </h1>
+
+            <!-- Description -->
+            {article.description && (
+                <p class="text-xl text-neutral-600 leading-relaxed mb-8 border-l-4 border-blue-600 pl-4">
+                    {article.description}
+                </p>
+            )}
+
+            <!-- Byline -->
+            <div class="flex items-center gap-4 text-sm text-neutral-500 mb-12 pb-8 border-b border-neutral-200">
+                <span class="font-mono">{formattedDate}</span>
+                <span>•</span>
+                <span class="font-semibold">{article.author || 'SPS Editorial'}</span>
+            </div>
+
+            <!-- Hero Image -->
+            {article.image && (
+                <figure class="mb-12">
+                    <img
+                        src={article.image.src}
+                        alt={article.image.alt}
+                        class="w-full h-auto rounded-xl shadow-lg"
+                    />
+                    <figcaption class="text-xs text-neutral-500 mt-2 italic">
+                        {article.image.alt}
+                    </figcaption>
+                </figure>
+            )}
+
+            <!-- Body Content -->
+            <div class="prose prose-lg prose-neutral max-w-none
+                        prose-headings:font-bold prose-headings:text-neutral-900
+                        prose-p:text-neutral-700 prose-p:leading-relaxed
+                        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                        prose-blockquote:border-l-blue-600 prose-blockquote:bg-neutral-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg
+                        prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                        prose-img:rounded-xl">
+                <Fragment set:html={htmlContent} />
+            </div>
+
+            <!-- Tags -->
+            {article.tags && article.tags.length > 0 && (
+                <div class="mt-12 pt-8 border-t border-neutral-200">
+                    <h3 class="text-xs font-black text-neutral-400 uppercase tracking-widest mb-4">
+                        Related Topics
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        {article.tags.map((tag: string) => (
+                            <a
+                                href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                                class="text-sm font-mono bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full hover:bg-blue-100 hover:text-blue-700 transition-colors"
+                            >
+                                #{tag}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <!-- Council Transparency -->
+            {verdict && (
+                <div class="mt-12 bg-neutral-50 border border-neutral-200 rounded-lg p-6">
+                    <h3 class="text-xs font-black text-neutral-900 uppercase tracking-widest mb-4">
+                        AI Editorial Council Review
+                    </h3>
+                    <p class="text-sm text-neutral-600 mb-4">
+                        This article was reviewed by our three-agent Adversarial Council before publication.
+                    </p>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-green-600">{verdict.advocate_score}</div>
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase">Advocate</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-orange-600">{verdict.skeptic_score}</div>
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase">Skeptic</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-600">{verdict.guardian_score}</div>
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase">Guardian</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+        </article>
+
+        <!-- Related Articles (Future Enhancement) -->
+        <aside class="bg-neutral-50 border-t border-neutral-200 py-12">
+            <div class="max-w-4xl mx-auto px-6">
+                <h3 class="text-xs font-black text-neutral-900 uppercase tracking-widest mb-6">
+                    More from SPS News
+                </h3>
+                <a href="/news" class="text-blue-600 font-semibold hover:underline">
+                    View all articles →
+                </a>
+            </div>
+        </aside>
+
+    </main>
+</Layout>

@@ -72,6 +72,12 @@ class Settings(BaseSettings):
         }
     )
 
+    # Pipeline profiles for content-type specific publishing
+    pipeline_profiles: Dict[str, Any] = Field(default_factory=dict)
+
+    # Trusted sources by tier for breaking news fast-track
+    trusted_sources: Dict[str, Any] = Field(default_factory=dict)
+
     # Secrets (Loaded from env)
     GOOGLE_API_KEY: Optional[str] = Field(None, validation_alias="GOOGLE_API_KEY")
 

@@ -5,7 +5,9 @@ export const prerender = false;
 
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getArticles, getContentTypeStyle, getCategoryStyle } from '../../lib/articles-api';
 
+// Intelligence briefings (from content collection)
 const briefings = (await getCollection('intelligence'))
     .filter(b => !b.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -14,7 +16,10 @@ const leadStory = briefings[0];
 const topStories = briefings.slice(1, 4);
 const tickerStories = briefings.slice(4);
 
-const severityColors = {
+// Auto-published articles (from API)
+const autoPublishedArticles = await getArticles(10, 0);
+
+const severityColors: Record<string, string> = {
     Critical: 'bg-red-600 text-white',
     High: 'bg-orange-600 text-white',
     Medium: 'bg-yellow-600 text-black',
@@ -149,6 +154,71 @@ const severityColors = {
 
             </div>
         </div>
+
+        <!-- Auto-Published Articles Section -->
+        {autoPublishedArticles.length > 0 && (
+            <section class="bg-neutral-50 border-t border-neutral-200 py-12">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-xl font-black text-neutral-900 uppercase tracking-tight flex items-center gap-3">
+                            <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+                            Latest Articles
+                        </h2>
+                        <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                            Auto-Published by AI Editorial Council
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {autoPublishedArticles.map(article => (
+                            <article class="bg-white border border-neutral-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group">
+                                {article.image && (
+                                    <div class="h-40 bg-neutral-200 overflow-hidden">
+                                        <img
+                                            src={article.image.src}
+                                            alt={article.image.alt}
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                        />
+                                    </div>
+                                )}
+                                <div class="p-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${getContentTypeStyle(article.content_type)}`}>
+                                            {article.content_type}
+                                        </span>
+                                        <span class={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${getCategoryStyle(article.category)}`}>
+                                            {article.category}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-neutral-900 leading-snug mb-2 group-hover:text-blue-600 transition-colors">
+                                        <a href={`/news/${article.slug}`}>
+                                            {article.title}
+                                        </a>
+                                    </h3>
+                                    <p class="text-sm text-neutral-500 line-clamp-2 mb-4">
+                                        {article.description}
+                                    </p>
+                                    <div class="flex items-center justify-between text-[10px] font-mono text-neutral-400">
+                                        <span>{article.published_date ? new Date(article.published_date).toLocaleDateString('en-IN') : 'Recently'}</span>
+                                        {article.council_verdict && (
+                                            <span class="text-green-600">
+                                                Verified ({Math.round(article.council_verdict.confidence * 100)}%)
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+
+                    {autoPublishedArticles.length === 0 && (
+                        <div class="text-center py-12 text-neutral-500">
+                            <p class="text-sm">No auto-published articles yet. The AI Editorial Council is working on new content.</p>
+                        </div>
+                    )}
+                </div>
+            </section>
+        )}
 
     </main>
 </Layout>
