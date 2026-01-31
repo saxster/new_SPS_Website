@@ -156,13 +156,22 @@ async def mine_news(request: MineRequest):
 # --- Mission Control (Subprocesses) ---
 
 
-def run_script(script_path: str):
+class MissionRequest(BaseModel):
+    """Request body for /mission/run endpoint."""
+
+    mode: str = "auto"  # "auto" or "manual"
+    pillars: Optional[List[str]] = None  # Filter by content pillar(s)
+    max_articles: int = 3  # Maximum articles to generate
+
+
+def run_script(script_path: str, args: List[str] = None):
     """Helper to run a script and log output"""
     try:
-        logging.info(f"Starting script: {script_path}")
-        result = subprocess.run(
-            ["python3", script_path], capture_output=True, text=True
-        )
+        cmd = ["python3", script_path]
+        if args:
+            cmd.extend(args)
+        logging.info(f"Starting script: {' '.join(cmd)}")
+        result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode == 0:
             logging.info(f"Script {script_path} succeeded:\n{result.stdout}")
         else:
@@ -172,15 +181,43 @@ def run_script(script_path: str):
 
 
 @app.post("/mission/run", dependencies=[Depends(verify_api_key)])
-async def run_mission(background_tasks: BackgroundTasks):
+async def run_mission(
+    background_tasks: BackgroundTasks, request: MissionRequest = MissionRequest()
+):
     """
     Triggers the full CCO mission (Content Creation) in the background.
 
     **Requires Authentication**: Include 'X-API-Key' header
+
+    **Request Body (optional):**
+    - mode: "auto" (default) or "manual"
+    - pillars: List of content pillars to focus on (e.g., ["scam_watch", "economic_security"])
+    - max_articles: Maximum number of articles to generate (default: 3)
+
+    **Available Pillars:**
+    - scam_watch: Real-time fraud alerts, prevention
+    - economic_security: Markets, investment fraud, corporate crime
+    - personal_security: Home, travel, digital safety
+    - senior_safety: Elder-specific threats and protection
+    - business_security: Practical SMB security guides
+    - sector_intelligence: Deep dives by industry
+    - product_reviews: Security products evaluated
     """
     script_path = os.path.join(os.path.dirname(__file__), "skills/run_mission.py")
-    background_tasks.add_task(run_script, script_path)
-    return {"status": "Mission started in background"}
+
+    # Build command-line arguments
+    args = []
+    if request.pillars:
+        args.extend(["--pillars", ",".join(request.pillars)])
+    if request.max_articles:
+        args.extend(["--max-articles", str(request.max_articles)])
+
+    background_tasks.add_task(run_script, script_path, args)
+    return {
+        "status": "Mission started in background",
+        "pillars": request.pillars,
+        "max_articles": request.max_articles,
+    }
 
 
 @app.get("/system/status", dependencies=[Depends(verify_api_key)])

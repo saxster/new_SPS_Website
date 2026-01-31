@@ -1,5 +1,5 @@
 {
-  "name": "SPS Sentinel: Autonomous Newsroom",
+  "name": "SPS Sentinel: Autonomous Newsroom v2",
   "nodes": [
     {
       "parameters": {
@@ -37,35 +37,89 @@
     },
     {
       "parameters": {
-        "command": "python3 /app/agent_backend/skills/news_miner.py --query \"Data Breach\" --sector \"Cyber\" --limit 3 --json"
+        "method": "POST",
+        "url": "http://sps-brain:8000/mission/run",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{$env.SPS_API_KEY}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "pillars",
+              "value": "=[\"scam_watch\", \"economic_security\", \"personal_security\"]"
+            },
+            {
+              "name": "max_articles",
+              "value": "=3"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 300000
+        }
       },
-      "name": "Mine Cyber Threats",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "name": "Trigger Newsroom Mission",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         450,
-        300
-      ]
+        400
+      ],
+      "notesInFlow": true,
+      "notes": "Calls /mission/run API endpoint with pillar filtering.\nPrioritizes: scam_watch, economic_security, personal_security.\nRuns full pipeline: TopicSourcer -> Editorial -> Council -> Publish"
     },
     {
       "parameters": {
-        "jsCode": "const output = [];\nconst results = JSON.parse(items[0].json.stdout);\n\nresults.forEach(item => {\n  output.push({ json: item });\n});\n\nreturn output;"
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "mission-started",
+              "leftValue": "={{$json.status}}",
+              "rightValue": "Mission started in background",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
       },
-      "name": "Parse Signals",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
+      "name": "Check Mission Started",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
       "position": [
         650,
-        300
+        400
       ]
     },
     {
       "parameters": {
-        "command": "=/app/agent_backend/.venv/bin/python3 /app/agent_backend/skills/consensus_engine.py --mode pipeline --input '{{JSON.stringify($json)}}' --write-md"
+        "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/HERE",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"SPS Sentinel: Mission Started\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Pillars:*\\n{{ $json.pillars ? $json.pillars.join(', ') : 'All' }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Max Articles:*\\n{{ $json.max_articles }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Triggered at {{ $now.format('HH:mm') }} IST\"\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
       },
-      "name": "Run Consensus Engine",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
+      "name": "Notify Success",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         850,
         300
@@ -73,45 +127,19 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "string": [
-            {
-              "value1": "={{$json.stdout}}",
-              "operation": "contains",
-              "value2": "approved"
-            }
-          ]
-        }
-      },
-      "name": "Filter: Approved Only",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 1,
-      "position": [
-        1050,
-        300
-      ]
-    },
-    {
-      "parameters": {
         "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/HERE",
         "method": "POST",
-        "jsonParameters": true,
-        "options": {},
-        "bodyParametersUi": {
-          "parameter": [
-            {
-              "name": "text",
-              "value": "=🚨 *SPS SENTINEL ALERT* 🚨\n\nNew Strategic Briefing Generated.\n\n*Title:* {{$json.stdout}}\n*Action:* Awaiting human review."
-            }
-          ]
-        }
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"SPS Sentinel: Mission Failed\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Error:*\\n```{{ $json.detail || $json.error || 'Unknown error' }}```\"\n      }\n    }\n  ]\n}",
+        "options": {}
       },
-      "name": "Notify Command",
+      "name": "Notify Failure",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 1,
+      "typeVersion": 4.2,
       "position": [
-        1300,
-        200
+        850,
+        500
       ]
     }
   ],
@@ -120,7 +148,7 @@
       "main": [
         [
           {
-            "node": "Mine Cyber Threats",
+            "node": "Trigger Newsroom Mission",
             "type": "main",
             "index": 0
           }
@@ -131,51 +159,36 @@
       "main": [
         [
           {
-            "node": "Mine Cyber Threats",
+            "node": "Trigger Newsroom Mission",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Mine Cyber Threats": {
+    "Trigger Newsroom Mission": {
       "main": [
         [
           {
-            "node": "Parse Signals",
+            "node": "Check Mission Started",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Parse Signals": {
+    "Check Mission Started": {
       "main": [
         [
           {
-            "node": "Run Consensus Engine",
+            "node": "Notify Success",
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "Run Consensus Engine": {
-      "main": [
+        ],
         [
           {
-            "node": "Filter: Approved Only",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filter: Approved Only": {
-      "main": [
-        [
-          {
-            "node": "Notify Command",
+            "node": "Notify Failure",
             "type": "main",
             "index": 0
           }
